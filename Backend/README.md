@@ -140,37 +140,37 @@ XYNTRA NEW/
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Participant as Team Leader / Members
+    actor Team as Team Leader / Members
     participant API as XYNTRA API
     participant DB as Database
     actor Admin as Event Organizers
     participant RZP as Razorpay Gateway
 
-    Note over Participant, API: Stage 1: Registration & Submission
-    Participant->>API: POST /api/register/ (Team info, Roster 4-6 members, PPT deck)
+    Note over Team, API: Stage 1: Registration & Submission
+    Team->>API: POST /api/register/ (Team info, Roster 4-6 members, PPT deck)
     API->>DB: Atomic create Team (PENDING) & Members
-    API-->>Participant: 201 Created (status_token returned + Email confirmation dispatched)
-    Participant->>API: POST /api/verify-email/ (UUID token in body)
+    API-->>Team: 201 Created (status_token returned + Email confirmation dispatched)
+    Team->>API: POST /api/verify-email/ (UUID token in body)
     API->>DB: Set email_verified = True
 
     Note over Admin, DB: Organizer Evaluation
     Admin->>DB: Review PPTs & Verify IEEE ID Cards
     Admin->>DB: Action: "Select teams and email Form 2 payment link"
-    DB-->>Participant: Email sent with private Form 2 payment_token
+    DB-->>Team: Email sent with private Form 2 payment_token
 
-    Note over Participant, RZP: Stage 2: Payment (Gated Form 2)
-    Participant->>API: GET /api/payment-details/<payment_token>/
-    API-->>Participant: 200 OK (Calculated price: Regular or IEEE discount)
-    Participant->>API: POST /api/create-order/ (payment_token)
+    Note over Team, RZP: Stage 2: Payment (Gated Form 2)
+    Team->>API: GET /api/payment-details/<payment_token>/
+    API-->>Team: 200 OK (Calculated price: Regular or IEEE discount)
+    Team->>API: POST /api/create-order/ (payment_token)
     API->>RZP: client.order.create(...)
     API->>DB: Create Payment (CREATED)
-    API-->>Participant: Order details (order_id, amount_paise, key_id)
-    Participant->>RZP: Complete Checkout UI
-    RZP-->>Participant: razorpay_payment_id & signature
-    Participant->>API: POST /api/verify-payment/
+    API-->>Team: Order details (order_id, amount_paise, key_id)
+    Team->>RZP: Complete Checkout UI
+    RZP-->>Team: razorpay_payment_id & signature
+    Team->>API: POST /api/verify-payment/
     API->>RZP: Verify HMAC signature + client.payment.fetch()
     API->>DB: Mark Payment PAID & Team is_paid = True
-    API-->>Participant: 200 OK (Registration Confirmed)
+    API-->>Team: 200 OK (Registration Confirmed)
 ```
 
 ---
@@ -481,7 +481,7 @@ python manage.py test events.tests.test_security
 python manage.py test events.tests.test_admin
 ```
 
-All 44 automated tests verify model constraints, magic-byte checks, payment reconciliation, race conditions, and admin workflows.
+All 49 automated tests verify model constraints, magic-byte checks, payment reconciliation, race conditions, and admin workflows.
 
 ---
 
