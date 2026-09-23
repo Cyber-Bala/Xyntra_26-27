@@ -1,0 +1,48 @@
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Databases
+*.sqlite3
+db.sqlite3
+
+# Django Media & Static Collections
+media/**/*
+!media/**/
+!media/**/.gitkeep
+staticfiles/
+
+# Environment Variables & Secrets
+.env
+*.pem
+*.key
+
+# Sensitive Assets & Account Details
+*admin*account*.png
+*admin*account*.jpg
+
+# Test & Coverage Outputs
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDE & OS Artifacts
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build Artifacts
+*.egg-info/
+dist/
+build/
+*.log
