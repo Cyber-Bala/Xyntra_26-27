@@ -1,23 +1,16 @@
-# XYNTRA — Frontend Crib 🎨
+# React + Vite
 
-This folder is reserved for the frontend crew. Dump your React, Next.js, Vite, or good ol' HTML/CSS/JS right here.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## Talking to the Backend
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-The backend is chilling right next door in the [`Backend/`](../Backend) directory.
+## React Compiler
 
-All backend API routes start with `/api/`:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-| What you need | Method | Endpoint | What it does |
-|---|---|---|---|
-| **Countdown & Event Info** | `GET` | `/api/countdown/` | Grabs deadlines, prices, and remaining seconds. |
-| **Team Registration (Form 1)** | `POST` | `/api/register/` | Sends team roster & PPT deck (multipart form). |
-| **Verify Email** | `POST` | `/api/verify-email/` | Confirms the leader's email (`{ "token": "<uuid>" }`). |
-| **Payment Pre-flight (Form 2)** | `GET` | `/api/payment-details/<token>/` | Checks if team is selected and gives calculated price. |
-| **Create Razorpay Order** | `POST` | `/api/create-order/` | Fetches an official Razorpay `order_id` for checkout. |
-| **Verify Payment** | `POST` | `/api/verify-payment/` | Sends signature back to confirm payment and lock in slot. |
-| **Check Team Status** | `GET` | `/api/registration-status/?status_token=<token>` | Lets teams check their status without leaking private data. |
+## Expanding the ESLint configuration
 
-👉 Need exact payload examples or status codes? Check the [Backend Documentation](../Backend/README.md).
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
