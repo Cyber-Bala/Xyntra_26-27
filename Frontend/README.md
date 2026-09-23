@@ -1,22 +1,23 @@
-# XYNTRA — Frontend Client Application
+# XYNTRA — Frontend Crib 🎨
 
-This directory is reserved for the XYNTRA frontend web application (e.g., React, Next.js, Vite, or static HTML/CSS/JS).
+This folder is reserved for the frontend crew. Dump your React, Next.js, Vite, or good ol' HTML/CSS/JS right here.
 
 ---
 
-## Backend Integration
+## Talking to the Backend
 
-The frontend communicates with the Django REST API hosted in the [`Backend/`](../Backend) directory.
+The backend is chilling right next door in the [`Backend/`](../Backend) directory.
 
-### Available API Endpoints
-All backend API routes are prefixed with `/api/`:
+All backend API routes start with `/api/`:
 
-* **Countdown & Event Metadata**: `GET /api/countdown/`
-* **Stage 1 Team Registration (Form 1)**: `POST /api/register/` (multipart form with PPT and member roster)
-* **Email Verification**: `POST /api/verify-email/` (JSON `{ "token": "<uuid>" }`)
-* **Stage 2 Gated Payment Details (Form 2)**: `GET /api/payment-details/<payment_token>/`
-* **Create Razorpay Order**: `POST /api/create-order/` (JSON `{ "payment_token": "<uuid>" }`)
-* **Verify Payment & Confirm Registration**: `POST /api/verify-payment/` (JSON with Razorpay order, payment, signature)
-* **Registration Status Inquiry**: `GET /api/registration-status/?status_token=<uuid>`
+| What you need | Method | Endpoint | What it does |
+|---|---|---|---|
+| **Countdown & Event Info** | `GET` | `/api/countdown/` | Grabs deadlines, prices, and remaining seconds. |
+| **Team Registration (Form 1)** | `POST` | `/api/register/` | Sends team roster & PPT deck (multipart form). |
+| **Verify Email** | `POST` | `/api/verify-email/` | Confirms the leader's email (`{ "token": "<uuid>" }`). |
+| **Payment Pre-flight (Form 2)** | `GET` | `/api/payment-details/<token>/` | Checks if team is selected and gives calculated price. |
+| **Create Razorpay Order** | `POST` | `/api/create-order/` | Fetches an official Razorpay `order_id` for checkout. |
+| **Verify Payment** | `POST` | `/api/verify-payment/` | Sends signature back to confirm payment and lock in slot. |
+| **Check Team Status** | `GET` | `/api/registration-status/?status_token=<token>` | Lets teams check their status without leaking private data. |
 
-For full endpoint specifications, request payloads, and status codes, refer to the [Backend Documentation](../Backend/README.md).
+👉 Need exact payload examples or status codes? Check the [Backend Documentation](../Backend/README.md).

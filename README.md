@@ -1,54 +1,35 @@
-# Xyntra 2026–2027
+# XYNTRA 2026–2027 🚀
 
-Welcome to the **XYNTRA** platform repository. This repository is organized as a monorepo containing both the frontend client interface and the backend API service for the hackathon registration and payment workflow.
+Yo! Welcome to the **XYNTRA** codebase. 
 
----
-
-## Repository Structure
+Instead of juggling 5 different GitHub tabs and losing our minds, we threw the whole project under one roof. Two folders, zero headache:
 
 ```text
 Xyntra_26-27/
-├── Frontend/                 # Client web application (UI & registration forms)
-│   ├── README.md
-│   └── ...
-│
-└── Backend/                  # Django REST API & payment reconciliation backend
-    ├── events/               # Core application (models, views, services, tests, admin)
-    ├── xyntra/               # Django project configuration (settings, urls, asgi, wsgi)
-    ├── media/                # Uploaded participant files (.gitkeep)
-    ├── manage.py             # Django CLI
-    ├── requirements.txt      # Python dependencies
-    ├── build.sh              # Deployment build script
-    ├── Procfile              # Gunicorn web process definition
-    ├── render.yaml           # Render deployment configuration
-    ├── README.md             # Detailed backend technical documentation
-    └── PRODUCTION_CHECKLIST.md # Webmaster deployment checklist & audit
+├── Frontend/      --> The pretty stuff (website, forms, buttons)
+└── Backend/       --> The brain (Django, database, money/Razorpay, emails)
 ```
 
 ---
 
-## Projects Overview
+## What's Inside?
 
-### 📁 [Frontend](./Frontend)
-The user-facing website where participants can:
-* View event countdown and information
-* Submit team registration and presentation decks (Form 1)
-* Verify team leader email addresses
-* Complete gated team registration payments via Razorpay (Form 2)
-* Check registration status using their unique opaque token
+### 🎨 [Frontend](./Frontend)
+This is where the user interface lives (or will live once the frontend wizards cook it up).
+* Countdown timer so folks know when time's ticking down.
+* Form 1 to sign up teams and upload presentation decks.
+* Form 2 to handle checkout once teams get picked.
+* Status check page so participants stop DMing organizers asking "am I selected yet?".
 
-👉 See [Frontend README](./Frontend/README.md) for frontend development notes.
+👉 Check out the [Frontend README](./Frontend/README.md) for endpoint cheat-sheets.
 
 ---
 
-### 📁 [Backend](./Backend)
-A production-hardened **Django 5** REST API service featuring:
-* Two-stage submission and payment pipeline
-* Cryptographic Razorpay signature verification and server-to-server reconciliation
-* Anti-IDOR/BOLA security with opaque UUID tokens
-* Magic-byte file validation (PDF, PPTX, PPT, JPEG, PNG)
-* Organizer administration panel for reviewing decks, verifying IEEE credentials, and issuing payment invitations
-* 49/49 automated tests with sandboxed temporary media storage
+### ⚙️ [Backend](./Backend)
+The engine under the hood. Powered by **Django 5** and **Razorpay**, locked down tight so nobody hacks their way into free tickets.
+* **Stage 1 (Review)**: Collects PPTs, verifies email tokens, checks IEEE ID cards.
+* **Stage 2 (Checkout)**: Only selected teams get a VIP payment link. Reconciles directly with Razorpay's servers so fake payment screenshots won't work.
+* **Rock solid**: 49 automated tests passing, clean modular code, no junk files floating around.
 
-👉 See [Backend README](./Backend/README.md) for setup guides, environment variables, and API documentation.  
-👉 See [Production Deployment Checklist](./Backend/PRODUCTION_CHECKLIST.md) for webmaster deployment instructions.
+👉 Peep the [Backend README](./Backend/README.md) for local setup, endpoints, and commands.  
+👉 Webmaster setting up production? Hand them the [Production Checklist](./Backend/PRODUCTION_CHECKLIST.md).
