@@ -32,4 +32,4 @@ The engine under the hood. Powered by **Django 5** and **Razorpay**, locked down
 * **Rock solid**: 49 automated tests passing, clean modular code, no junk files floating around.
 
 👉 Peep the [Backend README](./Backend/README.md) for local setup, endpoints, and commands.  
-👉 Webmaster setting up production? Hand them the [Production Checklist](./Backend/PRODUCTION_CHECKLIST.md).
+👉 Ready to deploy to production? Check the [Production Checklist](./Backend/PRODUCTION_CHECKLIST.md).

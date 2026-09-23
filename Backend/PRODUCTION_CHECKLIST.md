@@ -84,9 +84,9 @@ The following occurrences of test keys, dummy emails, local URLs, and default fa
 
 ---
 
-## 2. Production Deployment Checklist for the Webmaster
+## 2. Production Deployment Checklist
 
-Hand this checklist directly to the society webmaster or DevOps administrator. These environment variables must be configured in the production hosting dashboard (e.g., Render, Railway, AWS, DigitalOcean):
+Configure these environment variables in your production hosting dashboard (e.g., Render, Railway, AWS, DigitalOcean):
 
 ### Mandatory Credentials & Configuration
 
