@@ -1,0 +1,326 @@
+/* =========================================================
+   LAST PAGE — GLASS / LIGHT TRANSITION
+========================================================= */
+
+.last-page-transition {
+  position: fixed;
+  inset: 0;
+
+  z-index: 3000;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  color: var(--lp-cream);
+
+  font-family: var(--lp-sans);
+}
+
+/* =========================================================
+   TRANSPARENT WASH
+========================================================= */
+
+.last-page-transition__wash {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(2, 2, 3, 0.10),
+      rgba(243, 234, 216, 0.055) 50%,
+      rgba(2, 2, 3, 0.10)
+    );
+
+  
+
+  transform: scaleX(0);
+
+  transform-origin: center;
+
+  animation:
+    lpWashIn 520ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      forwards,
+    lpWashOut 620ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      720ms
+      forwards;
+}
+
+/* =========================================================
+   GOLD LINES
+========================================================= */
+
+.last-page-transition__line {
+  position: absolute;
+
+  left: 7vw;
+
+  width: 86vw;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(232, 201, 138, 0.9),
+      transparent
+    );
+
+  transform: scaleX(0);
+
+  transform-origin: center;
+
+  box-shadow:
+    0 0 18px rgba(232, 201, 138, 0.22);
+}
+
+.last-page-transition__line--top {
+  top: 32%;
+  animation:
+    lpLineIn 480ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      80ms
+      forwards,
+    lpLineOut 420ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      860ms
+      forwards;
+}
+
+.last-page-transition__line--bottom {
+  bottom: 32%;
+  animation:
+    lpLineIn 480ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      140ms
+      forwards,
+    lpLineOut 420ms
+      cubic-bezier(0.76, 0, 0.18, 1)
+      860ms
+      forwards;
+}
+
+/* =========================================================
+   CENTER CONTENT
+========================================================= */
+
+.last-page-transition__content {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: min(760px, 84vw);
+
+  transform:
+    translate(-50%, -50%)
+    translateY(28px);
+
+  text-align: center;
+
+  opacity: 0;
+
+  animation:
+    lpContentIn 520ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      260ms
+      forwards,
+    lpContentOut 380ms
+      ease
+      860ms
+      forwards;
+}
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.last-page-transition__number {
+  display: block;
+
+  font-family: var(--lp-serif);
+
+  font-size: clamp(90px, 17vw, 220px);
+
+  line-height: 0.7;
+
+  letter-spacing: -0.04em;
+
+  color: transparent;
+
+  -webkit-text-stroke:
+    1px
+    rgba(232, 201, 138, 0.28);
+
+  opacity: 0.72;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.last-page-transition__title {
+  display: block;
+
+  margin-top: 12px;
+
+  font-family: var(--lp-serif);
+
+  font-size: clamp(28px, 5vw, 64px);
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  color: var(--lp-cream);
+
+  text-shadow:
+    0 0 30px rgba(232, 201, 138, 0.08);
+}
+
+/* =========================================================
+   CAPTION
+========================================================= */
+
+.last-page-transition__caption {
+  display: block;
+
+  margin-top: 18px;
+
+  font-size: 9px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.3em;
+
+  text-transform: uppercase;
+
+  color: rgba(243, 234, 216, 0.45);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes lpWashIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes lpWashOut {
+  from {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes lpLineIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes lpLineOut {
+  from {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes lpContentIn {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      translateY(0);
+  }
+}
+
+@keyframes lpContentOut {
+  from {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      translateY(-18px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+  .last-page-transition__line {
+    left: 5vw;
+    width: 90vw;
+  }
+
+  .last-page-transition__number {
+    font-size: 28vw;
+  }
+
+  .last-page-transition__title {
+    font-size: 8vw;
+    letter-spacing: 0.06em;
+  }
+
+  .last-page-transition__caption {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .last-page-transition {
+    display: none;
+  }
+}
