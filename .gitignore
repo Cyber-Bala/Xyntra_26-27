@@ -53,3 +53,7 @@ htmlcov/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Custom Prototype & Demo Frontend (Localhost Only)
+custom-frontend/
+demo-frontend/

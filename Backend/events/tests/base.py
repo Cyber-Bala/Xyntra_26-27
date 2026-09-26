@@ -35,6 +35,7 @@ class BaseTestCase(TestCase):
             SECRET_KEY='test-secret-key-for-unit-tests-only',
             RAZORPAY_KEY_ID='rzp_test_placeholder',
             RAZORPAY_KEY_SECRET='placeholder_secret',
+            RATELIMIT_ENABLE=False,
         )
         cls._settings_override.enable()
 

@@ -6,17 +6,20 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django_ratelimit.decorators import ratelimit
 
 from ..models import Team
 
 
 @csrf_exempt
 @require_POST
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def verify_email(request):
     """
     Verifies the team leader's email address using their unique token.
 
     Security features:
+    - Rate-limited to 10 requests/minute per IP
     - Enforces POST to prevent scanners/prefetchers from triggering verification.
     - Token expiry is strictly checked.
     - Uses select_for_update for idempotent state transition.

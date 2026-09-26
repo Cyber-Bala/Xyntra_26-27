@@ -58,3 +58,18 @@ def fetch_razorpay_payment(payment_id: str) -> dict:
         payment_id,
         timeout=settings.RAZORPAY_TIMEOUT,
     )
+
+
+def verify_razorpay_webhook_signature(body: str, signature: str, secret: str = None) -> None:
+    """
+    Verifies the HMAC-SHA256 signature on an incoming Razorpay webhook request.
+    Raises SignatureVerificationError if signature is invalid.
+    Raises ValueError if webhook secret is not configured.
+    """
+    if secret is None:
+        secret = getattr(settings, 'RAZORPAY_WEBHOOK_SECRET', '')
+    if not secret:
+        raise ValueError("RAZORPAY_WEBHOOK_SECRET is not configured.")
+    client = get_razorpay_client()
+    client.utility.verify_webhook_signature(body, signature, secret)
+

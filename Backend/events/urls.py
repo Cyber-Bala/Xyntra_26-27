@@ -15,6 +15,9 @@ urlpatterns = [
     path('create-order/', views.create_order, name='create-order'),
     path('verify-payment/', views.verify_payment, name='verify-payment'),
 
+    # Razorpay Webhook (authoritative server-to-server reconciliation)
+    path('webhook/razorpay/', views.razorpay_webhook, name='razorpay-webhook'),
+
     # Status inquiry (uses opaque status_token query parameter)
     path('registration-status/', views.registration_status, name='registration-status'),
 ]

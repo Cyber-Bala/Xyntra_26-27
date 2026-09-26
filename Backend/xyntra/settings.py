@@ -77,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'events.middleware.RatelimitMiddleware',
 ]
 
 ROOT_URLCONF = 'xyntra.urls'
@@ -216,6 +217,7 @@ EMAIL_TIMEOUT = 10  # Seconds; prevents stalled SMTP from blocking workers.
 
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
+RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', '')
 # (connect_timeout, read_timeout) in seconds for Razorpay API calls.
 RAZORPAY_TIMEOUT = (3.05, 10)
 

@@ -62,3 +62,76 @@ class SecurityTests(BaseTestCase):
 
         with self.assertRaises(ValidationError):
             _require_bool(None, "field")
+
+    # --- Rate limiting tests -----------------------------------------------
+
+    def test_register_rate_limiting(self):
+        """POST /api/register/ is throttled after 5 requests/minute per IP, returning 429."""
+        from django.core.cache import cache
+        from django.test import override_settings
+
+        cache.clear()
+        with override_settings(RATELIMIT_ENABLE=True):
+            # Send 5 requests (allowed)
+            for i in range(5):
+                resp = self.client.post('/api/register/', {})
+                self.assertNotEqual(resp.status_code, 429)
+
+            # 6th request should be blocked by django-ratelimit and handled as 429
+            resp = self.client.post('/api/register/', {})
+            self.assertEqual(resp.status_code, 429)
+            data = resp.json()
+            self.assertIn("error", data)
+            self.assertEqual(data["status"], 429)
+        cache.clear()
+
+    def test_create_order_rate_limiting(self):
+        """POST /api/create-order/ is throttled after 5 requests/minute per IP."""
+        import uuid
+        from django.core.cache import cache
+        from django.test import override_settings
+
+        cache.clear()
+        with override_settings(RATELIMIT_ENABLE=True):
+            dummy_token = str(uuid.uuid4())
+            for i in range(5):
+                resp = self.client.post(
+                    '/api/create-order/',
+                    data=json.dumps({'payment_token': dummy_token}),
+                    content_type='application/json',
+                )
+                self.assertNotEqual(resp.status_code, 429)
+
+            resp = self.client.post(
+                '/api/create-order/',
+                data=json.dumps({'payment_token': dummy_token}),
+                content_type='application/json',
+            )
+            self.assertEqual(resp.status_code, 429)
+        cache.clear()
+
+    def test_verify_email_rate_limiting(self):
+        """POST /api/verify-email/ is throttled after 10 requests/minute per IP."""
+        import uuid
+        from django.core.cache import cache
+        from django.test import override_settings
+
+        cache.clear()
+        with override_settings(RATELIMIT_ENABLE=True):
+            dummy_token = str(uuid.uuid4())
+            for i in range(10):
+                resp = self.client.post(
+                    '/api/verify-email/',
+                    data=json.dumps({'token': dummy_token}),
+                    content_type='application/json',
+                )
+                self.assertNotEqual(resp.status_code, 429)
+
+            resp = self.client.post(
+                '/api/verify-email/',
+                data=json.dumps({'token': dummy_token}),
+                content_type='application/json',
+            )
+            self.assertEqual(resp.status_code, 429)
+        cache.clear()
+
