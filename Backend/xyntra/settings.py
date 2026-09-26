@@ -80,6 +80,13 @@ MIDDLEWARE = [
     'events.middleware.RatelimitMiddleware',
 ]
 
+# ---------------------------------------------------------------------------
+# Rate Limiting Configuration
+# ---------------------------------------------------------------------------
+# Resolve real client IP behind reverse proxies (Render, etc.) so that rate limits
+# apply per client rather than sharing the proxy's REMOTE_ADDR across all users.
+RATELIMIT_IP_META_KEY = 'events.middleware.get_client_ip'
+
 ROOT_URLCONF = 'xyntra.urls'
 
 TEMPLATES = [
