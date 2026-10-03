@@ -1,227 +1,113 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
-import Home from './components/Home.jsx'
-import About from './components/About.jsx'
+import SpaceBackground from './components/background/SpaceBackground.jsx'
+import Navbar from './components/navbar/Navbar.jsx'
+import PreloaderExperience from './components/preloader/PreloaderExperience.jsx'
+import Hero from './components/pages/01_Hero/Hero.jsx'
+import About from './components/pages/02_About/About.jsx'
+import Rules from './components/pages/03_Rules/Rules.jsx'
+import Register from './components/pages/04_Register/Register.jsx'
+import Sponsors from './components/pages/05_Sponsors/Sponsors.jsx'
 
 const PAGES = [
-  { id: 1, tag: 'PROLOGUE 01', label: 'Home' },
-  { id: 2, tag: 'ABOUT 02', label: 'About' },
-  { id: 3, tag: 'WHY 03', label: 'Why Participate' },
-  { id: 4, tag: 'THE ARENA 04', label: 'Arena & Rules' },
-  { id: 5, tag: 'REGISTER 05', label: 'Register' },
+  { id: 1, label: 'Home' },
+  { id: 2, label: 'About' },
+  { id: 3, label: 'Rules' },
+  { id: 4, label: 'Register' },
+  { id: 5, label: 'Sponsors' },
 ]
 
-/* ============================================================
-   FIRE PARTICLES (Background Embers)
-   ============================================================ */
+export default function App() {
+  const [activePage, setActivePage] = useState(1)
+  const [introFinished, setIntroFinished] = useState(false)
+  const [isWarping, setIsWarping] = useState(false)
 
-function Embers() {
-  const ref = useRef(null)
+  const handleIntroComplete = () => {
+    setIsWarping(true)
+    setTimeout(() => {
+      setIntroFinished(true)
+      setIsWarping(false)
+    }, 600)
+  }
 
-  useEffect(() => {
-    const c = ref.current
-    const g = c.getContext('2d')
-    let w = 0
-    let h = 0
-    let raf = 0
-
-    const resize = () => {
-      w = c.width = window.innerWidth
-      h = c.height = window.innerHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    const spawn = () => ({
-      x: w * (0.3 + Math.random() * 0.45),
-      baseY: h * (0.5 + Math.random() * 0.6),
-      vx: 0.25 + Math.random() * 1.0,
-      vy: -(0.5 + Math.random() * 1.6),
-      parallax: 0.08 + Math.random() * 0.22,
-      life: 0,
-      max: 140 + Math.random() * 200,
-      size: 0.6 + Math.random() * 1.8,
-    })
-
-    const parts = Array.from({ length: 90 }, () => {
-      const p = spawn()
-      p.life = Math.random() * p.max
-      return p
-    })
-
-    const loop = () => {
-      g.clearRect(0, 0, w, h)
-      g.globalCompositeOperation = 'lighter'
-      for (const p of parts) {
-        p.life += 1
-        p.x += p.vx + Math.sin(p.life * 0.05) * 0.3
-        p.baseY += p.vy
-        const y = p.baseY
-        if (p.life > p.max || y < -20) Object.assign(p, spawn(), { baseY: h + 20 })
-        const a = Math.sin((Math.PI * p.life) / p.max)
-        g.fillStyle = `rgba(255, ${120 + ((Math.random() * 80) | 0)}, 40, ${a * 0.9})`
-        g.fillRect(p.x, y, p.size, p.size * (1 + Math.abs(p.vy) * 0.8))
-      }
-      raf = requestAnimationFrame(loop)
-    }
-
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) loop()
-
-    return () => {
-      cancelAnimationFrame(raf)
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
-  return <canvas ref={ref} className="embers" aria-hidden="true" />
-}
-
-/* ============================================================
-   MAIN APP CONTROLLER
-   ============================================================ */
-
-function App() {
-  const [activePage, setActivePage] = useState(1) // Default to Page 1 (Home)
+  // Smooth scroll to top whenever page changes
+  const handleNavigate = (pageId) => {
+    setActivePage(pageId)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   // Keyboard navigation: Left/Right arrow keys flip through pages
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (!introFinished) return
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return
+
       if (e.key === 'ArrowRight' && activePage < 5) {
-        setActivePage((prev) => prev + 1)
+        handleNavigate(activePage + 1)
       } else if (e.key === 'ArrowLeft' && activePage > 1) {
-        setActivePage((prev) => prev - 1)
+        handleNavigate(activePage - 1)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activePage])
+  }, [activePage, introFinished])
 
   const currentPageObj = PAGES.find((p) => p.id === activePage) || PAGES[0]
 
   return (
-    <>
-      {/* BOTTOM HUD CONTROLS */}
-      <div className="hud">
-        <div className="hud-pagination">
+    <div className="app-root-wrapper">
+      
+      {/* 🚀 CYBER PRELOADER / OPENING INTRO (IDEA 1: CYBER WARP GATE) */}
+      {!introFinished && (
+        <PreloaderExperience onComplete={handleIntroComplete} />
+      )}
+
+      {/* 🪐 LAYER 0: 3D AMBIENT SPACE BACKGROUND */}
+      <SpaceBackground activePage={activePage} isWarping={isWarping} />
+
+      {/* 🧭 LAYER 1: GLOBAL TOP NAVIGATION */}
+      <Navbar
+        activePage={activePage}
+        onNavigate={handleNavigate}
+        pages={PAGES}
+      />
+
+      {/* 📄 LAYER 2: ACTIVE PAGE VIEW */}
+      <main className="main-content-view">
+        {activePage === 1 && <Hero onNavigate={handleNavigate} />}
+        {activePage === 2 && <About onNavigate={handleNavigate} />}
+        {activePage === 3 && <Rules onNavigate={handleNavigate} />}
+        {activePage === 4 && <Register onNavigate={handleNavigate} />}
+        {activePage === 5 && <Sponsors onNavigate={handleNavigate} />}
+      </main>
+
+      {/* 🎛️ LAYER 3: BOTTOM FLOATING HUD CONTROLLER */}
+      <aside className="bottom-hud-bar" aria-label="Page Navigation Controls">
+        <div className="hud-pagination-box">
           <button
-            className="hud-nav-btn"
+            className="hud-nav-btn prev-btn"
             disabled={activePage === 1}
-            onClick={() => setActivePage((prev) => Math.max(1, prev - 1))}
+            onClick={() => handleNavigate(activePage - 1)}
+            aria-label="Previous Page"
           >
             ← PREV
           </button>
-          <span className="hud-page-indicator">PAGE 0{activePage} / 05</span>
+
+          <div className="hud-page-indicator">
+            <span className="hud-section-name">{currentPageObj.label}</span>
+          </div>
+
           <button
-            className="hud-nav-btn"
+            className="hud-nav-btn next-btn"
             disabled={activePage === 5}
-            onClick={() => setActivePage((prev) => Math.min(5, prev + 1))}
+            onClick={() => handleNavigate(activePage + 1)}
+            aria-label="Next Page"
           >
             NEXT →
           </button>
         </div>
-      </div>
+      </aside>
 
-      <main>
-        {/* Floating embers particle layer */}
-        <Embers />
-
-        {/* TOP NAVBAR */}
-        <nav className="navbar">
-          <button className="brand" onClick={() => setActivePage(1)}>
-            <i className="dot" />
-            <span>XYNTRA</span>
-          </button>
-
-          <div className="nav-right">
-            <span className="nav-tag">
-              HACKATHON 2026 <b /> {currentPageObj.tag}
-            </span>
-            <div className="nav-links">
-              {PAGES.map((page) => (
-                <button
-                  key={page.id}
-                  className={activePage === page.id ? 'active' : ''}
-                  onClick={() => setActivePage(page.id)}
-                >
-                  {page.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </nav>
-
-        {/* ================= PAGE ROUTING / VIEWS ================= */}
-        <div className="page-view-wrapper">
-          {activePage === 1 && <Home onExplore={() => setActivePage(2)} />}
-          {activePage === 2 && <About onNavigate={(pageId) => setActivePage(pageId)} />}
-
-          {/* PAGE 3: WHY PARTICIPATE */}
-          {activePage === 3 && (
-            <section className="why-section" id="why">
-              <div className="section-heading">
-                <p className="section-kicker">PAGE 03 / WHY PARTICIPATE</p>
-                <h2>Don't just watch. Build.</h2>
-              </div>
-              <div className="hook-grid">
-                <Hook number="01" title="Turn ideas into reality" text="Stop waiting for the perfect idea. Start building the version that can become one." />
-                <Hook number="02" title="Build beyond the classroom" text="Take your technical skills into a fast-moving challenge where execution matters." />
-                <Hook number="03" title="Create with your people" text="Find teammates, divide the problem, and make something none of you could build alone." />
-                <Hook number="04" title="Leave with something real" text="A working prototype, a story to tell, and an experience worth putting on your journey." />
-              </div>
-            </section>
-          )}
-
-          {/* PAGE 4: ARENA & RULES */}
-          {activePage === 4 && (
-            <section className="why-section" id="rules">
-              <div className="section-heading">
-                <p className="section-kicker">PAGE 04 / ARENA & GUIDELINES</p>
-                <h2>Rules & Evaluation Criteria</h2>
-              </div>
-              <div className="hook-grid">
-                <Hook number="01" title="Team Composition" text="Teams can consist of 2 to 4 members. Inter-college teams and multidisciplinary skill sets are highly encouraged." />
-                <Hook number="02" title="Original Code Only" text="All prototype development must begin during the 24-hour sprint. Open-source libraries and public APIs are permitted." />
-                <Hook number="03" title="Judging Framework" text="Projects will be evaluated on Innovation (30%), Technical Execution (30%), UX/Design (20%), and Presentation (20%)." />
-                <Hook number="04" title="Mentorship & Reviews" text="Industry mentors will conduct periodic checkpoint reviews to help refine prototypes and architecture." />
-              </div>
-            </section>
-          )}
-
-          {/* PAGE 5: REGISTER CTA */}
-          {activePage === 5 && (
-            <section className="register-section" id="register">
-              <p className="section-kicker">PAGE 05 / FINAL CALL</p>
-              <h2>The arena awaits.</h2>
-              <p>Gather your team. Pick your challenge. Make your move.</p>
-              <button
-                className="primary-btn"
-                onClick={() => alert('Official registration portal opening soon!')}
-              >
-                Register Team Now →
-              </button>
-            </section>
-          )}
-        </div>
-
-        {/* GLOBAL FOOTER */}
-        <footer>
-          <span>XYNTRA</span>
-          <span>IEEE COMPUTER SOCIETY</span>
-          <span>© 2026</span>
-        </footer>
-      </main>
-    </>
+    </div>
   )
 }
-
-function Hook({ number, title, text }) {
-  return (
-    <article className="hook-card">
-      <span className="hook-number">{number}</span>
-      <h3>{title}</h3>
-      <p>{text}</p>
-    </article>
-  )
-}
-
-export default App

@@ -1,0 +1,328 @@
+.global-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(2, 4, 17, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 4, 235, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 16px 40px;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* BRAND LOGO DUAL BADGE (REC & IEEE CS) */
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-logo-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  user-select: none;
+}
+
+.brand-logo-btn:hover {
+  transform: translateY(-1px);
+}
+
+.nav-org-logo {
+  display: block;
+  object-fit: contain;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.rec-brand-logo {
+  height: 44px;
+  width: auto;
+  max-width: 210px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.ieee-brand-logo {
+  height: 44px;
+  width: auto;
+  max-width: 210px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.brand-divider {
+  width: 1.5px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* DESKTOP NAV LINKS */
+.nav-links-desktop {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-link-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  color: #cbd5e1;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.nav-link-btn:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.nav-link-btn.active {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.active-glow-bar {
+  position: absolute;
+  bottom: -4px;
+  left: 12%;
+  width: 76%;
+  height: 3px;
+  background: #0004EB;
+  box-shadow: 0 0 14px #0004EB, 0 0 25px rgba(0, 4, 235, 0.9);
+  border-radius: 3px;
+}
+
+/* NAV REGISTER CTA BUTTON */
+.nav-register-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+  padding: 12px 26px;
+  border-radius: 100px;
+  background: #0004EB;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 25px rgba(0, 4, 235, 0.55);
+}
+
+.nav-register-cta:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 35px rgba(0, 4, 235, 0.9);
+  background: #0003c2;
+}
+
+/* MOBILE TOGGLE */
+.mobile-menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+}
+
+.mobile-menu-toggle .bar {
+  width: 26px;
+  height: 2.5px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.open .bar:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+
+.mobile-menu-toggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.open .bar:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+}
+
+/* MOBILE DRAWER */
+.mobile-nav-drawer {
+  background: rgba(2, 4, 17, 0.98);
+  border-bottom: 1px solid rgba(0, 4, 235, 0.4);
+  padding: 22px 28px 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: drawer-fade-in 0.25s ease;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes drawer-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-drawer-title {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+}
+
+.mobile-drawer-tag {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 12px;
+  color: #0004EB;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.mobile-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-item.active {
+  background: rgba(0, 4, 235, 0.25);
+  border-color: #0004EB;
+  color: #ffffff;
+}
+
+.mobile-register-btn {
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 100px;
+  background: #0004EB;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 4, 235, 0.6);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
+  .nav-container {
+    padding: 14px 24px;
+    min-height: 76px;
+  }
+
+  .nav-links-desktop {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .rec-brand-logo {
+    height: 38px;
+  }
+
+  .ieee-brand-logo {
+    height: 38px;
+  }
+
+  .brand-divider {
+    height: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-container {
+    padding: 12px 16px;
+  }
+
+  .brand-logo-btn {
+    gap: 10px;
+  }
+
+  .rec-brand-logo {
+    height: 32px;
+    max-width: 130px;
+  }
+
+  .ieee-brand-logo {
+    height: 32px;
+    max-width: 130px;
+  }
+
+  .brand-divider {
+    height: 24px;
+  }
+}
