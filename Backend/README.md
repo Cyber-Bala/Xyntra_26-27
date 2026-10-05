@@ -265,7 +265,7 @@ The server will start at `http://127.0.0.1:8000/`.
 | `SECRET_KEY` | **Yes** | — | Cryptographic secret key for Django sessions and tokens. |
 | `DEBUG` | No | `False` | Enable debug mode (set to `True` for local development only). |
 | `ALLOWED_HOSTS` | No | `localhost,127.0.0.1` | Comma-separated list of allowed host header domains. |
-| `FRONTEND_URL` | No | `http://localhost:3000` | Target URL of the frontend application for CORS and email links. |
+| `FRONTEND_URL` | No | `http://localhost:5173` | Target URL of the Vite frontend for CORS and email links. Set this to the deployed frontend origin in production. |
 | `DATABASE_URL` | No | SQLite | PostgreSQL connection URL (e.g., on Render). Defaults to local SQLite if omitted. |
 | `RAZORPAY_KEY_ID` | **Yes** | — | Razorpay API key ID (`rzp_test_...` or `rzp_live_...`). |
 | `RAZORPAY_KEY_SECRET` | **Yes** | — | Razorpay API secret key. |

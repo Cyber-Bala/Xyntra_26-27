@@ -1,5 +1,17 @@
 # React + Vite
 
+## Local backend integration
+
+Copy `.env.example` to `.env` before running Vite. Start the Django API at
+`http://localhost:8000` with `DEBUG=True` and `FRONTEND_URL=http://localhost:5173`.
+The first registration stage posts the team roster and PPT to `/api/register/`.
+After email verification and organizer selection, the backend sends the team
+leader a private `/payment/<token>/` link for the Round 2 Razorpay checkout.
+Set `VITE_API_BASE_URL` to the deployed API URL when building for production.
+
+Activate the backend environment from the `Backend` directory with
+`.venv\Scripts\Activate.ps1`, then run `python manage.py runserver`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

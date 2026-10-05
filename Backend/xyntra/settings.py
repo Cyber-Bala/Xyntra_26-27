@@ -176,7 +176,7 @@ if not FRONTEND_URL and not DEBUG:
     raise ImproperlyConfigured("FRONTEND_URL is required in production.")
 
 if not FRONTEND_URL:
-    FRONTEND_URL = 'http://localhost:3000'
+    FRONTEND_URL = 'http://localhost:5173'
 
 _parsed_frontend = urlparse(FRONTEND_URL)
 if _parsed_frontend.scheme != 'https' and not DEBUG:
@@ -190,6 +190,7 @@ if DEBUG:
         'http://localhost:3000',
         'http://localhost:5173',
         'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173',
     ]
     # Deduplicate.
     CORS_ALLOWED_ORIGINS = list(dict.fromkeys(CORS_ALLOWED_ORIGINS))

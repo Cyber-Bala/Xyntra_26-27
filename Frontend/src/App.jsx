@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import SpaceBackground from './components/background/SpaceBackground.jsx'
 import Navbar from './components/navbar/Navbar.jsx'
@@ -18,8 +18,10 @@ const PAGES = [
 ]
 
 export default function App() {
-  const [activePage, setActivePage] = useState(1)
-  const [introFinished, setIntroFinished] = useState(false)
+  const isRegistrationDeepLink = /^\/(?:payment|verify-email)\//.test(window.location.pathname)
+    || window.location.pathname.replace(/\/$/, '') === '/registration-status'
+  const [activePage, setActivePage] = useState(() => isRegistrationDeepLink ? 4 : 1)
+  const [introFinished, setIntroFinished] = useState(isRegistrationDeepLink)
   const [isWarping, setIsWarping] = useState(false)
 
   const handleIntroComplete = () => {
@@ -31,10 +33,11 @@ export default function App() {
   }
 
   // Smooth scroll to top whenever page changes
-  const handleNavigate = (pageId) => {
+  const handleNavigate = useCallback((pageId) => {
+    if (isRegistrationDeepLink) window.history.replaceState({}, '', '/')
     setActivePage(pageId)
     window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  }, [isRegistrationDeepLink])
 
   // Keyboard navigation: Left/Right arrow keys flip through pages
   useEffect(() => {
@@ -50,7 +53,7 @@ export default function App() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activePage, introFinished])
+  }, [activePage, introFinished, handleNavigate])
 
   const currentPageObj = PAGES.find((p) => p.id === activePage) || PAGES[0]
 
