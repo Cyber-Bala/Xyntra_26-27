@@ -4,6 +4,7 @@ from .test_models import ModelTests
 from .test_payments import PaymentFlowTests
 from .test_security import SecurityTests
 from .test_views import ViewTests
+from .test_webhook import RazorpayWebhookTests
 
 __all__ = [
     'BaseTestCase',
@@ -12,4 +13,5 @@ __all__ = [
     'PaymentFlowTests',
     'SecurityTests',
     'AdminActionTests',
+    'RazorpayWebhookTests',
 ]

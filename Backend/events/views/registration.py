@@ -7,6 +7,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django_ratelimit.decorators import ratelimit
 
 from ..models import (
     Event,
@@ -29,12 +30,14 @@ logger = logging.getLogger(__name__)
 
 @csrf_exempt
 @require_POST
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def register(request):
     """
     Form 1 initial registration: validates team info, PPT upload, member roster,
     and optional IEEE ID card files. Sets team status to pending.
 
     Security features:
+    - Rate-limited to 5 requests/minute per IP
     - Request-size guard (40 MB)
     - Members-JSON size guard (64 KB)
     - Strict type validation (no bool coercion from strings)

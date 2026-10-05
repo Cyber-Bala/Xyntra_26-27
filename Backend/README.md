@@ -90,6 +90,7 @@ XYNTRA NEW/
     ├── __init__.py
     ├── admin.py              # Django admin panel configuration & bulk actions
     ├── apps.py               # Application configuration
+    ├── middleware.py         # RatelimitMiddleware translating throttled requests to JSON 429
     ├── urls.py               # API route definitions
     ├── utils.py              # Backward-compatible proxy to events.services
     │
@@ -112,14 +113,15 @@ XYNTRA NEW/
     ├── services/             # Dedicated business logic and third-party integrations
     │   ├── __init__.py       # Package entry point (re-exports service functions)
     │   ├── emails.py         # Transactional email notifications
-    │   └── razorpay.py       # Razorpay client, order creation & payment reconciliation
+    │   └── razorpay.py       # Razorpay client, order creation, reconciliation & webhook verification
     │
     ├── views/                # Modular request handlers
     │   ├── __init__.py       # Package entry point (re-exports all views)
     │   ├── countdown.py      # Event countdown & metadata endpoint
-    │   ├── registration.py   # Stage 1 team registration view (Form 1)
-    │   ├── verification.py   # Email verification view (POST with token expiry)
-    │   ├── payment.py        # Stage 2 payment preflight, order creation & verification
+    │   ├── registration.py   # Stage 1 team registration view (Form 1, rate-limited)
+    │   ├── verification.py   # Email verification view (POST with token expiry, rate-limited)
+    │   ├── payment.py        # Stage 2 payment preflight, order creation & verification (rate-limited)
+    │   ├── webhook.py        # Authoritative Razorpay webhook handler (payment.captured / order.paid)
     │   ├── status.py         # Privacy-preserving registration status lookup
     │   └── validators.py     # Request bounds & JSON payload validators
     │
@@ -129,8 +131,9 @@ XYNTRA NEW/
         ├── test_admin.py     # Admin action tests (selection, rejection, IEEE verification)
         ├── test_models.py    # Model validation, constraints, and magic-byte tests
         ├── test_payments.py  # Razorpay order, verification, and reconciliation tests
-        ├── test_security.py  # Rate limiting, token expiration, and IDOR protection tests
-        └── test_views.py     # View tests (countdown, registration, email verify, status)
+        ├── test_security.py  # Rate limiting (429 responses), token expiration, and bounds tests
+        ├── test_views.py     # View tests (countdown, registration, email verify, status)
+        └── test_webhook.py   # Webhook signature verification, idempotency, and reconciliation tests
 ```
 
 ---
@@ -178,12 +181,14 @@ sequenceDiagram
 ## Security Features
 
 1. **Anti-IDOR / BOLA Protection**: Registration status is queried strictly via an unguessable UUID `status_token` distributed exclusively to the team leader. Arbitrary email lookups are disabled to prevent enumeration.
-2. **Payment Reconciliation**: Payment verification does not rely on client-provided signatures alone; it initiates a server-to-server inquiry with Razorpay to verify that the transaction is `captured`, belongs to the correct `order_id`, and matches the expected amount and currency.
-3. **Magic-Byte File Verification**: Uploaded presentation decks and IEEE ID cards are validated by reading initial magic bytes (PDF, PPTX, PPT, JPEG, PNG), preventing malicious file uploads with spoofed extensions.
-4. **Race Condition Prevention**: Database transactions utilize `select_for_update()` to serialize registration and checkout flows, preventing duplicate registrations or concurrent order creation.
-5. **Token Expiration**: Email verification tokens expire after 24 hours; payment links expire after 7 days by default.
-6. **Request & Body Size Hard Caps**: Enforces a 40 MB total request limit and a 64 KB JSON member payload limit to prevent resource exhaustion attacks.
-7. **Automated Rollback Hygiene**: If a transaction fails mid-registration, all uploaded files associated with the rolled-back record are automatically purged from storage.
+2. **Authoritative Payment Reconciliation**: Payment verification does not rely on client-provided signatures alone; it initiates a server-to-server inquiry with Razorpay to verify that the transaction is `captured`, belongs to the correct `order_id`, and matches the expected amount and currency.
+3. **Razorpay Webhook Safety Net**: Dedicated webhook endpoint (`/api/webhook/razorpay/`) with cryptographic HMAC-SHA256 signature verification guarantees payment reconciliation if a participant's browser disconnects or crashes prior to callback execution.
+4. **Endpoint Rate Limiting & Throttling**: Protected with `django-ratelimit` (`register`: 5/m, `create-order`: 5/m, `verify-payment`: 10/m, `verify-email`: 10/m) and handled via custom `RatelimitMiddleware` returning RFC-compliant JSON `429 Too Many Requests` responses.
+5. **Magic-Byte File Verification**: Uploaded presentation decks and IEEE ID cards are validated by reading initial magic bytes (PDF, PPTX, PPT, JPEG, PNG), preventing malicious file uploads with spoofed extensions.
+6. **Race Condition Prevention**: Database transactions utilize `select_for_update()` to serialize registration and checkout flows, preventing duplicate registrations or concurrent order creation.
+7. **Token Expiration**: Email verification tokens expire after 24 hours; payment links expire after 7 days by default.
+8. **Request & Body Size Hard Caps**: Enforces a 40 MB total request limit and a 64 KB JSON member payload limit to prevent resource exhaustion attacks.
+9. **Automated Rollback Hygiene**: If a transaction fails mid-registration, all uploaded files associated with the rolled-back record are automatically purged from storage.
 
 ---
 
@@ -264,6 +269,7 @@ The server will start at `http://127.0.0.1:8000/`.
 | `DATABASE_URL` | No | SQLite | PostgreSQL connection URL (e.g., on Render). Defaults to local SQLite if omitted. |
 | `RAZORPAY_KEY_ID` | **Yes** | — | Razorpay API key ID (`rzp_test_...` or `rzp_live_...`). |
 | `RAZORPAY_KEY_SECRET` | **Yes** | — | Razorpay API secret key. |
+| `RAZORPAY_WEBHOOK_SECRET` | Recommended | — | Secret passphrase to verify incoming Razorpay webhooks. |
 | `EMAIL_BACKEND` | No | Console | `django.core.mail.backends.console.EmailBackend` for dev or `smtp.EmailBackend` for prod. |
 | `EMAIL_HOST` | No | `smtp.gmail.com` | SMTP host server. |
 | `EMAIL_PORT` | No | `587` | SMTP port. |
@@ -441,6 +447,26 @@ All API routes are prefixed under `/api/`.
   }
   ```
 
+### 8. Razorpay Webhook (Server-to-Server)
+- **URL**: `/api/webhook/razorpay/`
+- **Method**: `POST` (`application/json`)
+- **Headers**:
+  - `X-Razorpay-Signature`: HMAC-SHA256 signature generated with `RAZORPAY_WEBHOOK_SECRET`
+- **Supported Events**:
+  - `payment.captured` / `order.paid`: Authoritatively marks payment `PAID` and `Team.is_paid = True`.
+  - `payment.failed`: Marks payment `FAILED`.
+  - Other events: Acknowledged with `200 OK` (ignored).
+- **Response**: `200 OK`
+  ```json
+  {
+    "status": "success",
+    "event": "payment.captured",
+    "order_id": "order_NXg9Y5qAbCdEfG",
+    "team_name": "DevTitans",
+    "is_paid": true
+  }
+  ```
+
 ---
 
 ## Organizer Admin Guide
@@ -477,11 +503,12 @@ python manage.py test events -v2
 python manage.py test events.tests.test_models
 python manage.py test events.tests.test_views
 python manage.py test events.tests.test_payments
+python manage.py test events.tests.test_webhook
 python manage.py test events.tests.test_security
 python manage.py test events.tests.test_admin
 ```
 
-All 49 automated tests verify model constraints, magic-byte checks, payment reconciliation, race conditions, and admin workflows.
+All 64 automated tests verify model constraints, magic-byte checks, payment reconciliation, webhooks, rate limiting, race conditions, and admin workflows.
 
 ---
 

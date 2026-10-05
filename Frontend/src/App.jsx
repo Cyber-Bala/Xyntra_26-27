@@ -54,6 +54,10 @@ export default function App() {
 
   const currentPageObj = PAGES.find((p) => p.id === activePage) || PAGES[0]
 
+  /* ============================================================
+     RENDER
+  ============================================================ */
+
   return (
     <div className="app-root-wrapper">
       

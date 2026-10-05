@@ -77,7 +77,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'events.middleware.RatelimitMiddleware',
 ]
+
+# ---------------------------------------------------------------------------
+# Rate Limiting Configuration
+# ---------------------------------------------------------------------------
+# Resolve real client IP behind reverse proxies (Render, etc.) so that rate limits
+# apply per client rather than sharing the proxy's REMOTE_ADDR across all users.
+RATELIMIT_IP_META_KEY = 'events.middleware.get_client_ip'
 
 ROOT_URLCONF = 'xyntra.urls'
 
@@ -216,6 +224,7 @@ EMAIL_TIMEOUT = 10  # Seconds; prevents stalled SMTP from blocking workers.
 
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
+RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', '')
 # (connect_timeout, read_timeout) in seconds for Razorpay API calls.
 RAZORPAY_TIMEOUT = (3.05, 10)
 

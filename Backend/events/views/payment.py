@@ -1,5 +1,6 @@
 import json
 import logging
+import uuid as uuid_mod
 from decimal import Decimal
 
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
+from django_ratelimit.decorators import ratelimit
 from razorpay.errors import SignatureVerificationError
 
 from ..models import Payment, Team
@@ -100,11 +102,13 @@ def payment_details(request, payment_token):
 
 @csrf_exempt
 @require_POST
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def create_order(request):
     """
     Form 2 checkout: creates a Razorpay payment order for selected & verified teams.
 
     Security features:
+    - Rate-limited to 5 requests/minute per IP
     - select_for_update prevents concurrent duplicate orders.
     - Existing order is reused instead of overwritten.
     - Explicit Razorpay timeout handled via services layer.
@@ -124,12 +128,17 @@ def create_order(request):
             status=400,
         )
 
+    try:
+        token_uuid = uuid_mod.UUID(str(payment_token))
+    except (ValueError, AttributeError, TypeError):
+        return JsonResponse({"error": "Invalid or expired payment token."}, status=404)
+
     with transaction.atomic():
         team = (
             Team.objects
             .select_for_update()
             .select_related('event')
-            .filter(payment_token=payment_token)
+            .filter(payment_token=token_uuid)
             .first()
         )
 
@@ -229,12 +238,14 @@ def create_order(request):
 
 @csrf_exempt
 @require_POST
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def verify_payment(request):
     """
     Form 2 payment verification: verifies Razorpay HMAC-SHA256 signature
     and reconciles with the payment provider before marking the registration as paid.
 
     Security features:
+    - Rate-limited to 10 requests/minute per IP
     - Fetches authoritative payment from Razorpay to verify captured status,
       amount, currency, and order association.
     - Uses select_for_update for idempotent payment confirmation.

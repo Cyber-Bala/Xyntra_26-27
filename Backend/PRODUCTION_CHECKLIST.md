@@ -131,6 +131,13 @@ Configure these environment variables in your production hosting dashboard (e.g.
   - **Source**: Generated alongside the Razorpay Key ID.
   - **Why**: Used for server-to-server order generation, HMAC-SHA256 signature verification, and authoritative payment reconciliation.
 
+- [ ] **`RAZORPAY_WEBHOOK_SECRET` (Live Webhook Secret)**
+  - **Value**: Secret passphrase configured when creating the Razorpay Webhook.
+  - **Source**: Razorpay Dashboard > Settings > Webhooks > Add New Webhook.
+  - **Webhook URL**: `https://<backend-domain>/api/webhook/razorpay/`
+  - **Events to Select**: `payment.captured`, `order.paid`, `payment.failed`
+  - **Why**: Mandatory production safety net. Authoritatively captures and reconciles payments server-to-server if the participant's browser disconnects or closes prior to the client callback.
+
 - [ ] **`EMAIL_BACKEND` (Email Engine)**
   - **Value**: `django.core.mail.backends.smtp.EmailBackend`
   - **Why**: Sends real emails via SMTP instead of printing to console.
@@ -185,3 +192,11 @@ Once the web service is deployed and environment variables are active:
      - **Registration Deadline**: Exact cutoff timestamp for Form 1 submissions.
      - **Regular Price & IEEE Price**: Stated registration fees in INR.
      - **Is Active**: Checked (must be the only active event).
+
+4. **Configure Razorpay Webhook**:
+   - Log in to your Razorpay Dashboard (Test mode for development, Live mode for production).
+   - Go to **Settings > Webhooks > Add New Webhook**.
+   - **Webhook URL**: `https://<backend-domain>/api/webhook/razorpay/`
+   - **Secret**: Enter the exact secret string you set in `RAZORPAY_WEBHOOK_SECRET`.
+   - **Active Events**: Check `payment.captured`, `order.paid`, and `payment.failed`.
+   - Save the webhook.
