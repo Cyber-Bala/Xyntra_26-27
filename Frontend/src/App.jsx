@@ -1,312 +1,117 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import React, { useState, useEffect } from 'react'
+import './App.css'
+import SpaceBackground from './components/background/SpaceBackground.jsx'
+import Navbar from './components/navbar/Navbar.jsx'
+import PreloaderExperience from './components/preloader/PreloaderExperience.jsx'
+import Hero from './components/pages/01_Hero/Hero.jsx'
+import About from './components/pages/02_About/About.jsx'
+import Rules from './components/pages/03_Rules/Rules.jsx'
+import Register from './components/pages/04_Register/Register.jsx'
+import Sponsors from './components/pages/05_Sponsors/Sponsors.jsx'
 
-const EVENT_DATE = new Date("2026-10-24T09:00:00+05:30").getTime();
+const PAGES = [
+  { id: 1, label: 'Home' },
+  { id: 2, label: 'About' },
+  { id: 3, label: 'Rules' },
+  { id: 4, label: 'Register' },
+  { id: 5, label: 'Sponsors' },
+]
 
-const CHAPTERS = [
-  "PROLOGUE 01",
-  "THE CLOCK 02",
-  "ABOUT 03",
-  "WHY 04",
-  "THE ARENA 05",
-];
+export default function App() {
+  const [activePage, setActivePage] = useState(1)
+  const [introFinished, setIntroFinished] = useState(false)
+  const [isWarping, setIsWarping] = useState(false)
 
-/* ============================================================
-   APP
-============================================================ */
+  const handleIntroComplete = () => {
+    setIsWarping(true)
+    setTimeout(() => {
+      setIntroFinished(true)
+      setIsWarping(false)
+    }, 600)
+  }
 
-function App() {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
-  const [introKey] = useState(0);
-  const [chapter, setChapter] = useState(0);
+  // Smooth scroll to top whenever page changes
+  const handleNavigate = (pageId) => {
+    setActivePage(pageId)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
-  function getTimeLeft() {
-    const difference = EVENT_DATE - Date.now();
+  // Keyboard navigation: Left/Right arrow keys flip through pages
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!introFinished) return
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return
 
-    if (difference <= 0) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      if (e.key === 'ArrowRight' && activePage < 5) {
+        handleNavigate(activePage + 1)
+      } else if (e.key === 'ArrowLeft' && activePage > 1) {
+        handleNavigate(activePage - 1)
+      }
     }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activePage, introFinished])
 
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / (1000 * 60)) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
-  }
-
-  /* ============================================================
-     COUNTDOWN
-  ============================================================ */
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  /* ============================================================
-     CHAPTER LABEL
-     Tracks which section is in view, for the navbar chip.
-  ============================================================ */
-
-  useEffect(() => {
-    const update = () => {
-      const list = Array.from(document.querySelectorAll("main > section"));
-
-      const idx =
-        list.filter(
-          (s) => s.getBoundingClientRect().top <= window.innerHeight * 0.5
-        ).length - 1;
-
-      setChapter(Math.max(0, idx));
-    };
-
-    update();
-
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
-
-  /* ============================================================
-     INTERNAL LINKS — plain smooth scroll, no transition
-  ============================================================ */
-
-  function handleLinkClick(e) {
-    const link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-
-    const id = link.getAttribute("href").slice(1);
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    e.preventDefault();
-
-    window.scrollTo({
-      top:
-        id === "home"
-          ? 0
-          : target.getBoundingClientRect().top + window.scrollY,
-      left: 0,
-      behavior: "smooth",
-    });
-
-    history.replaceState(null, "", `#${id}`);
-  }
+  const currentPageObj = PAGES.find((p) => p.id === activePage) || PAGES[0]
 
   /* ============================================================
      RENDER
   ============================================================ */
 
   return (
-    <>
-      <div className="hud">
-        <span className="hud-scroll">↓</span>
-      </div>
+    <div className="app-root-wrapper">
+      
+      {/* 🚀 CYBER PRELOADER / OPENING INTRO (IDEA 1: CYBER WARP GATE) */}
+      {!introFinished && (
+        <PreloaderExperience onComplete={handleIntroComplete} />
+      )}
 
-      <main onClick={handleLinkClick}>
-        {/* NAVBAR */}
+      {/* 🪐 LAYER 0: 3D AMBIENT SPACE BACKGROUND */}
+      <SpaceBackground activePage={activePage} isWarping={isWarping} />
 
-        <nav className="navbar">
-          <div className="brand">
-            <i className="dot" />
-            <span>XYNTRA</span>
-          </div>
+      {/* 🧭 LAYER 1: GLOBAL TOP NAVIGATION */}
+      <Navbar
+        activePage={activePage}
+        onNavigate={handleNavigate}
+        pages={PAGES}
+      />
 
-          <div className="nav-right">
-            <span className="nav-tag">
-              HACKATHON 2026 <b /> {CHAPTERS[chapter]}
-            </span>
-
-            <div className="nav-links">
-              <a href="#about">About</a>
-              <a href="#why">Why Participate</a>
-              <a href="#register">Register</a>
-            </div>
-          </div>
-        </nav>
-
-        {/* ======================================================
-            HERO
-        ====================================================== */}
-
-        <section className="hero" id="home" key={introKey}>
-          <span className="hero-streak" />
-
-          <div className="hero-content">
-            <p className="hero-kicker">
-              THE FUTURE IS BUILT FROM WHAT WE UNSEAT
-            </p>
-
-            <h1>XYNTRA</h1>
-
-            <p className="hero-sub">
-              HACKATHON 2026 <span>·</span> A NEW ERA IN MOTION
-            </p>
-
-            <p className="hero-hook">Dream. Build. Disrupt.</p>
-
-            <p className="hero-description">
-              Step into the arena where bold ideas meet code, creativity
-              meets execution, and builders turn problems into
-              possibilities.
-            </p>
-
-            <div className="event-meta">
-              <span>24 HOURS</span>
-              <span>•</span>
-              <span>HACKATHON</span>
-              <span>•</span>
-              <span>CHENNAI</span>
-            </div>
-
-            <a className="primary-btn" href="#register">
-              Enter the Arena <span>→</span>
-            </a>
-          </div>
-        </section>
-
-        {/* ======================================================
-            COUNTDOWN
-        ====================================================== */}
-
-        <section className="countdown-section">
-          <p className="section-kicker">THE CLOCK IS TICKING</p>
-          <h2>Hacking Begins In</h2>
-
-          <div className="countdown-grid">
-            <TimeCard value={timeLeft.days} label="Days" />
-            <TimeCard value={timeLeft.hours} label="Hours" />
-            <TimeCard value={timeLeft.minutes} label="Mins" />
-            <TimeCard value={timeLeft.seconds} label="Secs" />
-          </div>
-        </section>
-
-        {/* ======================================================
-            ABOUT
-        ====================================================== */}
-
-        <section className="about-section" id="about">
-          <div className="section-heading">
-            <p className="section-kicker">02 / ABOUT</p>
-            <h2>About Xyntra</h2>
-          </div>
-
-          <div className="about-grid">
-            <div className="about-copy">
-              <p>
-                Xyntra is a high-energy hackathon built for students who
-                want to take an idea beyond the whiteboard and into the
-                real world.
-              </p>
-
-              <p>
-                Bring your team, choose your challenge, build your
-                solution, and experience the intensity of creating
-                something from scratch.
-              </p>
-            </div>
-
-            <div className="about-points">
-              <div>
-                <span>01</span>
-                Build with purpose.
-              </div>
-              <div>
-                <span>02</span>
-                Solve real problems.
-              </div>
-              <div>
-                <span>03</span>
-                Present what you create.
-              </div>
-              <div>
-                <span>04</span>
-                Learn with your team.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================================
-            WHY PARTICIPATE
-        ====================================================== */}
-
-        <section className="why-section" id="why">
-          <div className="section-heading">
-            <p className="section-kicker">03 / WHY PARTICIPATE</p>
-            <h2>Don't just watch. Build.</h2>
-          </div>
-
-          <div className="hook-grid">
-            <Hook
-              number="01"
-              title="Turn ideas into reality"
-              text="Stop waiting for the perfect idea. Start building the version that can become one."
-            />
-            <Hook
-              number="02"
-              title="Build beyond the classroom"
-              text="Take your technical skills into a fast-moving challenge where execution matters."
-            />
-            <Hook
-              number="03"
-              title="Create with your people"
-              text="Find teammates, divide the problem, and make something none of you could build alone."
-            />
-            <Hook
-              number="04"
-              title="Leave with something real"
-              text="A working prototype, a story to tell, and an experience worth putting on your journey."
-            />
-          </div>
-        </section>
-
-        {/* ======================================================
-            REGISTER
-        ====================================================== */}
-
-        <section className="register-section" id="register">
-          <p className="section-kicker">READY?</p>
-          <h2>The arena awaits.</h2>
-          <p>Gather your team. Pick your challenge. Make your move.</p>
-
-          <a className="primary-btn" href="#home">
-            Review Rules &amp; Register <span>→</span>
-          </a>
-        </section>
+      {/* 📄 LAYER 2: ACTIVE PAGE VIEW */}
+      <main className="main-content-view">
+        {activePage === 1 && <Hero onNavigate={handleNavigate} />}
+        {activePage === 2 && <About onNavigate={handleNavigate} />}
+        {activePage === 3 && <Rules onNavigate={handleNavigate} />}
+        {activePage === 4 && <Register onNavigate={handleNavigate} />}
+        {activePage === 5 && <Sponsors onNavigate={handleNavigate} />}
       </main>
-    </>
-  );
-}
 
-/* ============================================================
-   TIME CARD
-============================================================ */
+      {/* 🎛️ LAYER 3: BOTTOM FLOATING HUD CONTROLLER */}
+      <aside className="bottom-hud-bar" aria-label="Page Navigation Controls">
+        <div className="hud-pagination-box">
+          <button
+            className="hud-nav-btn prev-btn"
+            disabled={activePage === 1}
+            onClick={() => handleNavigate(activePage - 1)}
+            aria-label="Previous Page"
+          >
+            ← PREV
+          </button>
 
-function TimeCard({ value, label }) {
-  return (
-    <div className="timer-card">
-      <strong>{String(value).padStart(2, "0")}</strong>
-      <span>{label}</span>
+          <div className="hud-page-indicator">
+            <span className="hud-section-name">{currentPageObj.label}</span>
+          </div>
+
+          <button
+            className="hud-nav-btn next-btn"
+            disabled={activePage === 5}
+            onClick={() => handleNavigate(activePage + 1)}
+            aria-label="Next Page"
+          >
+            NEXT →
+          </button>
+        </div>
+      </aside>
+
     </div>
-  );
+  )
 }
-
-/* ============================================================
-   HOOK CARD
-============================================================ */
-
-function Hook({ number, title, text }) {
-  return (
-    <article className="hook-card">
-      <span className="hook-number">{number}</span>
-      <h3>{title}</h3>
-      <p>{text}</p>
-    </article>
-  );
-}
-
-export default App;
