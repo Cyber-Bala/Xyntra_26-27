@@ -1,9 +1,9 @@
-import React from 'react'
 import './Sponsors.css'
+import Reveal from '../../animations/Reveal.jsx'
 import ieeeCsLogo from '../../../assets/logos/ieee_cs_logo.png'
 import recLogo from '../../../assets/logos/rec_logo.png'
 
-export default function Sponsors({ onNavigate }) {
+export default function Sponsors() {
   const prizes = [
     {
       rank: '🥇 1st Prize',
@@ -44,6 +44,12 @@ export default function Sponsors({ onNavigate }) {
     { name: 'CyberQuest Org', tier: 'Media' },
   ]
 
+  const sponsorLineup = [
+    ...titleSponsors.map((sponsor) => ({ ...sponsor, tier: sponsor.role })),
+    ...goldSponsors,
+    ...silverPartners,
+  ]
+
   return (
     <section className="sponsors-page-section" id="sponsors">
       <div className="sponsors-main-container">
@@ -70,7 +76,7 @@ export default function Sponsors({ onNavigate }) {
             <span className="pool-sparkle">✦</span>
           </div>
 
-          <div className="prizes-podium-grid">
+          <Reveal className="prizes-podium-grid" stagger>
             {prizes.map((p, idx) => (
               <div key={idx} className={`prize-podium-card ${p.glowClass}`}>
                 <div className="prize-header">
@@ -93,97 +99,34 @@ export default function Sponsors({ onNavigate }) {
                 </ul>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
 
-        {/* SPONSOR TIERS */}
+        {/* SINGLE CONTINUOUS SPONSOR MARQUEE */}
         <div className="sponsor-tiers-container">
-
-          {/* Title Sponsor */}
-          <div className="tier-group">
-            <span className="tier-category-label">👑 ORGANIZING &amp; TITLE PARTNERS</span>
-            <div className="title-sponsor-grid">
-              {titleSponsors.map((sp, i) => (
-                <div key={i} className="sponsor-box title-sp-box">
-                  <img src={sp.logo} alt={sp.name} className="sponsor-title-logo-img" />
-                  <span className="sponsor-meta-badge">{sp.role}</span>
+          <div className="sponsor-marquee-heading">
+            <span className="tier-category-label">OUR PARTNERS</span>
+            <span className="sponsor-marquee-caption">BUILDING THE NEXT FRONTIER TOGETHER</span>
+          </div>
+          <div className="sponsor-marquee" aria-label="Xyntra sponsors and partners">
+            <div className="sponsor-marquee-track">
+              {[0, 1].map((copy) => (
+                <div className="sponsor-marquee-group" key={copy} aria-hidden={copy === 1}>
+                  {sponsorLineup.map((sponsor) => (
+                    <div className="sponsor-marquee-item" key={`${copy}-${sponsor.name}`}>
+                      {sponsor.logo ? (
+                        <img src={sponsor.logo} alt="" className="sponsor-title-logo-img" />
+                      ) : (
+                        <span className="sponsor-logo-text">{sponsor.name}</span>
+                      )}
+                      <span className="sponsor-meta-badge">{sponsor.tier}</span>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Gold Sponsors */}
-          <div className="tier-group">
-            <span className="tier-category-label">⚡ GOLD SPONSORS</span>
-            <div className="gold-sponsors-grid">
-              {goldSponsors.map((sp, i) => (
-                <div key={i} className="sponsor-box gold-sp-box">
-                  <div className="sponsor-logo-text">{sp.name}</div>
-                  <span className="sponsor-meta-badge">{sp.tier}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Silver & Community */}
-          <div className="tier-group">
-            <span className="tier-category-label">🌐 COMMUNITY & TRACK PARTNERS</span>
-            <div className="silver-sponsors-grid">
-              {silverPartners.map((sp, i) => (
-                <div key={i} className="sponsor-box silver-sp-box">
-                  <div className="sponsor-logo-text">{sp.name}</div>
-                  <span className="sponsor-meta-badge">{sp.tier}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
-
-        {/* 3-COLUMN MASTER FOOTER */}
-        <footer className="wireframe-master-footer">
-
-          {/* COLUMN 1: ABOUT SOCIETY */}
-          <div className="footer-col">
-            <h3 className="footer-heading">ABOUT SOCIETY</h3>
-            <p className="footer-society-desc">
-              IEEE Computer Society Student Branch Chapter is a premier technical community dedicated to advancing
-              technology for humanity through innovation, hackathons, and technical symposia.
-            </p>
-            <div className="footer-contact-info">
-              <div>📧 <span>xyntra.hackathon@college.edu</span></div>
-              <div>📞 <span>+91 98765 43210</span></div>
-            </div>
-          </div>
-
-          {/* COLUMN 2: QUICK LINKS */}
-          <div className="footer-col">
-            <h3 className="footer-heading">QUICK LINKS</h3>
-            <div className="footer-nav-list">
-              <button onClick={() => onNavigate(1)}>Home & Countdown</button>
-              <button onClick={() => onNavigate(2)}>About & Problem Statements</button>
-              <button onClick={() => onNavigate(3)}>Rules & Guidelines</button>
-              <button onClick={() => onNavigate(4)}>Team Registration</button>
-              <button onClick={() => onNavigate(5)}>Sponsors & Rewards</button>
-            </div>
-          </div>
-
-          {/* COLUMN 3: BRANDING & SOCIALS */}
-          <div className="footer-col">
-            <h3 className="footer-heading">CONNECT & SOCIALS</h3>
-            <div className="footer-social-links">
-              <a href="#instagram" className="social-pill-btn">Instagram ↗</a>
-              <a href="#linkedin" className="social-pill-btn">LinkedIn ↗</a>
-              <a href="#x" className="social-pill-btn">X / Twitter ↗</a>
-              <a href="#github" className="social-pill-btn">GitHub ↗</a>
-            </div>
-            <div className="footer-college-stamp">
-              <span>XYNTRA NATIONAL HACKATHON 2026</span>
-              <span>© ALL RIGHTS RESERVED · CHENNAI</span>
-            </div>
-          </div>
-
-        </footer>
 
       </div>
     </section>

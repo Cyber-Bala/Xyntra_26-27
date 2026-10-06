@@ -1,5 +1,5 @@
-import React from 'react'
 import './About.css'
+import Reveal from '../../animations/Reveal.jsx'
 
 export default function About({ onNavigate }) {
   const problemStatements = [
@@ -80,7 +80,7 @@ export default function About({ onNavigate }) {
               <span className="card-header-icon">🚀</span>
             </div>
 
-            <div className="ps-cards-list">
+            <Reveal className="ps-cards-list" stagger>
               {problemStatements.map((ps) => (
                 <div key={ps.id} className="ps-item-card">
                   <div className="ps-item-top">
@@ -96,7 +96,7 @@ export default function About({ onNavigate }) {
                   </div>
                 </div>
               ))}
-            </div>
+            </Reveal>
 
             <button
               className="about-pdf-download-btn"
@@ -173,7 +173,7 @@ export default function About({ onNavigate }) {
 
         {/* PROCEED ACTION */}
         <div className="about-bottom-cta-row">
-          <button className="about-proceed-btn" onClick={() => onNavigate(3)}>
+          <button className="about-proceed-btn glow-hover" onClick={() => onNavigate(3)}>
             <span>Check Arena Rules & Guidelines</span>
             <span className="proceed-arrow">→</span>
           </button>

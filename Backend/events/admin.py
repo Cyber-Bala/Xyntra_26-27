@@ -55,7 +55,7 @@ def select_and_send_payment_links(modeladmin, request, queryset):
 
     with transaction.atomic():
         teams = list(
-            queryset.select_for_update().only(
+            queryset.select_related(None).select_for_update().only(
                 'id', 'selection_status', 'payment_token_expires_at',
             )
         )

@@ -226,7 +226,7 @@ export default function Register({ onNavigate }) {
           {emailVerification.message && <p className="form-message success">{emailVerification.message}</p>}
           {emailVerification.error && <p className="form-message error">{emailVerification.error}</p>}
           <p>This confirms the team leader’s address for the Round 1 PPT submission.</p>
-          <button className="primary-btn" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
+          <button className="primary-btn glow-hover" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
         </div>
       </section>
     );
@@ -251,7 +251,7 @@ export default function Register({ onNavigate }) {
               <div><dt>Team members</dt><dd>{details.member_count}</dd></div>
             </dl>
           </>}
-          <button className="primary-btn" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
+          <button className="primary-btn glow-hover" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
         </div>
       </section>
     );
@@ -279,7 +279,7 @@ export default function Register({ onNavigate }) {
             {!details.email_verified && <p className="form-message error">Verify the team leader’s email using the confirmation link before paying.</p>}
             {details.is_paid && <p className="form-message success">Payment is already complete for this team.</p>}
             {payment.message && <p className="form-message success">{payment.message}</p>}
-            <button className="primary-btn submit-btn" type="button" onClick={startPayment} disabled={payment.loading || payment.busy || !details.email_verified || details.is_paid}>
+            <button className="primary-btn submit-btn glow-hover" type="button" onClick={startPayment} disabled={payment.loading || payment.busy || !details.email_verified || details.is_paid}>
               {payment.busy ? "Connecting to secure checkout…" : details.is_paid ? "ROUND 02 CONFIRMED" : `PAY ₹${details.amount_inr}`}<span aria-hidden="true">→</span>
             </button>
             <p className="registration-note">Your PPT was submitted in Round 1. This step only confirms your selected team’s place with payment.</p>
@@ -328,7 +328,7 @@ export default function Register({ onNavigate }) {
           {members.length > 4 && <button className="quiet-button remove-member" type="button" onClick={() => setMembers((current) => current.slice(0, -1))}>− REMOVE LAST MEMBER</button>}
         </div>
         {status.message && <p className={`form-message ${status.type}`} role="status">{status.message}</p>}
-        <button className="primary-btn submit-btn" type="submit" disabled={submitting}>{submitting ? "Submitting…" : "Submit Round 1 Registration"}<span aria-hidden="true">→</span></button>
+        <button className="primary-btn submit-btn glow-hover" type="submit" disabled={submitting}>{submitting ? "Submitting…" : "Submit Round 1 Registration"}<span aria-hidden="true">→</span></button>
         <p className="registration-note">No payment is collected now. Selected teams will receive a separate, private payment link.</p>
       </form>
     </section>

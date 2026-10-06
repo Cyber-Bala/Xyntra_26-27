@@ -33,7 +33,7 @@ class AdminActionTests(BaseTestCase):
             select_and_send_payment_links(
                 fake_modeladmin,
                 fake_request,
-                Team.objects.filter(id=team.id),
+                Team.objects.filter(id=team.id).select_related('event'),
             )
 
         team.refresh_from_db()

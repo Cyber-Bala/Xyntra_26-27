@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './Rules.css'
+import Footer from '../../footer/Footer.jsx'
+import Reveal from '../../animations/Reveal.jsx'
 
 export default function Rules({ onNavigate }) {
   const [agreed, setAgreed] = useState(false)
@@ -58,7 +60,7 @@ export default function Rules({ onNavigate }) {
         </div>
 
         {/* 3-COLUMN RULES GRID */}
-        <div className="rules-cards-grid">
+        <Reveal className="rules-cards-grid" stagger>
           {rulesData.map((rule) => (
             <div key={rule.num} className="rule-glass-card">
               <div className="rule-card-top">
@@ -78,7 +80,7 @@ export default function Rules({ onNavigate }) {
               </ul>
             </div>
           ))}
-        </div>
+        </Reveal>
 
         {/* CONSENT & PROCEED BAR */}
         <div className="rules-cta-bar">
@@ -96,7 +98,7 @@ export default function Rules({ onNavigate }) {
           </label>
 
           <button
-            className={`rules-proceed-btn ${agreed ? 'active' : 'disabled'}`}
+            className={`rules-proceed-btn glow-hover ${agreed ? 'active' : 'disabled'}`}
             disabled={!agreed}
             onClick={() => onNavigate(4)}
           >
@@ -106,6 +108,8 @@ export default function Rules({ onNavigate }) {
             </svg>
           </button>
         </div>
+
+        <Footer onNavigate={onNavigate} />
 
       </div>
     </section>
