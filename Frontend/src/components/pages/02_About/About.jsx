@@ -48,7 +48,7 @@ export default function About({ onNavigate }) {
   return (
     <section className="about-page-section" id="about">
       <div className="about-main-container">
-        
+
         {/* TOP ORNAMENTAL BANNER */}
         <div className="about-ornament-header">
           <span className="ornament-line" />
@@ -61,15 +61,15 @@ export default function About({ onNavigate }) {
           <p className="about-kicker">MISSION & CHALLENGE TRACKS</p>
           <h1 className="about-main-heading">ABOUT THE HACKATHON</h1>
           <p className="about-lead-text">
-            Welcome to the proving ground of modern engineering. Xyntra brings together elite programmers, 
-            product designers, and AI architects for a 24-hour crucible of creation. Choose your track, 
+            Welcome to the proving ground of modern engineering. Xyntra brings together elite programmers,
+            product designers, and AI architects for a 24-hour crucible of creation. Choose your track,
             collaborate with your team, and build prototypes that redefine industry benchmarks.
           </p>
         </div>
 
         {/* MAIN 2-COLUMN GRID (Problems + Timeline) */}
         <div className="about-two-col-grid">
-          
+
           {/* LEFT: Problem Statements */}
           <div className="about-glass-card ps-card">
             <div className="card-header-bar">
@@ -158,7 +158,7 @@ export default function About({ onNavigate }) {
             <span className="card-header-icon">⚡</span>
           </div>
           <p className="forge-description-text">
-            Teams have complete architectural freedom. Build with modern full-stack frameworks, 
+            Teams have complete architectural freedom. Build with modern full-stack frameworks,
             microservices, smart contract pipelines, neural networks, or hardware interfaces tailored for rapid execution.
           </p>
           <div className="tech-chips-flex">

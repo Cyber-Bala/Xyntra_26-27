@@ -44,12 +44,12 @@
   gap: 8px;
   padding: 6px 14px;
   border-radius: 100px;
-  background: rgba(0, 4, 235, 0.15);
-  border: 1px solid rgba(0, 4, 235, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   font-family: 'Space Grotesk', monospace;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #ffffff;
+  color: #d4d4d8;
   text-transform: uppercase;
 }
 
@@ -57,8 +57,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #0004EB;
-  box-shadow: 0 0 8px #0004EB;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 .rules-main-title {
@@ -73,7 +73,7 @@
 .rules-lead-desc {
   font-size: 15px;
   line-height: 1.7;
-  color: #cbd5e1;
+  color: #a1a1aa;
   max-width: 800px;
   margin: 0;
 }
@@ -86,23 +86,23 @@
 }
 
 .rule-glass-card {
-  background: rgba(2, 4, 17, 0.8);
+  background: rgba(18, 18, 24, 0.85);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(0, 4, 235, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   padding: 26px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 4, 235, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
   transition: all 0.25s ease;
 }
 
 .rule-glass-card:hover {
   transform: translateY(-3px);
-  border-color: #0004EB;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 4, 235, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
 }
 
 .rule-card-top {
@@ -115,18 +115,18 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 12px;
   font-weight: 800;
-  color: #ffffff;
-  background: #0004EB;
+  color: #000000;
+  background: #ffffff;
   padding: 3px 10px;
   border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 4, 235, 0.6);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .rule-badge-pill {
   font-family: 'Space Grotesk', monospace;
   font-size: 10px;
   letter-spacing: 0.14em;
-  color: #94a3b8;
+  color: #a1a1aa;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -159,10 +159,11 @@
 }
 
 .point-bullet {
-  color: #0004EB;
+  color: #ffffff;
   font-size: 11px;
   margin-top: 3px;
   flex-shrink: 0;
+  opacity: 0.7;
 }
 
 /* CONSENT & PROCEED BAR */
@@ -173,12 +174,12 @@
   flex-wrap: wrap;
   gap: 18px;
   padding: 20px 26px;
-  background: rgba(2, 4, 17, 0.85);
+  background: rgba(18, 18, 24, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 4, 235, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .consent-checkbox-label {
@@ -209,9 +210,9 @@
 }
 
 .consent-input:checked~.custom-checkmark {
-  background: #0004EB;
-  border-color: #0004EB;
-  box-shadow: 0 0 10px rgba(0, 4, 235, 0.6);
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .consent-input:checked~.custom-checkmark::after {
@@ -221,7 +222,7 @@
   top: 2px;
   width: 5px;
   height: 10px;
-  border: solid #ffffff;
+  border: solid #000000;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -237,26 +238,28 @@
   align-items: center;
   gap: 10px;
   padding: 14px 30px;
-  background: #0004EB;
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
   font-family: 'Outfit', sans-serif;
   font-size: 14px;
   font-weight: 800;
   border: none;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 0 25px rgba(0, 4, 235, 0.5);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.18);
   transition: all 0.25s ease;
 }
 
 .rules-proceed-btn.active:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(0, 4, 235, 0.8);
-  background: #0003c2;
+  box-shadow: 0 6px 28px rgba(255, 255, 255, 0.3);
+  background: #e4e4e7;
 }
 
 .rules-proceed-btn.disabled {
-  opacity: 0.45;
+  opacity: 0.35;
   cursor: not-allowed;
-  filter: grayscale(0.6);
+  background: rgba(255, 255, 255, 0.1);
+  color: #71717a;
+  box-shadow: none;
 }

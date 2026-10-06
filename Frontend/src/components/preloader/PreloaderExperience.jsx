@@ -17,7 +17,7 @@ export default function PreloaderExperience({ onComplete }) {
         current = 100
         setProgress(100)
         clearInterval(interval)
-        
+
         // Transition to Stage 2: Kinetic Intro Screen
         setTimeout(() => {
           setStage('intro')
@@ -39,7 +39,7 @@ export default function PreloaderExperience({ onComplete }) {
 
   return (
     <div className={`noomo-preloader-screen ${isWarping ? 'warp-exit' : ''}`} aria-label="Loading Experience">
-      
+
       {/* TOP HEADER CONTROLS */}
       <div className="noomo-preloader-top">
         <div className="preloader-brand-label">
@@ -87,7 +87,7 @@ export default function PreloaderExperience({ onComplete }) {
       {/* ================= STAGE 2: KINETIC HEADLINE INTRO (PHOTO 2) ================= */}
       {stage === 'intro' && (
         <div className="noomo-intro-stage">
-          
+
           <div className="kinetic-intro-content">
             <h1 className="kinetic-intro-title">
               <span>STEP INTO</span>{' '}

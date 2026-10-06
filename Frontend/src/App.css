@@ -4,8 +4,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #020411;
+  background-color: #08080c;
   color: #ffffff;
+  overflow-x: hidden;
 }
 
 /* MAIN CONTENT CONTAINER */
@@ -13,93 +14,20 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding-top: 105px;
-  /* offset for fixed navbar */
-  padding-bottom: 95px;
-  /* offset for bottom HUD */
-  min-height: calc(100vh - 170px);
+  padding-top: 40px;
+  padding-bottom: 20px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-/* BOTTOM HUD PAGINATION CONTROLS (HEX #0004EB & #020411) */
-.bottom-hud-bar {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 90;
-  pointer-events: auto;
-}
-
-.hud-pagination-box {
-  display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
-  background: rgba(2, 4, 17, 0.9);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid #0004EB;
-  border-radius: 100px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 4, 235, 0.35);
-}
-
-.hud-nav-btn {
-  padding: 8px 18px;
-  background: rgba(0, 4, 235, 0.15);
-  border: 1px solid rgba(0, 4, 235, 0.5);
-  border-radius: 100px;
-  color: #ffffff;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.hud-nav-btn:hover:not(:disabled) {
-  background: #0004EB;
-  border-color: #0004EB;
-  color: #ffffff;
-  box-shadow: 0 0 16px rgba(0, 4, 235, 0.8);
-  transform: translateY(-1px);
-}
-
-.hud-nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  border-color: rgba(255, 255, 255, 0.1);
-  background: transparent;
-}
-
-.hud-page-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 10px;
-}
-
-.hud-section-name {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #ffffff;
 }
 
 @media (max-width: 640px) {
   .main-content-view {
-    padding-top: 70px;
-    padding-bottom: 80px;
-  }
-
-  .bottom-hud-bar {
-    bottom: 12px;
+    padding-top: 50px;
+    padding-bottom: 30px;
   }
 }

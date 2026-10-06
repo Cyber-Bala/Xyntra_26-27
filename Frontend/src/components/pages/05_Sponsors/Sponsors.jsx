@@ -47,7 +47,7 @@ export default function Sponsors({ onNavigate }) {
   return (
     <section className="sponsors-page-section" id="sponsors">
       <div className="sponsors-main-container">
-        
+
         {/* HEADER BLOCK */}
         <div className="sponsors-header-block">
           <div className="sponsors-kicker-tag">
@@ -56,7 +56,7 @@ export default function Sponsors({ onNavigate }) {
           </div>
           <h1 className="sponsors-main-title">PRIZE POOL & PARTNERS</h1>
           <p className="sponsors-lead-desc">
-            We celebrate every builder who dares to push boundaries. Top prototypes receive direct cash grants, 
+            We celebrate every builder who dares to push boundaries. Top prototypes receive direct cash grants,
             incubation backing, and recognition across our global partner network.
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function Sponsors({ onNavigate }) {
 
         {/* SPONSOR TIERS */}
         <div className="sponsor-tiers-container">
-          
+
           {/* Title Sponsor */}
           <div className="tier-group">
             <span className="tier-category-label">👑 ORGANIZING &amp; TITLE PARTNERS</span>
@@ -142,12 +142,12 @@ export default function Sponsors({ onNavigate }) {
 
         {/* 3-COLUMN MASTER FOOTER */}
         <footer className="wireframe-master-footer">
-          
+
           {/* COLUMN 1: ABOUT SOCIETY */}
           <div className="footer-col">
             <h3 className="footer-heading">ABOUT SOCIETY</h3>
             <p className="footer-society-desc">
-              IEEE Computer Society Student Branch Chapter is a premier technical community dedicated to advancing 
+              IEEE Computer Society Student Branch Chapter is a premier technical community dedicated to advancing
               technology for humanity through innovation, hackathons, and technical symposia.
             </p>
             <div className="footer-contact-info">

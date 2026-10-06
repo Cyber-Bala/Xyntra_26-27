@@ -43,7 +43,7 @@ export default function Rules({ onNavigate }) {
   return (
     <section className="rules-page-section" id="rules">
       <div className="rules-main-container">
-        
+
         {/* HEADER BLOCK */}
         <div className="rules-header-block">
           <div className="rules-kicker-tag">
@@ -52,7 +52,7 @@ export default function Rules({ onNavigate }) {
           </div>
           <h1 className="rules-main-title">RULES & GUIDELINES</h1>
           <p className="rules-lead-desc">
-            To ensure absolute fairness, transparency, and spirited competition, every warrior entering 
+            To ensure absolute fairness, transparency, and spirited competition, every warrior entering
             the Xyntra Arena must adhere to the following code of conduct and submission criteria.
           </p>
         </div>
