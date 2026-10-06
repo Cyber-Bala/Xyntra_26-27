@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import SpaceBackground from './components/background/SpaceBackground.jsx'
+import SnowBackground from './components/background/SnowBackground.jsx'
 import Navbar from './components/navbar/Navbar.jsx'
 import PreloaderExperience from './components/preloader/PreloaderExperience.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
@@ -51,25 +51,18 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activePage, introFinished])
-
-  const currentPageObj = PAGES.find((p) => p.id === activePage) || PAGES[0]
-
-  /* ============================================================
-     RENDER
-  ============================================================ */
-
   return (
     <div className="app-root-wrapper">
-      
-      {/* 🚀 CYBER PRELOADER / OPENING INTRO (IDEA 1: CYBER WARP GATE) */}
+
+      {/* 🚀 CYBER PRELOADER / OPENING INTRO */}
       {!introFinished && (
         <PreloaderExperience onComplete={handleIntroComplete} />
       )}
 
-      {/* 🪐 LAYER 0: 3D AMBIENT SPACE BACKGROUND */}
-      <SpaceBackground activePage={activePage} isWarping={isWarping} />
+      {/* ❄️ LAYER 0: PIXEL SNOW BACKGROUND */}
+      <SnowBackground isWarping={isWarping} />
 
-      {/* 🧭 LAYER 1: GLOBAL TOP NAVIGATION */}
+      {/* 🧭 LAYER 1: MINIMAL TOP NAVIGATION */}
       <Navbar
         activePage={activePage}
         onNavigate={handleNavigate}
@@ -84,33 +77,6 @@ export default function App() {
         {activePage === 4 && <Register onNavigate={handleNavigate} />}
         {activePage === 5 && <Sponsors onNavigate={handleNavigate} />}
       </main>
-
-      {/* 🎛️ LAYER 3: BOTTOM FLOATING HUD CONTROLLER */}
-      <aside className="bottom-hud-bar" aria-label="Page Navigation Controls">
-        <div className="hud-pagination-box">
-          <button
-            className="hud-nav-btn prev-btn"
-            disabled={activePage === 1}
-            onClick={() => handleNavigate(activePage - 1)}
-            aria-label="Previous Page"
-          >
-            ← PREV
-          </button>
-
-          <div className="hud-page-indicator">
-            <span className="hud-section-name">{currentPageObj.label}</span>
-          </div>
-
-          <button
-            className="hud-nav-btn next-btn"
-            disabled={activePage === 5}
-            onClick={() => handleNavigate(activePage + 1)}
-            aria-label="Next Page"
-          >
-            NEXT →
-          </button>
-        </div>
-      </aside>
 
     </div>
   )

@@ -62,7 +62,7 @@ export default function Register({ onNavigate }) {
   return (
     <section className="register-page-section" id="register">
       <div className="register-main-container">
-        
+
         {/* HEADER BLOCK */}
         <div className="register-header-block">
           <div className="register-kicker-tag">
@@ -71,7 +71,7 @@ export default function Register({ onNavigate }) {
           </div>
           <h1 className="register-main-title">REGISTER YOUR SQUAD</h1>
           <p className="register-lead-desc">
-            Secure your team's berth in the 2026 arena. Assemble your builders, declare your track, 
+            Secure your team's berth in the 2026 arena. Assemble your builders, declare your track,
             and complete registration via the secure Razorpay checkout gateway.
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function Register({ onNavigate }) {
 
         {/* REGISTRATION FORM CARD */}
         <form className="register-glass-form" onSubmit={handleRazorpayPayment}>
-          
+
           {/* SECTION A: TEAM & LEADER DETAILS */}
           <div className="form-section-group">
             <h2 className="form-group-title">

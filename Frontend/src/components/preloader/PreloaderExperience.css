@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background-color: #020411;
+  background-color: #08080c;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,7 +35,7 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #94a3b8;
+  color: #a1a1aa;
   text-transform: uppercase;
 }
 
@@ -43,12 +43,12 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #0004EB;
-  box-shadow: 0 0 10px #0004EB;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .preloader-skip-btn {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
   padding: 6px 14px;
@@ -62,9 +62,9 @@
 }
 
 .preloader-skip-btn:hover {
-  background: rgba(0, 4, 235, 0.25);
-  border-color: #0004EB;
-  color: #ffffff;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
 }
 
 /* ================= STAGE 1: LOADING STAGE STYLES ================= */
@@ -92,14 +92,14 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 12px;
   letter-spacing: 0.25em;
-  color: #64748b;
+  color: #71717a;
   text-transform: uppercase;
   animation: hint-breathe 2s infinite ease-in-out;
 }
 
 @keyframes hint-breathe {
   0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; color: #0004EB; }
+  50% { opacity: 0.8; color: #ffffff; }
 }
 
 .noomo-bottom-loader-block {
@@ -136,7 +136,7 @@
   width: 46px;
   height: 46px;
   background: rgba(255, 255, 255, 0.04);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -151,7 +151,7 @@
   max-width: 540px;
   height: 46px;
   background: rgba(255, 255, 255, 0.04);
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.18);
   border-radius: 100px;
   overflow: hidden;
   position: relative;
@@ -160,9 +160,9 @@
 
 .pill-capsule-fill {
   height: 100%;
-  background: #0004EB;
+  background: #ffffff;
   border-radius: 100px;
-  box-shadow: 0 0 20px #0004EB;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   transition: width 0.1s linear;
 }
 
@@ -170,7 +170,7 @@
   height: 46px;
   padding: 0 16px;
   background: rgba(255, 255, 255, 0.04);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -228,13 +228,13 @@
 }
 
 .noomo-blue-pill {
-  background-color: #0004EB;
-  color: #ffffff !important;
+  background-color: #ffffff;
+  color: #000000 !important;
   font-weight: 900;
   padding: 4px 22px;
   border-radius: 100px;
   margin: 0 6px;
-  box-shadow: 0 0 25px rgba(0, 4, 235, 0.6);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
@@ -262,8 +262,8 @@
   align-items: center;
   gap: 14px;
   padding: 16px 36px;
-  background-color: #0004EB;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
   font-weight: 900;
@@ -272,29 +272,31 @@
   border: none;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 0 35px rgba(0, 4, 235, 0.6);
+  box-shadow: 0 4px 25px rgba(255, 255, 255, 0.25);
   animation: pulse-button 2s infinite ease-in-out;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes pulse-button {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 4, 235, 0.6); }
-  50% { transform: scale(1.04); box-shadow: 0 0 50px rgba(0, 4, 235, 0.9); }
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25); }
+  50% { transform: scale(1.03); box-shadow: 0 6px 32px rgba(255, 255, 255, 0.4); }
 }
 
 .noomo-get-started-btn:hover {
-  transform: translateY(-2px) scale(1.06);
-  background-color: #0003c2;
+  transform: translateY(-2px) scale(1.05);
+  background-color: #e4e4e7;
+  color: #000000;
 }
 
 .btn-arrow-bubble {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #000000;
 }
 
 /* BOTTOM BAR */
@@ -306,7 +308,7 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 10px;
   letter-spacing: 0.14em;
-  color: #64748b;
+  color: #71717a;
   text-transform: uppercase;
   z-index: 10;
 }

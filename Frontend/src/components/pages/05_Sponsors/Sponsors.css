@@ -44,17 +44,17 @@
   gap: 8px;
   padding: 6px 14px;
   border-radius: 100px;
-  background: rgba(0, 4, 235, 0.15);
-  border: 1px solid rgba(0, 4, 235, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   font-family: 'Space Grotesk', monospace;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #ffffff;
+  color: #d4d4d8;
   text-transform: uppercase;
 }
 
 .kicker-gem {
-  color: #0004EB;
+  color: #ffffff;
 }
 
 .sponsors-main-title {
@@ -69,7 +69,7 @@
 .sponsors-lead-desc {
   font-size: 15px;
   line-height: 1.7;
-  color: #cbd5e1;
+  color: #a1a1aa;
   max-width: 800px;
   margin: 0;
 }
@@ -87,13 +87,14 @@
   justify-content: center;
   gap: 14px;
   padding: 16px 24px;
-  background: linear-gradient(90deg, rgba(0, 4, 235, 0.08), rgba(0, 4, 235, 0.25), rgba(0, 4, 235, 0.08));
-  border: 1px solid rgba(0, 4, 235, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 14px;
+  backdrop-filter: blur(16px);
 }
 
 .pool-sparkle {
-  color: #0004EB;
+  color: #ffffff;
   font-size: 18px;
 }
 
@@ -101,7 +102,7 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 12px;
   letter-spacing: 0.18em;
-  color: #ffffff;
+  color: #a1a1aa;
   font-weight: 700;
 }
 
@@ -110,7 +111,7 @@
   font-size: clamp(24px, 4vw, 36px);
   font-weight: 900;
   color: #ffffff;
-  text-shadow: 0 0 20px rgba(0, 4, 235, 0.6);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .prizes-podium-grid {
@@ -120,7 +121,7 @@
 }
 
 .prize-podium-card {
-  background: rgba(2, 4, 17, 0.85);
+  background: rgba(18, 18, 24, 0.85);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 16px;
@@ -129,26 +130,26 @@
   flex-direction: column;
   gap: 16px;
   transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
 .prize-podium-card.gold-card {
-  border: 1px solid #0004EB;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 4, 235, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .prize-podium-card.silver-card {
-  border: 1px solid rgba(0, 4, 235, 0.35);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 4, 235, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .prize-podium-card.bronze-card {
-  border: 1px solid rgba(0, 4, 235, 0.25);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 4, 235, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .prize-podium-card:hover {
   transform: translateY(-4px);
-  border-color: #0004EB;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .prize-header {
@@ -169,10 +170,10 @@
   font-size: 10px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 4px;
-  background: #0004EB;
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
 }
 
 .prize-cash-box {
@@ -193,7 +194,7 @@
 
 .prize-amt-sub {
   font-size: 11px;
-  color: #94a3b8;
+  color: #a1a1aa;
 }
 
 .prize-perks-list {
@@ -215,8 +216,9 @@
 }
 
 .perk-bullet {
-  color: #0004EB;
+  color: #ffffff;
   font-weight: bold;
+  opacity: 0.7;
 }
 
 /* SPONSOR TIERS */
@@ -236,7 +238,7 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #94a3b8;
+  color: #a1a1aa;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -263,9 +265,9 @@
 }
 
 .sponsor-box {
-  background: rgba(2, 4, 17, 0.7);
+  background: rgba(18, 18, 24, 0.7);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(0, 4, 235, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -277,15 +279,15 @@
 }
 
 .sponsor-box:hover {
-  background: rgba(0, 4, 235, 0.1);
-  border-color: #0004EB;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
 }
 
 .title-sp-box {
   padding: 26px 20px;
-  border-color: rgba(0, 4, 235, 0.45);
-  background: rgba(2, 4, 17, 0.85);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(18, 18, 24, 0.85);
 }
 
 .sponsor-title-logo-img {
@@ -306,7 +308,7 @@
 
 .sponsor-meta-badge {
   font-size: 11px;
-  color: #94a3b8;
+  color: #a1a1aa;
   letter-spacing: 0.05em;
 }
 
@@ -341,7 +343,7 @@
 .footer-society-desc {
   font-size: 13px;
   line-height: 1.6;
-  color: #94a3b8;
+  color: #a1a1aa;
   margin: 0;
 }
 
@@ -367,7 +369,7 @@
   background: transparent;
   border: none;
   padding: 0;
-  color: #94a3b8;
+  color: #a1a1aa;
   font-size: 13px;
   cursor: pointer;
   text-align: left;
@@ -387,8 +389,8 @@
 
 .social-pill-btn {
   padding: 6px 14px;
-  background: rgba(0, 4, 235, 0.15);
-  border: 1px solid rgba(0, 4, 235, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
   color: #cbd5e1;
   font-size: 12px;
@@ -398,9 +400,9 @@
 }
 
 .social-pill-btn:hover {
-  color: #ffffff;
-  background: #0004EB;
-  border-color: #0004EB;
+  color: #000000;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 
 .footer-college-stamp {
@@ -410,6 +412,6 @@
   gap: 4px;
   font-family: 'Space Grotesk', monospace;
   font-size: 10px;
-  color: #64748b;
+  color: #71717a;
   letter-spacing: 0.1em;
 }

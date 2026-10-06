@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-midnight: #020411;
-  --bg-dark: #020411;
-  --bg-card: rgba(2, 4, 17, 0.85);
+  --bg-midnight: #08080c;
+  --bg-dark: #08080c;
+  --bg-card: rgba(18, 18, 24, 0.85);
 
-  --brand-blue: #0004EB;
-  --brand-blue-hover: #0003c2;
-  --brand-blue-glow: rgba(0, 4, 235, 0.45);
-  --border-blue: rgba(0, 4, 235, 0.35);
+  --brand-blue: #3b82f6;
+  --brand-blue-hover: #2563eb;
+  --brand-blue-glow: rgba(255, 255, 255, 0.15);
+  --border-blue: rgba(255, 255, 255, 0.12);
   --border-subtle: rgba(255, 255, 255, 0.08);
 
   --text-main: #ffffff;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-muted: #a1a1aa;
+  --text-dim: #71717a;
 
   --font-heading: 'Outfit', sans-serif;
   --font-mono: 'Space Grotesk', monospace;
@@ -61,20 +61,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #020411;
+  background: #08080c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 4, 235, 0.45);
+  background: rgba(255, 255, 255, 0.16);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0004EB;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Global Selection styling */
 ::selection {
-  background: rgba(0, 4, 235, 0.5);
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
