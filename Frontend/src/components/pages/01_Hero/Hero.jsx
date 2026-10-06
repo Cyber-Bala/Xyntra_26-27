@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './Hero.css'
-import recLogo from '../../../assets/logos/rec_logo.png'
-import ieeeCsLogo from '../../../assets/logos/ieee_cs_logo.png'
 
 const EVENT_DATE = new Date('2026-10-24T09:00:00+05:30').getTime()
 
@@ -29,85 +27,115 @@ export default function Hero({ onNavigate }) {
   }, [])
 
   return (
-    <section className="hackathon-home-section" id="hero">
-      <div className="hackathon-home-container">
+    <section className="wireframe-hero-section" id="hero">
+      <div className="wireframe-hero-container">
 
-        {/* TOP KICKER BADGE */}
-        <div className="home-kicker-pill">
-          <span className="kicker-spark">✦</span>
-          <span>THE FUTURE IS BUILT FROM WHAT WE UNSEAT</span>
-        </div>
-
-        {/* MAIN HACKATHON BRANDING */}
-        <div className="home-main-title-block">
-          <h1 className="home-title-text">
-            XYNTRA
-            <span className="home-year-badge">2026</span>
-          </h1>
-
-          <p className="home-subtitle-text">
-            NATIONAL LEVEL 24-HOUR HACKATHON <span>·</span> A NEW ERA IN MOTION
+        {/* ===== TOP / CENTER BRAND REGION ===== */}
+        <div className="hero-top-brand-station">
+          <p className="hero-kicker-text">
+            NATIONAL LEVEL 24-HOUR HACKATHON
           </p>
 
-          <p className="home-hook-quote">
-            "Dream. Build. Disrupt. Step into the arena where bold ideas meet code,
-            creativity meets execution, and builders turn problems into possibilities."
+          <div className="hero-brand-title-wrap">
+            <h1 className="hero-outline-title">
+              XYNTRA
+              <span className="hero-outline-badge">
+                <svg className="badge-svg-border" viewBox="0 0 60 48" preserveAspectRatio="none">
+                  <polygon
+                    points="8,1 52,1 59,8 59,40 52,47 8,47 1,40 1,8"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="1.6"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+                <span className="badge-num">26</span>
+              </span>
+            </h1>
+          </div>
+
+          <p className="hero-hook-tagline">
+            DREAM. BUILD. DISRUPT.
           </p>
         </div>
 
-        {/* METADATA PILLS */}
-        <div className="home-meta-strip">
-          <span className="meta-pill">⏱ 24 HOURS SPRINT</span>
-          <span className="meta-dot">•</span>
-          <span className="meta-pill">📍 CHENNAI CAMPUS</span>
-          <span className="meta-dot">•</span>
-          <span className="meta-pill">📅 OCT 24 – 25, 2026</span>
-          <span className="meta-dot">•</span>
-          <span className="meta-pill">🏆 ₹1,00,000+ REWARDS</span>
-        </div>
+        {/* ===== BOTTOM STATION (COUNTDOWN & BUTTONS) ===== */}
+        <div className="hero-bottom-action-station">
+          {/* CLEAN WHITE TEXT: REGISTRATION CLOSES IN */}
+          <p className="hero-countdown-label">
+            REGISTRATION CLOSES IN
+          </p>
 
-        {/* LIVE COUNTDOWN STATION */}
-        <div className="home-countdown-station">
-          <div className="countdown-header-bar">
-            <span className="countdown-pulse-dot" />
-            <span className="countdown-title">Hacking Begins In</span>
+          {/* BIG TECH CHAMFERED COUNTDOWN TIMER */}
+          <div className="hero-countdown-strip">
+            <TechCountdownCard
+              value={String(timeLeft.days).padStart(2, '0')}
+              unit="DAYS"
+            />
+
+            <span className="tech-colon-separator">:</span>
+
+            <TechCountdownCard
+              value={String(timeLeft.hours).padStart(2, '0')}
+              unit="HOURS"
+            />
+
+            <span className="tech-colon-separator">:</span>
+
+            <TechCountdownCard
+              value={String(timeLeft.minutes).padStart(2, '0')}
+              unit="MINS"
+            />
+
+            <span className="tech-colon-separator">:</span>
+
+            <TechCountdownCard
+              value={String(timeLeft.seconds).padStart(2, '0')}
+              unit="SECS"
+            />
           </div>
 
-          <div className="countdown-grid-box">
-            <TimeCard value={timeLeft.days} unit="Days" />
-            <span className="time-colon">:</span>
-            <TimeCard value={timeLeft.hours} unit="Hours" />
-            <span className="time-colon">:</span>
-            <TimeCard value={timeLeft.minutes} unit="Mins" />
-            <span className="time-colon">:</span>
-            <TimeCard value={timeLeft.seconds} unit="Secs" />
-          </div>
-        </div>
+          {/* TECH OUTLINE ACTION BUTTONS */}
+          <div className="hero-action-buttons-row">
+            <button
+              className="tech-chamfer-btn"
+              onClick={() => onNavigate(3)}
+              aria-label="Review Rules & Register"
+            >
+              <svg className="tech-btn-svg" viewBox="0 0 320 54" preserveAspectRatio="none">
+                <polygon
+                  points="14,1 306,1 319,14 319,40 306,53 14,53 1,40 1,14"
+                  fill="rgba(8, 8, 12, 0.6)"
+                  stroke="#ffffff"
+                  strokeWidth="1.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              <span className="btn-content-inner">
+                <span className="btn-label-text">REVIEW RULES &amp; REGISTER</span>
+                <span className="btn-arrow-icon">→</span>
+              </span>
+            </button>
 
-        {/* PRIMARY ACTION BUTTONS */}
-        <div className="home-actions-group">
-          <button className="home-primary-btn" onClick={() => onNavigate(3)}>
-            <span>Review Rules &amp; Register</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <button className="home-secondary-btn" onClick={() => onNavigate(2)}>
-            <span>Explore Problem Statements ↓</span>
-          </button>
-        </div>
-
-        {/* INDUSTRIAL & INSTITUTIONAL PARTNER STRIP */}
-        <div className="home-sponsors-strip">
-          <span className="sponsors-caption">ORGANIZED &amp; POWERED BY</span>
-          <div className="sponsors-badges-row">
-            <div className="sponsor-box-item logo-box-item">
-              <img src={recLogo} alt="Rajalakshmi Engineering College" className="partner-logo-img" />
-            </div>
-            <div className="sponsor-box-item logo-box-item">
-              <img src={ieeeCsLogo} alt="IEEE Computer Society" className="partner-logo-img" />
-            </div>
+            <button
+              className="tech-chamfer-btn"
+              onClick={() => onNavigate(2)}
+              aria-label="Explore Problem Statements"
+            >
+              <svg className="tech-btn-svg" viewBox="0 0 320 54" preserveAspectRatio="none">
+                <polygon
+                  points="14,1 306,1 319,14 319,40 306,53 14,53 1,40 1,14"
+                  fill="rgba(8, 8, 12, 0.6)"
+                  stroke="#ffffff"
+                  strokeWidth="1.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              <span className="btn-content-inner">
+                <span className="btn-label-text">EXPLORE PROBLEM STATEMENTS</span>
+                <span className="btn-arrow-icon">→</span>
+              </span>
+            </button>
           </div>
         </div>
 
@@ -116,11 +144,22 @@ export default function Hero({ onNavigate }) {
   )
 }
 
-function TimeCard({ value, unit }) {
+function TechCountdownCard({ value, unit }) {
   return (
-    <div className="time-card-item">
-      <span className="time-num">{String(value).padStart(2, '0')}</span>
-      <span className="time-unit">{unit}</span>
+    <div className="tech-countdown-box">
+      <svg className="tech-card-svg" viewBox="0 0 150 130" preserveAspectRatio="none">
+        <polygon
+          points="18,1 132,1 149,18 149,112 132,129 18,129 1,112 1,18"
+          fill="rgba(8, 8, 12, 0.5)"
+          stroke="#ffffff"
+          strokeWidth="1.5"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <div className="tech-card-content">
+        <span className="tech-digit-num">{value}</span>
+        <span className="tech-unit-label">{unit}</span>
+      </div>
     </div>
   )
 }

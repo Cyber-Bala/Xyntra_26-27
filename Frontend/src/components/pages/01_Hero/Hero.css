@@ -1,375 +1,406 @@
-.hackathon-home-section {
-  min-height: calc(100vh - 140px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 20px 50px;
-  position: relative;
-  z-index: 10;
-}
+/* ==========================================================================
+   XYNTRA 26 — WIREFRAME OUTLINE HERO SECTION
+   Big XYNTRA, "REGISTRATION CLOSES IN", Big Countdown, and Bottom Buttons
+   ========================================================================== */
 
-.hackathon-home-container {
-  max-width: 960px;
+.wireframe-hero-section {
+  min-height: calc(100vh - 60px);
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  text-align: center;
-  gap: 22px;
-  animation: home-fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 30px 24px 40px;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
 }
 
-@keyframes home-fade-in {
+.wireframe-hero-container {
+  max-width: 1440px;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  animation: hero-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes hero-appear {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* TOP KICKER */
-.home-kicker-pill {
+/* ================= TOP / CENTER BRAND REGION ================= */
+.hero-top-brand-station {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: clamp(24px, 5vh, 52px);
+}
+
+.hero-kicker-text {
+  font-family: 'Space Grotesk', 'Inter', monospace;
+  font-size: clamp(12px, 1.4vw, 16px);
+  font-weight: 700;
+  letter-spacing: clamp(0.25em, 0.5vw, 0.42em);
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 clamp(10px, 1.6vh, 18px) 0;
+  opacity: 0.95;
+}
+
+/* WIDE & LARGE OUTLINE TITLE WITH 26 BADGE */
+.hero-brand-title-wrap {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.hero-outline-title {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(88px, 15vw, 220px);
+  font-weight: 900;
+  letter-spacing: clamp(0.08em, 1.8vw, 0.22em);
+  line-height: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: clamp(2.4px, 0.32vw, 4.5px) #ffffff;
+  text-stroke: clamp(2.4px, 0.32vw, 4.5px) #ffffff;
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.18));
+  user-select: none;
+  width: 100%;
+  text-align: center;
+}
+
+/* OUTLINE 26 BADGE TOP-RIGHT */
+.hero-outline-badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 18px;
-  border-radius: 100px;
-  background: rgba(0, 4, 235, 0.15);
-  border: 1px solid rgba(0, 4, 235, 0.4);
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #ffffff;
-  text-transform: uppercase;
+  justify-content: center;
+  width: clamp(48px, 6.8vw, 92px);
+  height: clamp(36px, 5.2vw, 72px);
+  margin-left: clamp(8px, 1.2vw, 18px);
+  transform: translateY(-8%);
+  flex-shrink: 0;
 }
 
-.kicker-spark {
-  color: #0004EB;
+.badge-svg-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-/* MAIN TITLE BLOCK */
-.home-main-title-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.home-title-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(52px, 9.5vw, 98px);
+.badge-num {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(26px, 4vw, 52px);
   font-weight: 900;
-  letter-spacing: 0.02em;
-  line-height: 0.95;
-  color: #ffffff;
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 14px;
-  text-shadow: 0 0 40px rgba(0, 4, 235, 0.6);
-}
-
-.home-year-badge {
-  font-size: 0.42em;
-  font-weight: 800;
-  background: #0004EB;
-  color: #ffffff;
-  padding: 3px 12px;
-  border-radius: 8px;
-  letter-spacing: 0.05em;
-  box-shadow: 0 0 15px rgba(0, 4, 235, 0.6);
-}
-
-.home-subtitle-text {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #94a3b8;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.home-subtitle-text span {
-  color: #0004EB;
-}
-
-.home-hook-quote {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #cbd5e1;
-  max-width: 680px;
-  margin: 4px 0 0;
-}
-
-/* METADATA STRIP */
-.home-meta-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 8px 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #cbd5e1;
-  letter-spacing: 0.06em;
-}
-
-.meta-dot {
-  color: rgba(255, 255, 255, 0.2);
-}
-
-/* COUNTDOWN STATION */
-.home-countdown-station {
-  margin: 6px 0;
-  padding: 18px 30px;
-  background: rgba(2, 4, 17, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 4, 235, 0.35);
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 4, 235, 0.15);
-}
-
-.countdown-header-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.countdown-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #0004EB;
-  box-shadow: 0 0 10px #0004EB;
-  animation: pulse-glow 2s infinite ease-in-out;
-}
-
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(0.9);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-.countdown-title {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #94a3b8;
-  font-weight: 700;
-}
-
-.countdown-grid-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.time-card-item {
-  width: 72px;
-  height: 72px;
-  background: rgba(2, 4, 17, 0.95);
-  border: 1px solid rgba(0, 4, 235, 0.4);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 0 15px rgba(0, 4, 235, 0.15);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.time-card-item:hover {
-  transform: translateY(-2px);
-  border-color: #0004EB;
-}
-
-.time-num {
-  font-family: 'Outfit', sans-serif;
-  font-size: 26px;
-  font-weight: 800;
-  color: #ffffff;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: clamp(1.6px, 0.22vw, 2.8px) #ffffff;
+  text-stroke: clamp(1.6px, 0.22vw, 2.8px) #ffffff;
   line-height: 1;
+  position: relative;
+  z-index: 2;
 }
 
-.time-unit {
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #94a3b8;
+.hero-hook-tagline {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(13px, 1.5vw, 19px);
   font-weight: 700;
-  margin-top: 4px;
-}
-
-.time-colon {
-  font-size: 20px;
-  font-weight: bold;
-  color: #0004EB;
-  opacity: 0.7;
-}
-
-/* ACTIONS */
-.home-actions-group {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-.home-primary-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 34px;
-  background: #0004EB;
+  letter-spacing: clamp(0.3em, 0.6vw, 0.5em);
   color: #ffffff;
-  font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0, 4, 235, 0.5);
-  transition: all 0.25s ease;
+  text-transform: uppercase;
+  margin: clamp(12px, 2vh, 20px) 0 0 0;
+  opacity: 0.95;
 }
 
-.home-primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(0, 4, 235, 0.85);
-  background: #0003c2;
-}
-
-.home-secondary-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 15px 26px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 100px;
-  color: #ffffff;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.home-secondary-btn:hover {
-  background: rgba(0, 4, 235, 0.2);
-  border-color: #0004EB;
-}
-
-/* SPONSOR STRIP */
-.home-sponsors-strip {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+/* ================= BOTTOM ACTION STATION (BIG TIMER & BUTTONS) ================= */
+.hero-bottom-action-station {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 8px;
+}
+
+/* CLEAN WHITE TEXT: REGISTRATION CLOSES IN */
+.hero-countdown-label {
+  font-family: 'Space Grotesk', 'Inter', monospace;
+  font-size: clamp(12px, 1.3vw, 15px);
+  font-weight: 700;
+  letter-spacing: clamp(0.25em, 0.5vw, 0.4em);
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 clamp(14px, 2vh, 22px) 0;
+  text-align: center;
+  opacity: 0.95;
+}
+
+/* BIG TECH CHAMFERED COUNTDOWN TIMER */
+.hero-countdown-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.2vw, 28px);
+  flex-wrap: nowrap;
+  margin-bottom: clamp(18px, 3vh, 32px);
+}
+
+.tech-countdown-box {
+  position: relative;
+  width: clamp(118px, 13vw, 175px);
+  height: clamp(98px, 11vw, 142px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.tech-countdown-box:hover {
+  transform: translateY(-3px);
+  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.35));
+}
+
+.tech-card-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tech-card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.tech-digit-num {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(42px, 4.8vw, 64px);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: clamp(1.6px, 0.2vw, 2.4px) #ffffff;
+  text-stroke: clamp(1.6px, 0.2vw, 2.4px) #ffffff;
+  letter-spacing: 0.04em;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.18));
+}
+
+.tech-unit-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: #ffffff;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.tech-colon-separator {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-weight: 900;
+  color: #ffffff;
+  opacity: 0.85;
+  line-height: 1;
+  transform: translateY(-3px);
+  user-select: none;
+}
+
+/* TECH OUTLINE ACTION BUTTONS */
+.hero-action-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.5vw, 30px);
+  flex-wrap: nowrap;
   width: 100%;
 }
 
-.sponsors-caption {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #64748b;
-  font-family: 'Space Grotesk', monospace;
-}
-
-.sponsors-badges-row {
-  display: flex;
+.tech-chamfer-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: clamp(260px, 25vw, 360px);
+  height: clamp(48px, 5.5vh, 56px);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  padding: 0;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
 }
 
-.sponsor-box-item {
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-box-item {
-  padding: 8px 18px;
-  background: rgba(2, 4, 17, 0.8);
-  border: 1px solid rgba(0, 4, 235, 0.35);
-  backdrop-filter: blur(10px);
+.tech-btn-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   transition: all 0.25s ease;
 }
 
-.logo-box-item:hover {
-  border-color: #0004EB;
-  box-shadow: 0 0 20px rgba(0, 4, 235, 0.4);
+.tech-btn-svg polygon {
+  transition: all 0.25s ease;
+}
+
+.btn-content-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  padding: 0 22px;
+  transition: color 0.25s ease;
+}
+
+.btn-label-text {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(12px, 1.15vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.btn-arrow-icon {
+  font-size: 16px;
+  color: #ffffff;
+  transition: transform 0.25s ease, color 0.25s ease;
+  line-height: 1;
+}
+
+/* HOVER EFFECTS: INVERT TO WHITE FILL WITH BLACK TEXT */
+.tech-chamfer-btn:hover {
   transform: translateY(-2px);
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.4));
 }
 
-.partner-logo-img {
-  height: 36px;
-  width: auto;
-  max-width: 180px;
-  object-fit: contain;
-  display: block;
+.tech-chamfer-btn:hover .tech-btn-svg polygon {
+  fill: #ffffff;
+  stroke: #ffffff;
 }
 
-@media (max-width: 640px) {
-  .countdown-grid-box {
-    gap: 6px;
+.tech-chamfer-btn:hover .btn-label-text,
+.tech-chamfer-btn:hover .btn-arrow-icon {
+  color: #000000;
+}
+
+.tech-chamfer-btn:hover .btn-arrow-icon {
+  transform: translateX(4px);
+}
+
+.tech-chamfer-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+@media (max-width: 900px) {
+  .wireframe-hero-section {
+    padding: 20px 16px 40px;
+    min-height: auto;
   }
 
-  .time-card-item {
-    width: 58px;
-    height: 58px;
+  .hero-top-brand-station {
+    margin-bottom: 24px;
   }
 
-  .time-num {
-    font-size: 20px;
+  .hero-countdown-strip {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .time-unit {
-    font-size: 8px;
+  .hero-action-buttons-row {
+    flex-direction: column;
+    gap: 14px;
   }
 
-  .time-colon {
-    font-size: 16px;
+  .tech-chamfer-btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-kicker-text {
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .hero-hook-tagline {
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    margin: 10px 0 16px 0;
+  }
+
+  .hero-countdown-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+
+  .hero-countdown-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .tech-colon-separator {
+    display: none;
+  }
+
+  .tech-countdown-box {
+    width: 100%;
+    height: 85px;
+  }
+
+  .tech-digit-num {
+    font-size: 30px;
+  }
+
+  .tech-unit-label {
+    font-size: 9px;
   }
 }
