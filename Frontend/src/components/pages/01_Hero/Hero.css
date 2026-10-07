@@ -4,13 +4,13 @@
    ========================================================================== */
 
 .wireframe-hero-section {
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 24px 40px;
+  padding: 108px 24px 40px;
   position: relative;
   z-index: 10;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
 .wireframe-hero-container {
   max-width: 1440px;
   width: 100%;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 148px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -312,17 +312,20 @@
 /* HOVER EFFECTS: INVERT TO WHITE FILL WITH BLACK TEXT */
 .tech-chamfer-btn:hover {
   transform: translateY(-2px);
-  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 18px rgba(0, 4, 235, 0.5));
 }
 
 .tech-chamfer-btn:hover .tech-btn-svg polygon {
-  fill: #ffffff;
-  stroke: #ffffff;
+  fill: rgba(0, 4, 235, 0.24);
+  stroke: #7c83ff;
 }
 
-.tech-chamfer-btn:hover .btn-label-text,
+.tech-chamfer-btn:hover .btn-label-text {
+  color: #ffffff;
+}
+
 .tech-chamfer-btn:hover .btn-arrow-icon {
-  color: #000000;
+  color: #aeb2ff;
 }
 
 .tech-chamfer-btn:hover .btn-arrow-icon {
@@ -336,7 +339,7 @@
 /* ================= RESPONSIVE BREAKPOINTS ================= */
 @media (max-width: 900px) {
   .wireframe-hero-section {
-    padding: 20px 16px 40px;
+    padding: 92px 16px 40px;
     min-height: auto;
   }
 

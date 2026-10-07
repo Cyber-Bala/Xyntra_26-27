@@ -98,7 +98,7 @@ export default function Hero({ onNavigate }) {
           {/* TECH OUTLINE ACTION BUTTONS */}
           <div className="hero-action-buttons-row">
             <button
-              className="tech-chamfer-btn"
+              className="tech-chamfer-btn glow-hover"
               onClick={() => onNavigate(3)}
               aria-label="Review Rules & Register"
             >
@@ -118,7 +118,7 @@ export default function Hero({ onNavigate }) {
             </button>
 
             <button
-              className="tech-chamfer-btn"
+              className="tech-chamfer-btn glow-hover"
               onClick={() => onNavigate(2)}
               aria-label="Explore Problem Statements"
             >

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
 import './About.css'
+import Reveal from '../../animations/Reveal.jsx'
 
 export default function About({ onNavigate }) {
   const [selectedDomain, setSelectedDomain] = useState(null)
@@ -214,30 +213,23 @@ export default function About({ onNavigate }) {
 
             </div>
 
-
-            <div className="v6-hero-copy">
-
-              <span>THE ARENA</span>
-
-              <p>
-                A proving ground for ambitious builders,
-                engineers, designers and AI architects.
-                Three worlds. One arena. Twenty-four hours
-                to turn an idea into reality.
-              </p>
-
-            </div>
-
-
-            <div className="v6-scroll">
-
-              <span>SCROLL TO EXPLORE</span>
-
-              <div>
-                <i />
-              </div>
-
-            </div>
+            <Reveal className="ps-cards-list" stagger>
+              {problemStatements.map((ps) => (
+                <div key={ps.id} className="ps-item-card">
+                  <div className="ps-item-top">
+                    <span className="ps-id-badge">{ps.id}</span>
+                    <span className="ps-track-title">{ps.trackName} TRACK</span>
+                  </div>
+                  <h3 className="ps-domain-title">{ps.domain}</h3>
+                  <p className="ps-description">{ps.desc}</p>
+                  <div className="ps-tags-row">
+                    {ps.tags.map((t, idx) => (
+                      <span key={idx} className="ps-mini-tag">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Reveal>
 
           </div>
 
@@ -726,6 +718,11 @@ export default function About({ onNavigate }) {
               ↗
             </strong>
 
+        {/* PROCEED ACTION */}
+        <div className="about-bottom-cta-row">
+          <button className="about-proceed-btn glow-hover" onClick={() => onNavigate(3)}>
+            <span>Check Arena Rules & Guidelines</span>
+            <span className="proceed-arrow">→</span>
           </button>
 
         </section>

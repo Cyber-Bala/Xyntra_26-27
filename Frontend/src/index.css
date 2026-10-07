@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-midnight: #08080c;
-  --bg-dark: #08080c;
+  --bg-midnight: #020411;
+  --bg-dark: #020411;
   --bg-card: rgba(18, 18, 24, 0.85);
 
-  --brand-blue: #3b82f6;
-  --brand-blue-hover: #2563eb;
-  --brand-blue-glow: rgba(255, 255, 255, 0.15);
-  --border-blue: rgba(255, 255, 255, 0.12);
+  --brand-blue: #0004eb;
+  --brand-blue-hover: #3037ff;
+  --brand-blue-glow: rgba(0, 4, 235, 0.28);
+  --border-blue: rgba(102, 111, 255, 0.24);
   --border-subtle: rgba(255, 255, 255, 0.08);
 
   --text-main: #ffffff;
@@ -33,7 +33,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background-color: var(--bg-midnight);
   color: var(--text-main);
   font-family: var(--font-body);
@@ -61,7 +61,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #08080c;
+  background: #020411;
 }
 
 ::-webkit-scrollbar-thumb {
