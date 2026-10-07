@@ -2,82 +2,215 @@ import './About.css'
 import Reveal from '../../animations/Reveal.jsx'
 
 export default function About({ onNavigate }) {
+  const [selectedDomain, setSelectedDomain] = useState(null)
+
   const problemStatements = [
     {
-      id: 'PS 01',
-      trackName: 'PROMETHEUS',
-      domain: 'AI & Autonomous Intelligence',
-      desc: 'Harness the power of artificial intelligence. Engineer autonomous multi-agent networks, neural synthesis, and cognitive decision systems to resolve high-stakes real-world challenges.',
-      tags: ['LLMs', 'Multi-Agent', 'Computer Vision'],
+      number: '01',
+      track: 'PROMETHEUS',
+      title: 'AI & AUTONOMOUS INTELLIGENCE',
+      description:
+        'Engineer autonomous multi-agent networks, neural synthesis, and cognitive decision systems to solve high-stakes real-world challenges.',
+      details:
+        'Build intelligent systems capable of reasoning, adapting and acting autonomously. Explore agentic AI, neural systems, computer vision and next-generation decision engines.',
+      tags: ['LLMs', 'MULTI-AGENT', 'COMPUTER VISION'],
+      focus: 'AI / ML / AGENTS',
     },
     {
-      id: 'PS 02',
-      trackName: 'HERMES',
-      domain: 'Web3, Protocols & Decentralized Security',
-      desc: 'Forge immutable bridges across decentralized ecosystems. Construct tamper-proof smart contracts, zero-knowledge verification frameworks, and next-generation cryptographic architectures.',
-      tags: ['Zero-Knowledge', 'Smart Contracts', 'DeFi'],
+      number: '02',
+      track: 'HERMES',
+      title: 'WEB3 · PROTOCOLS · SECURITY',
+      description:
+        'Construct tamper-proof smart contracts, zero-knowledge verification frameworks, and next-generation cryptographic architectures.',
+      details:
+        'Design secure decentralized systems using smart contracts, cryptographic verification, zero-knowledge technologies and trustless protocols.',
+      tags: ['ZERO-KNOWLEDGE', 'SMART CONTRACTS', 'DEFI'],
+      focus: 'WEB3 / SECURITY / CRYPTO',
     },
     {
-      id: 'PS 03',
-      trackName: 'ATHENA',
-      domain: 'Open Innovation & Strategic Technologies',
-      desc: 'Channel wisdom into real-world disruption. Architect scalable solutions in clean energy, intelligent healthcare, algorithmic fintech, and automated urban infrastructure.',
-      tags: ['Fintech', 'CleanTech', 'HealthTech'],
+      number: '03',
+      track: 'ATHENA',
+      title: 'OPEN INNOVATION · STRATEGIC TECH',
+      description:
+        'Architect scalable solutions across clean energy, intelligent healthcare, algorithmic fintech, and automated infrastructure.',
+      details:
+        'Solve real-world problems using technology across finance, healthcare, sustainability and infrastructure.',
+      tags: ['FINTECH', 'CLEANTECH', 'HEALTHTECH'],
+      focus: 'INNOVATION / IMPACT',
+    },
+    {
+      number: '04',
+      track: 'HEPHAESTUS',
+      title: 'ROBOTICS · AUTOMATION',
+      description:
+        'Design intelligent machines, autonomous systems, and next-generation automation that transform the physical world.',
+      details:
+        'Create systems that connect software with the physical world through robotics, sensors, IoT platforms and intelligent automation.',
+      tags: ['ROBOTICS', 'IOT', 'AUTOMATION'],
+      focus: 'ROBOTICS / IOT / HARDWARE',
+    },
+    {
+      number: '05',
+      track: 'APOLLO',
+      title: 'DATA · INTELLIGENCE · ANALYTICS',
+      description:
+        'Turn complex data into powerful decisions through predictive systems, intelligent analytics, and real-time insights.',
+      details:
+        'Transform raw information into actionable intelligence using machine learning, predictive analytics, visualization and real-time data systems.',
+      tags: ['DATA SCIENCE', 'ML', 'ANALYTICS'],
+      focus: 'DATA / ML / ANALYTICS',
+    },
+    {
+      number: '06',
+      track: 'ARTEMIS',
+      title: 'FUTURE · HUMAN · TECHNOLOGY',
+      description:
+        'Create bold technology experiences across accessibility, education, sustainability, and human-centered innovation.',
+      details:
+        'Build technology around people. Explore accessibility, education, sustainability and experiences that make emerging technology useful and meaningful.',
+      tags: ['EDTECH', 'SUSTAINABILITY', 'UX'],
+      focus: 'HUMAN / FUTURE / UX',
     },
   ]
 
-  const timelineEvents = [
-    { num: '01', label: 'Registration Opens', date: 'OCT 01, 2026', desc: 'The Gates of the Arena Open' },
-    { num: '02', label: 'Problem Statements Unveiled', date: 'OCT 15, 2026', desc: 'The Tracks & Problem Sets are Released' },
-    { num: '03', label: 'Registration Closes', date: 'OCT 20, 2026', desc: 'Squads Assemble & Lock Registrations' },
-    { num: '04', label: 'Hackathon Sprint (24 Hours)', date: 'OCT 24 – 25, 2026', desc: '24-Hour Non-Stop Prototype Development' },
-    { num: '05', label: 'Grand Demo Day & Judgement', date: 'OCT 25, 2026', desc: 'Pitch Presentations & Award Ceremony' },
-  ]
-
-  const techStacks = [
-    'React / Next.js',
-    'Node.js / Express',
-    'Python / FastAPI',
-    'PyTorch & ML Engines',
-    'Solidity & Web3 EVM',
-    'PostgreSQL & Redis',
-    'Cloud / Docker Architectures',
-    'Tailwind & Micro-frontends',
+  const timeline = [
+    {
+      number: '01',
+      date: 'OCT 01',
+      title: 'REGISTRATION OPENS',
+      description: 'The gates of the arena open.',
+    },
+    {
+      number: '02',
+      date: 'OCT 15',
+      title: 'PROBLEM STATEMENTS',
+      description: 'Tracks and problem sets unveiled.',
+    },
+    {
+      number: '03',
+      date: 'OCT 20',
+      title: 'REGISTRATION CLOSES',
+      description: 'Squads assemble and lock in.',
+    },
+    {
+      number: '04',
+      date: 'OCT 24–25',
+      title: '24H HACKATHON',
+      description: 'Non-stop prototype development.',
+    },
+    {
+      number: '05',
+      date: 'OCT 25',
+      title: 'GRAND DEMO DAY',
+      description: 'Pitches, judgement & awards.',
+    },
   ]
 
   return (
-    <section className="about-page-section" id="about">
-      <div className="about-main-container">
+    <section className="about-v6" id="about">
 
-        {/* TOP ORNAMENTAL BANNER */}
-        <div className="about-ornament-header">
-          <span className="ornament-line" />
-          <span className="ornament-tag">XYNTRA · NATIONAL HACKATHON</span>
-          <span className="ornament-line" />
-        </div>
+      {/* BACKGROUND */}
 
-        {/* SECTION HEADING */}
-        <div className="about-title-block">
-          <p className="about-kicker">MISSION & CHALLENGE TRACKS</p>
-          <h1 className="about-main-heading">ABOUT THE HACKATHON</h1>
-          <p className="about-lead-text">
-            Welcome to the proving ground of modern engineering. Xyntra brings together elite programmers,
-            product designers, and AI architects for a 24-hour crucible of creation. Choose your track,
-            collaborate with your team, and build prototypes that redefine industry benchmarks.
-          </p>
-        </div>
+      <div className="v6-grid-bg" />
 
-        {/* MAIN 2-COLUMN GRID (Problems + Timeline) */}
-        <div className="about-two-col-grid">
+      <div className="v6-particle-field">
+        {Array.from({ length: 80 }).map((_, i) => (
+          <span
+            key={i}
+            className="v6-particle"
+            style={{
+              '--x': `${(i * 37.13) % 100}%`,
+              '--delay': `${-((i * 1.7) % 15)}s`,
+              '--duration': `${10 + ((i * 1.4) % 12)}s`,
+              '--size': `${2 + ((i * 2.7) % 4)}px`,
+              '--drift': `${((i * 17) % 100) - 50}px`,
+            }}
+          />
+        ))}
+      </div>
 
-          {/* LEFT: Problem Statements */}
-          <div className="about-glass-card ps-card">
-            <div className="card-header-bar">
-              <div className="card-badge-box">
-                <span className="card-sub-tag">COMPETITION DOMAINS</span>
-                <h2 className="card-title">Problem Statements</h2>
+      <div className="v6-glow v6-glow-one" />
+      <div className="v6-glow v6-glow-two" />
+
+
+      <div className="about-v6-container">
+
+        {/* =====================================================
+            TOP BAR
+            ===================================================== */}
+
+        <header className="v6-topbar">
+
+          <div className="v6-brand">
+            <span className="v6-brand-dot" />
+            <strong>XYNTRA</strong>
+            <span>26—27</span>
+          </div>
+
+          <div className="v6-top-center">
+            NATIONAL HACKATHON
+          </div>
+
+          <div className="v6-top-right">
+            <span>ABOUT</span>
+            <span>01 / 05</span>
+          </div>
+
+        </header>
+
+
+        {/* =====================================================
+            HERO
+            ===================================================== */}
+
+        <section className="v6-hero">
+
+          <div className="v6-hero-left">
+
+            <div className="v6-hero-label">
+              <span>01</span>
+              <span>MISSION / 2026</span>
+            </div>
+
+            <h1 className="v6-hero-title">
+              <span>BUILD</span>
+              <span className="v6-outline">WHAT'S</span>
+              <span>NEXT.</span>
+            </h1>
+
+            <div className="v6-hero-keywords">
+              <span>THINK</span>
+              <i>✦</i>
+              <span>BUILD</span>
+              <i>✦</i>
+              <span>DISRUPT</span>
+            </div>
+
+          </div>
+
+
+          <div className="v6-hero-right">
+
+            <div className="v6-hero-stats">
+
+              <div className="v6-hero-stat">
+                <span>01</span>
+                <strong>24</strong>
+                <small>HOURS</small>
               </div>
-              <span className="card-header-icon">🚀</span>
+
+              <div className="v6-hero-stat">
+                <span>02</span>
+                <strong>06</strong>
+                <small>DOMAINS</small>
+              </div>
+
+              <div className="v6-hero-stat">
+                <span>03</span>
+                <strong>01</strong>
+                <small>ARENA</small>
+              </div>
+
             </div>
 
             <Reveal className="ps-cards-list" stagger>
@@ -98,78 +231,492 @@ export default function About({ onNavigate }) {
               ))}
             </Reveal>
 
-            <button
-              className="about-pdf-download-btn"
-              onClick={() => alert('Official Problem Statements document (PDF) will be unveiled on October 15, 2026!')}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="12" y1="18" x2="12" y2="12" />
-                <line x1="9" y1="15" x2="15" y2="15" />
-              </svg>
-              <span>Download Problem Statements (PDF)</span>
-            </button>
           </div>
 
-          {/* RIGHT: Timeline */}
-          <div className="about-glass-card timeline-card">
-            <div className="card-header-bar">
-              <div className="card-badge-box">
-                <span className="card-sub-tag">SCHEDULE & MILESTONES</span>
-                <h2 className="card-title">Event Timeline</h2>
-              </div>
-              <span className="card-header-icon">⏳</span>
-            </div>
+        </section>
 
-            <div className="timeline-flow-list">
-              {timelineEvents.map((item, idx) => (
-                <div key={idx} className="timeline-row-item">
-                  <div className="timeline-node-col">
-                    <span className="timeline-dot-circle">{item.num}</span>
-                    {idx < timelineEvents.length - 1 && <span className="timeline-connect-line" />}
-                  </div>
-                  <div className="timeline-body">
-                    <div className="timeline-milestone-header">
-                      <h3 className="timeline-event-name">{item.label}</h3>
-                      <span className="timeline-date-badge">{item.date}</span>
-                    </div>
-                    <p className="timeline-sub-flavor">{item.desc}</p>
-                  </div>
+
+        {/* =====================================================
+            ORBIT + MISSION
+            ===================================================== */}
+
+        <section className="v6-stat-strip">
+
+          <div className="v6-bottom-orbit">
+
+            <div className="v6-orb-wrapper">
+
+              <div className="v6-orb">
+
+                <div className="v6-orb-ring v6-ring-one" />
+                <div className="v6-orb-ring v6-ring-two" />
+                <div className="v6-orb-ring v6-ring-three" />
+
+                <div className="v6-orb-dot v6-dot-one" />
+                <div className="v6-orb-dot v6-dot-two" />
+
+                <div className="v6-orb-core">
+
+                  <strong className="v6-orb-number">
+                    24
+                  </strong>
+
+                  <span className="v6-orb-normal">
+                    HOURS
+                  </span>
+
+                  <span className="v6-orb-hover">
+                    ENTER
+                    <br />
+                    THE ARENA
+                  </span>
+
                 </div>
-              ))}
-            </div>
 
-            <div className="deadline-highlight-pill">
-              <span className="deadline-icon">⏰</span>
-              <span>Registration Closes: <strong>October 20, 2026 (11:59 PM IST)</strong></span>
-            </div>
-          </div>
-
-        </div>
-
-        {/* BOTTOM FULL-WIDTH: Tech Matrix */}
-        <div className="about-glass-card forge-card">
-          <div className="card-header-bar">
-            <div className="card-badge-box">
-              <span className="card-sub-tag">TECHNOLOGY ECOSYSTEM</span>
-              <h2 className="card-title">Track Overview & Recommended Stacks</h2>
-            </div>
-            <span className="card-header-icon">⚡</span>
-          </div>
-          <p className="forge-description-text">
-            Teams have complete architectural freedom. Build with modern full-stack frameworks,
-            microservices, smart contract pipelines, neural networks, or hardware interfaces tailored for rapid execution.
-          </p>
-          <div className="tech-chips-flex">
-            {techStacks.map((tech, i) => (
-              <div key={i} className="tech-chip-item">
-                <span className="chip-spark">✦</span>
-                <span className="chip-text">{tech}</span>
               </div>
-            ))}
+
+              <div className="v6-orb-caption">
+                <span>24H / NON-STOP</span>
+                <small>MOVE CURSOR TO EXPLORE</small>
+              </div>
+
+            </div>
+
           </div>
-        </div>
+
+
+          <div className="v6-stat-message">
+
+            <span>THE MISSION</span>
+
+            <p>
+              BUILD SOMETHING
+              <br />
+              WORTH REMEMBERING.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            DOMAINS
+            ===================================================== */}
+
+        <section className="v6-problems">
+
+          <div className="v6-section-head">
+
+            <div className="v6-section-number">
+              02
+            </div>
+
+            <div>
+
+              <span className="v6-eyebrow">
+                CHALLENGE TRACKS
+              </span>
+
+              <h2>
+                CHOOSE
+                <br />
+                <em>YOUR WORLD.</em>
+              </h2>
+
+            </div>
+
+            <p>
+              Six problem spaces designed to push
+              technical creativity beyond the obvious.
+            </p>
+
+          </div>
+
+
+          <div className="domains-float-field">
+
+            {problemStatements.map((item, index) => (
+
+              <motion.article
+                key={item.number}
+                layoutId={`domain-card-${item.number}`}
+                className={`domain-card domain-card-${index + 1}`}
+                onClick={() => setSelectedDomain(item)}
+                transition={{
+                  type: 'spring',
+                  stiffness: 280,
+                  damping: 24,
+                }}
+              >
+
+                <div className="domain-card-shine" />
+
+                <div className="domain-card-top">
+
+                  <span className="domain-number">
+                    {item.number}
+                  </span>
+
+                  <span className="domain-status">
+                    ACTIVE
+                  </span>
+
+                </div>
+
+
+                <div className="domain-card-content">
+
+                  <motion.span
+                    layoutId={`domain-track-${item.number}`}
+                    className="domain-track"
+                  >
+                    {item.track}
+                  </motion.span>
+
+                  <motion.h3
+                    layoutId={`domain-title-${item.number}`}
+                  >
+                    {item.title}
+                  </motion.h3>
+
+                  <p>
+                    {item.description}
+                  </p>
+
+                </div>
+
+
+                <div className="domain-card-bottom">
+
+                  <div className="domain-tags">
+
+                    {item.tags.map((tag) => (
+                      <span key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+
+                  </div>
+
+                  <div className="domain-arrow">
+                    ↗
+                  </div>
+
+                </div>
+
+
+                <div className="domain-corner domain-corner-one" />
+                <div className="domain-corner domain-corner-two" />
+
+              </motion.article>
+
+            ))}
+
+          </div>
+
+
+          {/* =================================================
+              DOMAIN MODAL
+              ================================================= */}
+
+          <AnimatePresence>
+
+            {selectedDomain && (
+
+              <motion.div
+                className="domain-modal"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+
+                <motion.div
+                  className="domain-modal-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedDomain(null)}
+                />
+
+
+                <motion.div
+                  layoutId={`domain-card-${selectedDomain.number}`}
+                  className="domain-modal-card"
+                  transition={{
+                    type: 'spring',
+                    stiffness: 280,
+                    damping: 28,
+                  }}
+                >
+
+                  <button
+                    className="domain-modal-close"
+                    onClick={() => setSelectedDomain(null)}
+                    aria-label="Close"
+                  >
+                    <span />
+                    <span />
+                  </button>
+
+
+                  <div className="domain-modal-visual">
+
+                    <div className="modal-grid" />
+
+                    <div className="modal-orbit modal-orbit-one" />
+                    <div className="modal-orbit modal-orbit-two" />
+
+                    <div className="modal-number">
+                      {selectedDomain.number}
+                    </div>
+
+                    <div className="modal-core">
+
+                      <span>XYNTRA</span>
+
+                      <strong>
+                        {selectedDomain.number}
+                      </strong>
+
+                      <small>
+                        DOMAIN
+                      </small>
+
+                    </div>
+
+                    <div className="modal-visual-label">
+                      <span>ACTIVE DOMAIN</span>
+                      <span>2026—27</span>
+                    </div>
+
+                  </div>
+
+
+                  <div className="domain-modal-info">
+
+                    <motion.span
+                      layoutId={`domain-track-${selectedDomain.number}`}
+                      className="domain-modal-track"
+                    >
+                      {selectedDomain.track}
+                    </motion.span>
+
+
+                    <motion.h2
+                      layoutId={`domain-title-${selectedDomain.number}`}
+                    >
+                      {selectedDomain.title}
+                    </motion.h2>
+
+
+                    <div className="modal-divider" />
+
+
+                    <div className="modal-description">
+
+                      <span>
+                        DOMAIN INTELLIGENCE
+                      </span>
+
+                      <p>
+                        {selectedDomain.details}
+                      </p>
+
+                    </div>
+
+
+                    <div className="modal-focus">
+
+                      <span>
+                        PRIMARY FOCUS
+                      </span>
+
+                      <strong>
+                        {selectedDomain.focus}
+                      </strong>
+
+                    </div>
+
+
+                    <div className="modal-tech">
+
+                      <span>
+                        TECHNOLOGY AREAS
+                      </span>
+
+                      <div>
+
+                        {selectedDomain.tags.map((tag) => (
+                          <span key={tag}>
+                            {tag}
+                          </span>
+                        ))}
+
+                      </div>
+
+                    </div>
+
+
+                    <div className="modal-footer">
+
+                      <span>
+                        XYNTRA / DOMAIN {selectedDomain.number}
+                      </span>
+
+                      <span>
+                        BUILD BEYOND.
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </motion.div>
+
+              </motion.div>
+
+            )}
+
+          </AnimatePresence>
+
+        </section>
+
+
+        {/* =====================================================
+            TIMELINE
+            ===================================================== */}
+
+        <section className="v6-timeline">
+
+          <div className="v6-section-head">
+
+            <div className="v6-section-number">
+              03
+            </div>
+
+            <div>
+
+              <span className="v6-eyebrow">
+                THE JOURNEY
+              </span>
+
+              <h2>
+                MARK
+                <br />
+                <em>THE DATES.</em>
+              </h2>
+
+            </div>
+
+            <div className="v6-deadline">
+
+              <span>
+                REGISTRATION CLOSES
+              </span>
+
+              <strong>
+                20 OCT 2026
+              </strong>
+
+              <small>
+                11:59 PM IST
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div className="v6-timeline-wrapper">
+
+            <div className="v6-timeline-axis" />
+
+            <div className="v6-timeline-items">
+
+              {timeline.map((item, index) => (
+
+                <div
+                  className={`v6-timeline-item ${
+                    index === 3
+                      ? 'v6-timeline-highlight'
+                      : ''
+                  }`}
+                  key={item.number}
+                >
+
+                  <div className="v6-timeline-number">
+                    {item.number}
+                  </div>
+
+                  <div className="v6-timeline-node">
+                    <span />
+                  </div>
+
+                  <span className="v6-timeline-date">
+                    {item.date}
+                  </span>
+
+                  <h3>
+                    {item.title}
+                  </h3>
+
+                  <p>
+                    {item.description}
+                  </p>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            FINAL CTA
+            ===================================================== */}
+
+        <section className="v6-final">
+
+          <div className="v6-final-number">
+            04
+          </div>
+
+          <div className="v6-final-content">
+
+            <span className="v6-eyebrow">
+              YOUR MOVE
+            </span>
+
+            <h2>
+              BUILD
+              <br />
+              <em>BEYOND.</em>
+            </h2>
+
+            <p>
+              The arena is waiting. Are you ready?
+            </p>
+
+          </div>
+
+
+          <button
+            className="v6-final-button"
+            onClick={() => onNavigate(3)}
+          >
+
+            <span>
+              ENTER THE RULES
+            </span>
+
+            <strong>
+              ↗
+            </strong>
 
         {/* PROCEED ACTION */}
         <div className="about-bottom-cta-row">
@@ -177,9 +724,11 @@ export default function About({ onNavigate }) {
             <span>Check Arena Rules & Guidelines</span>
             <span className="proceed-arrow">→</span>
           </button>
-        </div>
+
+        </section>
 
       </div>
+
     </section>
   )
 }
