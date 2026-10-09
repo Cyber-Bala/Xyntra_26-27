@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AsciiNoiseBackground from "../../background/AsciiNoiseBackground.jsx";
 import "./Register.css";
 
 const API_ROOT = (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api").replace(/\/$/, "");
@@ -219,6 +220,7 @@ export default function Register({ onNavigate }) {
   if (linkTokens.verification) {
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
+        <AsciiNoiseBackground />
         <p className="section-kicker">XYNTRA / EMAIL VERIFICATION</p>
         <h1 className="registration-title">Confirm your team email.</h1>
         <div className="stage-card">
@@ -236,6 +238,7 @@ export default function Register({ onNavigate }) {
     const details = registrationStatus.details;
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
+        <AsciiNoiseBackground />
         <p className="section-kicker">XYNTRA / APPLICATION STATUS</p>
         <h1 className="registration-title">Your team’s progress.</h1>
         <div className="stage-card">
@@ -261,6 +264,7 @@ export default function Register({ onNavigate }) {
     const details = payment.details;
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
+        <AsciiNoiseBackground />
         <p className="section-kicker">XYNTRA / ROUND 02</p>
         <h1 className="registration-title">Secure your place.</h1>
         <p className="stage-intro">This private payment link is sent only after your Round 1 presentation is selected.</p>
@@ -292,7 +296,24 @@ export default function Register({ onNavigate }) {
 
   return (
     <section className="register-section" id="register">
-      <div className="section-heading register-heading"><p className="section-kicker">05 / ROUND 01 REGISTRATION</p><h2 className="registration-title">Bring the idea.<br />Build the future.</h2><p>Submit your team and presentation deck for the first-round review.</p></div>
+      <AsciiNoiseBackground />
+      <div className="registration-hero">
+        <div className="section-heading register-heading"><p className="section-kicker">05 / ROUND 01 REGISTRATION</p><h2 className="registration-title">Bring the idea.<br />Build the future.</h2><p>Submit your team and presentation deck for the first-round review.</p></div>
+        <div className="registration-terminal" role="img" aria-label="A retro Xyntra computer terminal, ready for teams to begin registration.">
+          <div className="terminal-chrome"><span className="terminal-lights"><i /><i /><i /></span><span>XYNTRA / SYSTEM 26-27</span><span className="terminal-live">● READY</span></div>
+          <pre className="registration-ascii" aria-hidden="true">{`       .------------------.
+      /  X Y N T R A  26  /|
+     .------------------. |
+     |   .----------.   | |
+     |   |  READY_  |   | /
+     |   '----------'   |/
+     '--------+---------'
+          ____|____
+         /_________\\
+        /___________\\`}</pre>
+          <div className="terminal-status"><span>SYS / ONLINE</span><span>BUILD MODE / ACTIVE</span></div>
+        </div>
+      </div>
       <div className="round-flow" aria-label="Hackathon rounds">
         <article className="round-card round-active"><span>ROUND 01 / OPEN NOW</span><h3>Register + submit your PPT</h3><p>Every team can apply. Share your details and presentation for the selection review. No payment at this stage.</p></article>
         <span className="round-arrow" aria-hidden="true">→</span>

@@ -1,27 +1,69 @@
+
+/* ============================================================
+   XYNTRA — RULES & GUIDELINES
+   RETRO TECH / DISTRESSED EDITORIAL / ANALOG CONTROL PANELS
+   ============================================================ */
+
 .rules-page-section {
+  --rules-ivory: #f1dfc0;
+  --rules-muted: #b6a48a;
+  --rules-red: #e8475f;
+  --rules-amber: #eab04a;
+  --rules-panel: rgba(12, 10, 9, 0.76);
+  --rules-line: rgba(241, 223, 192, 0.23);
+
   min-height: calc(100vh - 140px);
+  width: 100%;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 20px 50px;
+
+  padding: 40px 20px 50px;
   position: relative;
   z-index: 10;
+  isolation: isolate;
+
+  /* Let the existing shared background image show through. */
+  background: transparent;
+  color: var(--rules-ivory);
+}
+
+.rules-page-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 4, 4, 0.12),
+      rgba(5, 4, 4, 0.25) 60%,
+      rgba(5, 4, 4, 0.42)
+    );
 }
 
 .rules-main-container {
-  max-width: 1200px;
+  position: relative;
   width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
   gap: 28px;
-  animation: rules-fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+
+  animation: rules-fade-in 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes rules-fade-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(14px);
   }
 
   to {
@@ -30,236 +72,605 @@
   }
 }
 
+/* ============================================================
+   HEADER — VINTAGE EDITORIAL TYPOGRAPHY
+   ============================================================ */
+
 .rules-header-block {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 8px 0 12px;
 }
 
 .rules-kicker-tag {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #d4d4d8;
+  gap: 10px;
+
+  padding: 7px 13px;
+
+  border: 1px solid rgba(232, 71, 95, 0.48);
+  border-radius: 2px;
+
+  background: rgba(8, 7, 7, 0.48);
+
+  font-family: "Space Grotesk", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+
+  color: var(--rules-ivory);
   text-transform: uppercase;
 }
 
 .kicker-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+
+  background: var(--rules-red);
+  box-shadow: 0 0 9px rgba(232, 71, 95, 0.72);
+
+  animation: rules-indicator 3s ease-in-out infinite;
 }
 
+@keyframes rules-indicator {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+/* Gradient remains controlled by your existing index.css. */
 .rules-main-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(32px, 6vw, 56px);
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  color: #ffffff;
+  max-width: 100%;
   margin: 0;
+
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: clamp(34px, 6.2vw, 76px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.65));
 }
 
 .rules-lead-desc {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #a1a1aa;
-  max-width: 800px;
+  max-width: 760px;
   margin: 0;
+
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 500;
+
+  color: var(--rules-muted);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-/* 3-COLUMN CARDS GRID */
+/* ============================================================
+   RULE CARDS — AGED ANALOG CONTROL PANELS
+   ============================================================ */
+
 .rules-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
 }
 
 .rule-glass-card {
-  background: rgba(18, 18, 24, 0.85);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
-  padding: 26px;
+  --accent: var(--rules-red);
+
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-  transition: all 0.25s ease;
+  gap: 17px;
+
+  padding: 25px 24px 27px;
+
+  /* Angular, printed-panel geometry instead of glassmorphism. */
+  border: 1px solid
+    color-mix(in srgb, var(--accent) 48%, rgba(241, 223, 192, 0.15));
+  border-radius: 3px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(18, 14, 12, 0.89),
+      rgba(8, 7, 7, 0.79)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.055),
+    0 14px 32px rgba(0, 0, 0, 0.3);
+
+  transition:
+    transform 300ms ease,
+    border-color 300ms ease,
+    background-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+/* Fine distressed-looking print texture, generated in CSS. */
+.rule-glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 42%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(241, 223, 192, 0.022) 0,
+      rgba(241, 223, 192, 0.022) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  opacity: 0.72;
+}
+
+/* Registration-corner detail. */
+.rule-glass-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 24px;
+  height: 24px;
+
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+
+  opacity: 0.75;
+  pointer-events: none;
+  transition: width 300ms ease, height 300ms ease;
+}
+
+.rule-glass-card:nth-child(1) {
+  --accent: var(--rules-red);
+}
+
+.rule-glass-card:nth-child(2) {
+  --accent: var(--rules-amber);
+}
+
+.rule-glass-card:nth-child(3) {
+  --accent: var(--rules-ivory);
 }
 
 .rule-glass-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+
+  border-color: var(--accent);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(29, 20, 17, 0.93),
+      rgba(9, 7, 7, 0.86)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.1),
+    0 18px 38px rgba(0, 0, 0, 0.42),
+    0 0 16px color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+.rule-glass-card:hover::after {
+  width: 34px;
+  height: 34px;
 }
 
 .rule-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .rule-num-tag {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 12px;
-  font-weight: 800;
-  color: #000000;
-  background: #ffffff;
-  padding: 3px 10px;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  padding: 5px 7px;
+
+  border: 1px solid var(--accent);
+  border-radius: 1px;
+
+  background: color-mix(in srgb, var(--accent) 14%, #100d0b);
+
+  font-family: "Space Grotesk", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--accent);
 }
 
 .rule-badge-pill {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: #a1a1aa;
-  font-weight: 700;
+  font-family: "Space Grotesk", monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-align: right;
   text-transform: uppercase;
+
+  color: var(--accent);
+  opacity: 0.9;
 }
 
+/* Distinctive high-contrast serif display lettering. */
 .rule-card-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  color: #ffffff;
+  position: relative;
   margin: 0;
-  line-height: 1.3;
+
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: clamp(20px, 1.8vw, 25px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+
+  color: var(--rules-ivory);
+
+  text-shadow:
+    0 2px 9px rgba(0, 0, 0, 0.75);
 }
 
 .rule-points-list {
   list-style: none;
   padding: 0;
   margin: 0;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 13px;
 }
 
 .rule-point-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #cbd5e1;
+
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 12.5px;
+  line-height: 1.7;
+  font-weight: 500;
+
+  color: rgba(241, 223, 192, 0.83);
 }
 
 .point-bullet {
-  color: #ffffff;
-  font-size: 11px;
-  margin-top: 3px;
   flex-shrink: 0;
-  opacity: 0.7;
+  margin-top: 3px;
+
+  font-family: Georgia, serif;
+  font-size: 11px;
+  color: var(--accent);
+
+  text-shadow: 0 0 8px
+    color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
-/* CONSENT & PROCEED BAR */
+.point-text {
+  min-width: 0;
+}
+
+/* ============================================================
+   CONSENT BAR — REGISTRATION CONTROL STRIP
+   ============================================================ */
+
 .rules-cta-bar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 18px;
-  padding: 20px 26px;
-  background: rgba(18, 18, 24, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  gap: 20px;
+
+  padding: 19px 23px;
+
+  border: 1px solid rgba(232, 71, 95, 0.42);
+  border-radius: 3px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(20, 12, 12, 0.94),
+      rgba(9, 8, 8, 0.85)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.04),
+    0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.rules-cta-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+
+  background: var(--rules-red);
+  box-shadow: 0 0 12px rgba(232, 71, 95, 0.3);
+
+  pointer-events: none;
 }
 
 .consent-checkbox-label {
+  position: relative;
+
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
+
   flex: 1;
-  min-width: 280px;
+  min-width: 0;
+
+  cursor: pointer;
   user-select: none;
 }
 
 .consent-input {
   position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+
   opacity: 0;
   cursor: pointer;
 }
 
 .custom-checkmark {
-  width: 20px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
   position: relative;
-  transition: all 0.2s ease;
   flex-shrink: 0;
+
+  width: 19px;
+  height: 19px;
+
+  border: 1px solid rgba(241, 223, 192, 0.54);
+  border-radius: 1px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.consent-input:checked~.custom-checkmark {
-  background: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+.consent-input:checked ~ .custom-checkmark {
+  background: var(--rules-red);
+  border-color: var(--rules-red);
+
+  box-shadow: 0 0 12px rgba(232, 71, 95, 0.2);
 }
 
-.consent-input:checked~.custom-checkmark::after {
-  content: '';
+.consent-input:checked ~ .custom-checkmark::after {
+  content: "";
+
   position: absolute;
   left: 6px;
   top: 2px;
+
   width: 5px;
-  height: 10px;
-  border: solid #000000;
+  height: 9px;
+
+  border: solid #100909;
   border-width: 0 2px 2px 0;
+
   transform: rotate(45deg);
 }
 
+.consent-input:focus-visible ~ .custom-checkmark {
+  outline: 2px solid var(--rules-ivory);
+  outline-offset: 4px;
+}
+
 .consent-text {
-  font-size: 13px;
-  color: #e2e8f0;
-  line-height: 1.5;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 12px;
+  line-height: 1.7;
+
+  color: var(--rules-muted);
 }
 
 .rules-proceed-btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 30px;
-  background: #ffffff;
-  color: #000000;
-  font-family: 'Outfit', sans-serif;
+  justify-content: center;
+  gap: 13px;
+
+  min-height: 46px;
+  padding: 13px 22px;
+
+  border: 1px solid var(--rules-red);
+  border-radius: 2px;
+
+  background: var(--rules-red);
+  color: #150909;
+
+  font-family: var(--font-speltale, Georgia, serif);
   font-size: 14px;
-  font-weight: 800;
-  border: none;
-  border-radius: 100px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.18);
-  transition: all 0.25s ease;
+
+  box-shadow: 0 5px 18px rgba(232, 71, 95, 0.14);
+
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.rules-proceed-btn svg {
+  flex-shrink: 0;
+  transition: transform 220ms ease;
 }
 
 .rules-proceed-btn.active:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(255, 255, 255, 0.3);
-  background: #e4e4e7;
+
+  background: #f15a70;
+  border-color: #f15a70;
+
+  box-shadow: 0 8px 25px rgba(232, 71, 95, 0.25);
+}
+
+.rules-proceed-btn.active:hover svg {
+  transform: translateX(3px);
 }
 
 .rules-proceed-btn.disabled {
-  opacity: 0.35;
+  opacity: 0.42;
   cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.1);
-  color: #71717a;
+
+  background: rgba(80, 54, 48, 0.45);
+  border-color: rgba(241, 223, 192, 0.15);
+  color: rgba(241, 223, 192, 0.7);
+
   box-shadow: none;
+}
+
+/* ============================================================
+   RESPONSIVE LAYOUT
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .rules-page-section {
+    justify-content: flex-start;
+    padding: 35px 20px 40px;
+  }
+
+  .rules-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .rule-glass-card {
+    padding: 22px 19px;
+  }
+
+  .rule-card-title {
+    font-size: clamp(19px, 2.6vw, 24px);
+  }
+
+  .rules-cta-bar {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .rules-page-section {
+    padding: 28px 14px 35px;
+  }
+
+  .rules-main-container {
+    gap: 24px;
+  }
+
+  .rules-header-block {
+    gap: 14px;
+  }
+
+  .rules-kicker-tag {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+
+  .rules-main-title {
+    font-size: clamp(34px, 9vw, 48px);
+    line-height: 1.02;
+  }
+
+  .rules-lead-desc {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .rules-cards-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .rule-glass-card {
+    gap: 14px;
+    padding: 20px 18px 22px;
+  }
+
+  .rule-card-title {
+    font-size: 23px;
+  }
+
+  .rule-point-item {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .rules-cta-bar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px 16px;
+  }
+
+  .consent-checkbox-label {
+    align-items: flex-start;
+  }
+
+  .consent-input {
+    top: 0;
+  }
+
+  .consent-text {
+    font-size: 11.5px;
+  }
+
+  .rules-proceed-btn {
+    width: 100%;
+    padding: 14px 15px;
+    font-size: 13px;
+  }
+}
+
+/* Respect the visitor's motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  .rules-main-container,
+  .kicker-dot {
+    animation: none;
+  }
+
+  .rule-glass-card,
+  .rule-glass-card::after,
+  .rules-proceed-btn,
+  .rules-proceed-btn svg,
+  .custom-checkmark {
+    transition: none;
+  }
+
+  .rule-glass-card:hover,
+  .rules-proceed-btn.active:hover {
+    transform: none;
+  }
 }

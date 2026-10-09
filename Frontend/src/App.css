@@ -1,11 +1,11 @@
-.app-root-wrapper {
+﻿.app-root-wrapper {
   position: relative;
   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--ink);
   overflow-x: hidden;
 }
 
@@ -24,7 +24,7 @@
 
 .app-root-wrapper .glow-hover:hover:not(:disabled) {
   transform: translateY(-2px);
-  filter: drop-shadow(0 0 16px rgba(0, 4, 235, 0.45));
+ filter: drop-shadow(0 0 16px rgba(232, 71, 95, 0.45));
 }
 
 .app-root-wrapper .glow-hover:active:not(:disabled) {
@@ -32,7 +32,7 @@
 }
 
 .app-root-wrapper button:focus-visible {
-  outline: 2px solid rgba(138, 145, 255, 0.95);
+  outline: 2px solid var(--teal);
   outline-offset: 4px;
 }
 

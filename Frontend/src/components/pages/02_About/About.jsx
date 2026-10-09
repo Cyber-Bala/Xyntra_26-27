@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './About.css'
 import Reveal from '../../animations/Reveal.jsx'
 
@@ -304,7 +305,7 @@ export default function About({ onNavigate }) {
             DOMAINS
             ===================================================== */}
 
-        <section className="v6-problems">
+        <section className="v6-problems" id="problem-statements">
 
           <div className="v6-section-head">
 
@@ -338,16 +339,10 @@ export default function About({ onNavigate }) {
 
             {problemStatements.map((item, index) => (
 
-              <motion.article
+              <article
                 key={item.number}
-                layoutId={`domain-card-${item.number}`}
                 className={`domain-card domain-card-${index + 1}`}
                 onClick={() => setSelectedDomain(item)}
-                transition={{
-                  type: 'spring',
-                  stiffness: 280,
-                  damping: 24,
-                }}
               >
 
                 <div className="domain-card-shine" />
@@ -367,18 +362,13 @@ export default function About({ onNavigate }) {
 
                 <div className="domain-card-content">
 
-                  <motion.span
-                    layoutId={`domain-track-${item.number}`}
-                    className="domain-track"
-                  >
+                  <span className="domain-track">
                     {item.track}
-                  </motion.span>
+                  </span>
 
-                  <motion.h3
-                    layoutId={`domain-title-${item.number}`}
-                  >
+                  <h3>
                     {item.title}
-                  </motion.h3>
+                  </h3>
 
                   <p>
                     {item.description}
@@ -409,7 +399,7 @@ export default function About({ onNavigate }) {
                 <div className="domain-corner domain-corner-one" />
                 <div className="domain-corner domain-corner-two" />
 
-              </motion.article>
+              </article>
 
             ))}
 
@@ -420,34 +410,20 @@ export default function About({ onNavigate }) {
               DOMAIN MODAL
               ================================================= */}
 
-          <AnimatePresence>
-
             {selectedDomain && (
 
-              <motion.div
+              <div
                 className="domain-modal"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
               >
 
-                <motion.div
+                <div
                   className="domain-modal-backdrop"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
                   onClick={() => setSelectedDomain(null)}
                 />
 
 
-                <motion.div
-                  layoutId={`domain-card-${selectedDomain.number}`}
+                <div
                   className="domain-modal-card"
-                  transition={{
-                    type: 'spring',
-                    stiffness: 280,
-                    damping: 28,
-                  }}
                 >
 
                   <button
@@ -495,19 +471,14 @@ export default function About({ onNavigate }) {
 
                   <div className="domain-modal-info">
 
-                    <motion.span
-                      layoutId={`domain-track-${selectedDomain.number}`}
-                      className="domain-modal-track"
-                    >
+                    <span className="domain-modal-track">
                       {selectedDomain.track}
-                    </motion.span>
+                    </span>
 
 
-                    <motion.h2
-                      layoutId={`domain-title-${selectedDomain.number}`}
-                    >
+                    <h2>
                       {selectedDomain.title}
-                    </motion.h2>
+                    </h2>
 
 
                     <div className="modal-divider" />
@@ -572,13 +543,11 @@ export default function About({ onNavigate }) {
 
                   </div>
 
-                </motion.div>
+                </div>
 
-              </motion.div>
+              </div>
 
             )}
-
-          </AnimatePresence>
 
         </section>
 
@@ -674,59 +643,6 @@ export default function About({ onNavigate }) {
           </div>
 
         </section>
-
-
-        {/* =====================================================
-            FINAL CTA
-            ===================================================== */}
-
-        <section className="v6-final">
-
-          <div className="v6-final-number">
-            04
-          </div>
-
-          <div className="v6-final-content">
-
-            <span className="v6-eyebrow">
-              YOUR MOVE
-            </span>
-
-            <h2>
-              BUILD
-              <br />
-              <em>BEYOND.</em>
-            </h2>
-
-            <p>
-              The arena is waiting. Are you ready?
-            </p>
-
-          </div>
-
-
-          <button
-            className="v6-final-button"
-            onClick={() => onNavigate(3)}
-          >
-
-            <span>
-              ENTER THE RULES
-            </span>
-
-            <strong>
-              ↗
-            </strong>
-
-        {/* PROCEED ACTION */}
-        <div className="about-bottom-cta-row">
-          <button className="about-proceed-btn glow-hover" onClick={() => onNavigate(3)}>
-            <span>Check Arena Rules & Guidelines</span>
-            <span className="proceed-arrow">→</span>
-          </button>
-
-        </section>
-
       </div>
 
     </section>

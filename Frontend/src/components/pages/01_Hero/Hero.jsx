@@ -119,7 +119,7 @@ export default function Hero({ onNavigate }) {
 
             <button
               className="tech-chamfer-btn glow-hover"
-              onClick={() => onNavigate(2)}
+              onClick={() => onNavigate(2, 'problem-statements')}
               aria-label="Explore Problem Statements"
             >
               <svg className="tech-btn-svg" viewBox="0 0 320 54" preserveAspectRatio="none">

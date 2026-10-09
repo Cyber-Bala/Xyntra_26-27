@@ -1,200 +1,326 @@
+/* ============================================================
+   XYNTRA — SPONSORS & PRIZE POOL
+   RETRO TECH / VINTAGE EDITORIAL / ANALOG CONTROL PANELS
+   Existing Sponsors.jsx class names are preserved.
+   ============================================================ */
+
 .sponsors-page-section {
+  --sponsor-ivory: #f1dfc0;
+  --sponsor-muted: #b6a48a;
+  --sponsor-red: #e8475f;
+  --sponsor-amber: #eab04a;
+  --sponsor-panel: rgba(12, 10, 9, 0.78);
+  --sponsor-line: rgba(241, 223, 192, 0.2);
+
   min-height: calc(100vh - 140px);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 20px 60px;
+  padding: 38px 20px 60px;
   position: relative;
   z-index: 10;
+  isolation: isolate;
+  color: var(--sponsor-ivory);
+  background: transparent;
+}
+
+.sponsors-page-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 4, 4, 0.12),
+      rgba(5, 4, 4, 0.28) 55%,
+      rgba(5, 4, 4, 0.44)
+    );
 }
 
 .sponsors-main-container {
-  max-width: 1200px;
+  position: relative;
   width: 100%;
+  max-width: 1200px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 36px;
-  animation: sponsors-fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: sponsors-fade-in 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes sponsors-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   HEADER — EDITORIAL DISPLAY TYPE + TECHNICAL LABEL
+   ============================================================ */
 
 .sponsors-header-block {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 6px 0 8px;
 }
 
 .sponsors-kicker-tag {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #d4d4d8;
+  gap: 9px;
+  padding: 7px 13px;
+  border: 1px solid rgba(232, 71, 95, 0.48);
+  border-radius: 2px;
+  background: rgba(8, 7, 7, 0.48);
+  font-family: "Space Grotesk", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--sponsor-ivory);
   text-transform: uppercase;
 }
 
 .kicker-gem {
-  color: #ffffff;
+  color: var(--sponsor-red);
+  text-shadow: 0 0 9px rgba(232, 71, 95, 0.4);
 }
 
 .sponsors-main-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(32px, 6vw, 56px);
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  color: #ffffff;
   margin: 0;
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: clamp(36px, 6.2vw, 76px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  color: var(--sponsor-ivory);
+  text-wrap: balance;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.7);
 }
 
 .sponsors-lead-desc {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #a1a1aa;
-  max-width: 800px;
+  max-width: 760px;
   margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sponsor-muted);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
 }
 
-/* PRIZE POOL */
+/* ============================================================
+   PRIZE POOL — CONSOLE DISPLAY STRIP
+   ============================================================ */
+
 .prize-pool-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .total-pool-banner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 14px;
-  padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  backdrop-filter: blur(16px);
+  padding: 17px 24px;
+  border: 1px solid rgba(232, 71, 95, 0.44);
+  border-radius: 3px;
+  background:
+    linear-gradient(110deg, rgba(25, 15, 13, 0.88), rgba(10, 8, 8, 0.78));
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.05),
+    0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.total-pool-banner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--sponsor-red);
+  box-shadow: 0 0 12px rgba(232, 71, 95, 0.28);
 }
 
 .pool-sparkle {
-  color: #ffffff;
+  color: var(--sponsor-amber);
   font-size: 18px;
+  text-shadow: 0 0 10px rgba(234, 176, 74, 0.25);
 }
 
 .pool-label {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 12px;
+  font-family: "Space Grotesk", monospace;
+  font-size: 10px;
   letter-spacing: 0.18em;
-  color: #a1a1aa;
+  color: var(--sponsor-muted);
   font-weight: 700;
+  text-transform: uppercase;
 }
 
 .pool-number {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: clamp(27px, 4vw, 42px);
+  line-height: 1;
+  font-weight: 400;
+  color: var(--sponsor-ivory);
+  text-shadow: 0 2px 12px rgba(232, 71, 95, 0.17);
 }
+
+/* ============================================================
+   PRIZE PODIUM CARDS — ANGULAR PRINTED PANELS
+   ============================================================ */
 
 .prizes-podium-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
 }
 
 .prize-podium-card {
-  background: rgba(18, 18, 24, 0.85);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-radius: 16px;
-  padding: 26px;
+  --prize-accent: var(--sponsor-red);
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+  padding: 25px 24px 27px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  transition: all 0.25s ease;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  gap: 17px;
+  border: 1px solid color-mix(in srgb, var(--prize-accent) 45%, rgba(241, 223, 192, 0.14));
+  border-radius: 3px;
+  background: linear-gradient(135deg, rgba(18, 14, 12, 0.9), rgba(8, 7, 7, 0.8));
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.045),
+    0 14px 32px rgba(0, 0, 0, 0.32);
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    background 280ms ease;
+}
+
+.prize-podium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--prize-accent) 12%, transparent), transparent 43%),
+    repeating-linear-gradient(0deg, rgba(241, 223, 192, 0.022) 0, rgba(241, 223, 192, 0.022) 1px, transparent 1px, transparent 5px);
+  opacity: 0.72;
+}
+
+.prize-podium-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  border-top: 2px solid var(--prize-accent);
+  border-right: 2px solid var(--prize-accent);
+  opacity: 0.8;
+  pointer-events: none;
+  transition: width 280ms ease, height 280ms ease;
 }
 
 .prize-podium-card.gold-card {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.04);
+  --prize-accent: var(--sponsor-amber);
+  border-color: rgba(234, 176, 74, 0.5);
 }
 
 .prize-podium-card.silver-card {
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  --prize-accent: var(--sponsor-ivory);
+  border-color: rgba(241, 223, 192, 0.3);
 }
 
 .prize-podium-card.bronze-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  --prize-accent: var(--sponsor-red);
+  border-color: rgba(232, 71, 95, 0.35);
 }
 
 .prize-podium-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  border-color: var(--prize-accent);
+  box-shadow:
+    inset 0 1px rgba(241, 223, 192, 0.08),
+    0 18px 38px rgba(0, 0, 0, 0.42),
+    0 0 16px color-mix(in srgb, var(--prize-accent) 9%, transparent);
+}
+
+.prize-podium-card:hover::after {
+  width: 35px;
+  height: 35px;
 }
 
 .prize-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .prize-rank-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  color: #ffffff;
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 400;
+  color: var(--sponsor-ivory);
 }
 
 .prize-tier-badge {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-family: "Space Grotesk", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #000000;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  border: 1px solid var(--prize-accent);
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--prize-accent) 13%, #100d0b);
+  color: var(--prize-accent);
 }
 
 .prize-cash-box {
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 10px;
+  position: relative;
+  padding: 17px 16px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 5px;
+  border: 1px solid rgba(241, 223, 192, 0.13);
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.24);
 }
 
 .prize-amt-val {
-  font-family: 'Outfit', sans-serif;
-  font-size: 32px;
-  font-weight: 900;
-  color: #ffffff;
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: clamp(27px, 2.6vw, 36px);
+  line-height: 1.05;
+  font-weight: 400;
+  color: var(--sponsor-ivory);
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
 }
 
 .prize-amt-sub {
-  font-size: 11px;
-  color: #a1a1aa;
+  font-family: "Space Grotesk", monospace;
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  color: var(--sponsor-muted);
 }
 
 .prize-perks-list {
@@ -203,25 +329,30 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 11px;
 }
 
 .prize-perks-list li {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 13px;
-  color: #cbd5e1;
-  line-height: 1.5;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(241, 223, 192, 0.82);
 }
 
 .perk-bullet {
-  color: #ffffff;
+  flex-shrink: 0;
+  color: var(--prize-accent);
   font-weight: bold;
-  opacity: 0.7;
+  opacity: 0.95;
 }
 
-/* SINGLE INFINITE SPONSOR MARQUEE */
+/* ============================================================
+   SPONSOR TIERS — FULL-WIDTH ANALOG MARQUEE
+   ============================================================ */
+
 .sponsor-tiers-container {
   display: flex;
   flex-direction: column;
@@ -236,32 +367,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18px;
   width: min(1200px, calc(100% - 40px));
   margin-inline: auto;
 }
 
 .tier-category-label {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #a1a1aa;
+  font-family: "Space Grotesk", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sponsor-ivory);
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .sponsor-marquee-caption {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
+  font-family: "Space Grotesk", monospace;
+  font-size: 9px;
   letter-spacing: 0.13em;
-  color: #71717a;
+  color: var(--sponsor-muted);
+  text-align: right;
 }
 
 .sponsor-marquee {
   width: 100%;
   overflow: hidden;
-  border-block: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(90deg, rgba(2, 4, 17, 0.96), rgba(12, 16, 38, 0.72), rgba(2, 4, 17, 0.96));
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  border-block: 1px solid rgba(241, 223, 192, 0.2);
+  background:
+    linear-gradient(90deg, rgba(7, 5, 5, 0.96), rgba(29, 16, 13, 0.86), rgba(7, 5, 5, 0.96)),
+    repeating-linear-gradient(0deg, rgba(241, 223, 192, 0.02) 0, rgba(241, 223, 192, 0.02) 1px, transparent 1px, transparent 5px);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 
 .sponsor-marquee-track,
@@ -273,6 +409,7 @@
 
 .sponsor-marquee-track {
   animation: sponsor-marquee-loop 36s linear infinite;
+  will-change: transform;
 }
 
 .sponsor-marquee:hover .sponsor-marquee-track {
@@ -281,11 +418,12 @@
 
 .sponsor-marquee-group {
   flex: 0 0 auto;
-  gap: 18px;
-  padding: 18px 9px;
+  gap: 14px;
+  padding: 16px 7px;
 }
 
 .sponsor-marquee-item {
+  position: relative;
   width: 236px;
   height: 92px;
   flex: 0 0 auto;
@@ -293,17 +431,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   padding: 12px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.035);
-  transition: border-color 220ms ease, background-color 220ms ease;
+  overflow: hidden;
+  border: 1px solid rgba(241, 223, 192, 0.17);
+  border-radius: 2px;
+  background: rgba(11, 8, 7, 0.7);
+  transition: border-color 220ms ease, background-color 220ms ease, transform 220ms ease;
+}
+
+.sponsor-marquee-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-top: 1px solid rgba(232, 71, 95, 0.75);
+  border-left: 1px solid rgba(232, 71, 95, 0.75);
+  pointer-events: none;
 }
 
 .sponsor-marquee-item:hover {
-  border-color: rgba(120, 140, 255, 0.42);
-  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(232, 71, 95, 0.65);
+  background: rgba(35, 17, 15, 0.86);
+  transform: translateY(-2px);
 }
 
 @keyframes sponsor-marquee-loop {
@@ -316,39 +468,141 @@
   max-width: 190px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .sponsor-logo-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  color: #ffffff;
+  font-family: var(--font-speltale, Georgia, serif);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--sponsor-ivory);
   white-space: nowrap;
 }
 
 .sponsor-meta-badge {
-  font-size: 9px;
-  color: #a1a1aa;
-  letter-spacing: 0.05em;
+  font-family: "Space Grotesk", monospace;
+  font-size: 8px;
+  color: var(--sponsor-muted);
+  letter-spacing: 0.08em;
   text-align: center;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sponsor-marquee-track {
-    animation: none;
+/* ============================================================
+   RESPONSIVE + ACCESSIBILITY
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .sponsors-page-section {
+    justify-content: flex-start;
+    padding: 34px 18px 48px;
+  }
+
+  .prizes-podium-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .prize-podium-card {
+    padding: 22px 19px 24px;
   }
 }
 
 @media (max-width: 600px) {
+  .sponsors-page-section {
+    padding: 28px 14px 38px;
+  }
+
+  .sponsors-main-container {
+    gap: 27px;
+  }
+
+  .sponsors-header-block {
+    gap: 13px;
+  }
+
+  .sponsors-kicker-tag {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+
+  .sponsors-main-title {
+    font-size: clamp(34px, 9vw, 48px);
+    line-height: 1.02;
+  }
+
+  .sponsors-lead-desc {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .total-pool-banner {
+    gap: 10px;
+    padding: 15px 12px;
+  }
+
+  .pool-label {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .pool-number {
+    font-size: clamp(25px, 7vw, 34px);
+  }
+
+  .prizes-podium-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .prize-podium-card {
+    gap: 15px;
+    padding: 20px 18px 22px;
+  }
+
+  .prize-amt-val {
+    font-size: 30px;
+  }
+
+  .prize-perks-list li {
+    font-size: 12px;
+  }
+
   .sponsor-marquee-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
+  }
+
+  .sponsor-marquee-caption {
+    text-align: left;
   }
 
   .sponsor-marquee-item {
     width: 210px;
+    height: 88px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsors-main-container {
+    animation: none;
+  }
+
+  .sponsor-marquee-track {
+    animation: none;
+    transform: none;
+  }
+
+  .prize-podium-card,
+  .prize-podium-card::after,
+  .sponsor-marquee-item {
+    transition: none;
+  }
+
+  .prize-podium-card:hover,
+  .sponsor-marquee-item:hover {
+    transform: none;
   }
 }

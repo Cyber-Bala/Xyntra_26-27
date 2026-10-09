@@ -14,29 +14,28 @@ export default function Reveal({ children, stagger = false, className = '' }) {
     const targets = stagger ? Array.from(element.children) : [element]
     if (!targets.length) return undefined
 
-    let revealTween
     const context = gsap.context(() => {
-      gsap.set(targets, { y: 40, autoAlpha: 0 })
-
-      ScrollTrigger.create({
-        trigger: element,
-        start: 'top 85%',
-        once: true,
-        onEnter: () => {
-          revealTween = gsap.to(targets, {
-            y: 0,
-            autoAlpha: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            stagger: stagger ? 0.08 : 0,
-            overwrite: 'auto',
-          })
+      gsap.fromTo(targets,
+        { y: stagger ? 30 : 44, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 1,
+          ease: 'none',
+          stagger: stagger ? 0.08 : 0,
+          overwrite: 'auto',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 88%',
+            end: 'top 46%',
+            scrub: 0.75,
+            invalidateOnRefresh: true,
+          },
         },
-      })
+      )
     }, element)
 
     return () => {
-      revealTween?.kill()
       context.revert()
     }
   }, [stagger])

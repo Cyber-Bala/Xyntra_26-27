@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import Reveal from './components/animations/Reveal.jsx'
-import CinematicVideoBackground from './components/background/CinematicVideoBackground.jsx'
+import CursorAura from './components/animations/CursorAura.jsx'
+import RetroLabBackground from './components/background/RetroLabBackground.jsx'
 import Navbar from './components/navbar/Navbar.jsx'
 import PreloaderExperience from './components/preloader/PreloaderExperience.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
@@ -25,19 +26,28 @@ function isRegistrationRoute(pathname) {
 
 export default function App() {
   const [activePage, setActivePage] = useState(() => isRegistrationRoute(window.location.pathname) ? 4 : 1)
+  // Registration routes skip the preloader entirely.
   const [introFinished, setIntroFinished] = useState(() => isRegistrationRoute(window.location.pathname))
-  const [isWarping, setIsWarping] = useState(false)
+  const [pageVisible, setPageVisible] = useState(() => isRegistrationRoute(window.location.pathname))
   const isRegistrationPage = isRegistrationRoute(window.location.pathname)
 
-  const handleIntroComplete = () => {
-    setIsWarping(true)
-    setTimeout(() => {
-      setIntroFinished(true)
-      setIsWarping(false)
-    }, 600)
-  }
+  // Reveal the page as the preloader reaches its reveal point.
+  const handleIntroReveal = useCallback(() => {
+    setPageVisible(true)
+  }, [])
 
-  const handleNavigate = useCallback((pageId) => {
+  // The preloader has fully faded out, so it can now be unmounted.
+  const handleIntroComplete = useCallback(() => {
+    setIntroFinished(true)
+  }, [])
+
+  // Keep Lenis from scrolling the page while the preloader is on screen.
+  useEffect(() => {
+    if (!introFinished) window.lenisInstance?.stop?.()
+    else window.lenisInstance?.start?.()
+  }, [introFinished])
+
+  const handleNavigate = useCallback((pageId, targetId) => {
     const page = PAGES.find((item) => item.id === pageId)
     if (!page) return
 
@@ -58,7 +68,7 @@ export default function App() {
     if (isRegistrationRoute(window.location.pathname)) window.history.pushState({}, '', '/')
     setActivePage(page.id)
     requestAnimationFrame(() => {
-      const section = document.getElementById(page.section)
+      const section = document.getElementById(targetId || page.section)
       const destination = page.id === 1 ? 0 : section
       if (window.lenisInstance) {
         window.lenisInstance.scrollTo(destination, { offset: page.id === 1 ? 0 : -96 })
@@ -104,37 +114,45 @@ export default function App() {
   }, [introFinished, isRegistrationPage])
 
   return (
-    <div className="app-root-wrapper">
-      {!introFinished && <PreloaderExperience onComplete={handleIntroComplete} />}
+    <>
+      {/* Sits outside the faded wrapper so it is visible from the first frame. */}
+      {!introFinished && (
+        <PreloaderExperience onReveal={handleIntroReveal} onComplete={handleIntroComplete} />
+      )}
 
-      <CinematicVideoBackground isWarping={isWarping} />
+      <div className={`app-root-wrapper hero-reveal ${pageVisible ? 'is-visible' : ''}`}>
+        <CursorAura />
 
-      <Navbar
-        activePage={activePage}
-        onNavigate={handleNavigate}
-        pages={PAGES}
-      />
+        {/* One shared, code-generated SVG background for all pages. */}
+        <RetroLabBackground />
 
-      <main className={`main-content-view ${isRegistrationPage ? 'registration-view' : 'landing-view'}`}>
-        {isRegistrationPage ? (
-          <Register onNavigate={handleNavigate} />
-        ) : (
-          <>
-            <Reveal className="landing-section-reveal">
-              <Hero onNavigate={handleNavigate} />
-            </Reveal>
-            <Reveal className="landing-section-reveal">
-              <About onNavigate={handleNavigate} />
-            </Reveal>
-            <Reveal className="landing-section-reveal">
-              <Sponsors onNavigate={handleNavigate} />
-            </Reveal>
-            <Reveal className="landing-section-reveal">
-              <Rules onNavigate={handleNavigate} />
-            </Reveal>
-          </>
-        )}
-      </main>
-    </div>
-  );
+        <Navbar
+          activePage={activePage}
+          onNavigate={handleNavigate}
+          pages={PAGES}
+        />
+
+        <main className={`main-content-view ${isRegistrationPage ? 'registration-view' : 'landing-view'}`}>
+          {isRegistrationPage ? (
+            <Register onNavigate={handleNavigate} />
+          ) : (
+            <>
+              <Reveal className="landing-section-reveal">
+                <Hero onNavigate={handleNavigate} />
+              </Reveal>
+              <Reveal className="landing-section-reveal">
+                <About onNavigate={handleNavigate} />
+              </Reveal>
+              <Reveal className="landing-section-reveal">
+                <Sponsors onNavigate={handleNavigate} />
+              </Reveal>
+              <Reveal className="landing-section-reveal">
+                <Rules onNavigate={handleNavigate} />
+              </Reveal>
+            </>
+          )}
+        </main>
+      </div>
+    </>
+  )
 }

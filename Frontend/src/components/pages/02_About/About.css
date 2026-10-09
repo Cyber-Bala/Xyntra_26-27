@@ -11,12 +11,10 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-
   padding: 120px 5vw;
-
   overflow: hidden;
 
-  background: #050505;
+  background: transparent;
   color: #fff;
 }
 

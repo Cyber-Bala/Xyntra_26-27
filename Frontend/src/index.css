@@ -1,80 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-
 :root {
-  --bg-midnight: #020411;
-  --bg-dark: #020411;
-  --bg-card: rgba(18, 18, 24, 0.85);
-
-  --brand-blue: #0004eb;
-  --brand-blue-hover: #3037ff;
-  --brand-blue-glow: rgba(0, 4, 235, 0.28);
-  --border-blue: rgba(102, 111, 255, 0.24);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-
-  --text-main: #ffffff;
-  --text-muted: #a1a1aa;
-  --text-dim: #71717a;
-
-  --font-heading: 'Outfit', sans-serif;
-  --font-mono: 'Space Grotesk', monospace;
-  --font-body: 'Inter', sans-serif;
-
-  color-scheme: dark;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: auto;
-  background-color: var(--bg-midnight);
-  color: var(--text-main);
-  font-family: var(--font-body);
+  --pink: #e8475f;            /* coral red: main accent, buttons */
+  --pink-glow: rgba(232,71,95,.4);
+  --teal: #4fc9b8;
+  --rose: #d1478a;            /* magenta sunset */
+  --mustard: #eab04a;         /* amber */
+  --purple: #9a5fd1;
+  --green: #6fcf8a;
+  --bg: #0b0908;
+  --bg2: #1a1020;
+  --ink: #f1dfb6;             /* cream */
+  --font-speltale: 'Abril Fatface','Playfair Display',Georgia,serif;
 }
 
 body {
-  min-height: 100vh;
-  background-color: var(--bg-midnight);
-  color: var(--text-main);
-  overflow-x: hidden;
-}
-
-#root {
-  width: 100%;
-  min-height: 100vh;
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: 'Playfair Display', Georgia, serif;
+  background:
+    radial-gradient(120% 55% at 50% 0%, var(--bg2) 0%, transparent 70%),
+    radial-gradient(60% 40% at 0% 100%, rgba(209,71,138,.14) 0%, transparent 70%),
+    radial-gradient(60% 40% at 100% 90%, rgba(79,201,184,.12) 0%, transparent 70%),
+    var(--bg);
 }
 
-/* Custom Sleek Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Base display style */
+h1, h2, h3, .speltale {
+  font-family: var(--font-speltale);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+  line-height: .95;
+  margin: 0;
 }
 
-::-webkit-scrollbar-track {
-  background: #020411;
+/* Lit gradient fill (not for buttons) */
+h1, h2, h3, .speltale:not(.btn) {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+ background-image:
+  linear-gradient(105deg, transparent 38%, rgba(255,250,235,.4) 47%, transparent 56%),
+  linear-gradient(175deg, #f6e8c4 0%, #f1dfb6 45%, #e8475f 100%);
+filter:
+  drop-shadow(0 0 10px var(--pink-glow))
+  drop-shadow(3px 3px 0 #1a0a12);
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
+h1 { font-size: clamp(3rem, 17vw, 8rem); }
+h2 { font-size: clamp(1.8rem, 9vw, 3.2rem); }
+h3 { font-size: 1.5rem; }
+
+.speltale-sub {
+  font-family: var(--font-speltale);
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: .6em;
+  font-size: .8rem;
+}
+
+.btn {
+  font-family: var(--font-speltale);
+  background: var(--pink);
+  color: #000;
+  border: 0;
   border-radius: 4px;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 24px var(--pink-glow);
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Global Selection styling */
-::selection {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
+.btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
