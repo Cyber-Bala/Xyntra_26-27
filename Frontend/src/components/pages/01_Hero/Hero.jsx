@@ -3,29 +3,43 @@ import './Hero.css'
 
 const EVENT_DATE = new Date('2026-10-24T09:00:00+05:30').getTime()
 
-export default function Hero({ onNavigate }) {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft())
-
-  function getTimeLeft() {
-    const difference = EVENT_DATE - Date.now()
-    if (difference <= 0) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 }
-    }
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / (1000 * 60)) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    }
+function getTimeLeft() {
+  const difference = EVENT_DATE - Date.now()
+  if (difference <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 }
   }
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  }
+}
 
+function HeroCountdown() {
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft())
-    }, 1000)
+    const timer = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000)
     return () => clearInterval(timer)
   }, [])
 
+  return (
+    <>
+      <p className="hero-countdown-label">REGISTRATION CLOSES IN</p>
+      <div className="hero-countdown-strip">
+        <TechCountdownCard value={String(timeLeft.days).padStart(2, '0')} unit="DAYS" />
+        <span className="tech-colon-separator">:</span>
+        <TechCountdownCard value={String(timeLeft.hours).padStart(2, '0')} unit="HOURS" />
+        <span className="tech-colon-separator">:</span>
+        <TechCountdownCard value={String(timeLeft.minutes).padStart(2, '0')} unit="MINS" />
+        <span className="tech-colon-separator">:</span>
+        <TechCountdownCard value={String(timeLeft.seconds).padStart(2, '0')} unit="SECS" />
+      </div>
+    </>
+  )
+}
+
+export default function Hero({ onNavigate }) {
   return (
     <section className="wireframe-hero-section" id="hero">
       <div className="wireframe-hero-container">
@@ -61,39 +75,7 @@ export default function Hero({ onNavigate }) {
 
         {/* ===== BOTTOM STATION (COUNTDOWN & BUTTONS) ===== */}
         <div className="hero-bottom-action-station">
-          {/* CLEAN WHITE TEXT: REGISTRATION CLOSES IN */}
-          <p className="hero-countdown-label">
-            REGISTRATION CLOSES IN
-          </p>
-
-          {/* BIG TECH CHAMFERED COUNTDOWN TIMER */}
-          <div className="hero-countdown-strip">
-            <TechCountdownCard
-              value={String(timeLeft.days).padStart(2, '0')}
-              unit="DAYS"
-            />
-
-            <span className="tech-colon-separator">:</span>
-
-            <TechCountdownCard
-              value={String(timeLeft.hours).padStart(2, '0')}
-              unit="HOURS"
-            />
-
-            <span className="tech-colon-separator">:</span>
-
-            <TechCountdownCard
-              value={String(timeLeft.minutes).padStart(2, '0')}
-              unit="MINS"
-            />
-
-            <span className="tech-colon-separator">:</span>
-
-            <TechCountdownCard
-              value={String(timeLeft.seconds).padStart(2, '0')}
-              unit="SECS"
-            />
-          </div>
+          <HeroCountdown />
 
           {/* TECH OUTLINE ACTION BUTTONS */}
           <div className="hero-action-buttons-row">

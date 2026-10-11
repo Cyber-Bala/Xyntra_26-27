@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import './About.css'
 
 
 
-
-export default function About({ onNavigate }) {
-
-  const [selectedDomain, setSelectedDomain] = useState(null)
-
-  // Live local clock for the 24-hour time-machine dial.
+function ClockHands() {
   const [clockTime, setClockTime] = useState(() => new Date())
 
   useEffect(() => {
-    const timer = setInterval(() => setClockTime(new Date()), 1000)
+    const timer = window.setInterval(() => setClockTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
 
@@ -25,7 +21,40 @@ export default function About({ onNavigate }) {
   const minuteAngle = minutes * 6 + seconds * 0.1
   const hourAngle = (hours % 12) * 30 + minutes * 0.5
 
+  return (
+    <>
+      <div
+        className="v6-clock-hand v6-clock-hour"
+        style={{ transform: `translateX(-50%) rotate(${hourAngle}deg)` }}
+        aria-hidden="true"
+      />
+      <div
+        className="v6-clock-hand v6-clock-minute"
+        style={{ transform: `translateX(-50%) rotate(${minuteAngle}deg)` }}
+        aria-hidden="true"
+      />
+      <div
+        className="v6-clock-hand v6-clock-second"
+        style={{ transform: `translateX(-50%) rotate(${secondAngle}deg)` }}
+        aria-hidden="true"
+      />
+    </>
+  )
+}
 
+export default function About() {
+  const [selectedDomain, setSelectedDomain] = useState(null)
+
+  useEffect(() => {
+    if (!selectedDomain) return undefined
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setSelectedDomain(null)
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [selectedDomain])
 
   const problemStatements = [
 
@@ -494,22 +523,7 @@ export default function About({ onNavigate }) {
 
                 <div className="v6-orb-dot v6-dot-two" />
 
-                {/* Live clock hands: update with the user's local time */}
-                <div
-                  className="v6-clock-hand v6-clock-hour"
-                  style={{ transform: `translateX(-50%) rotate(${hourAngle}deg)` }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="v6-clock-hand v6-clock-minute"
-                  style={{ transform: `translateX(-50%) rotate(${minuteAngle}deg)` }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="v6-clock-hand v6-clock-second"
-                  style={{ transform: `translateX(-50%) rotate(${secondAngle}deg)` }}
-                  aria-hidden="true"
-                />
+                <ClockHands />
                 <div className="v6-clock-pin" aria-hidden="true" />
 
                 <div className="v6-orb-core">
@@ -683,9 +697,17 @@ export default function About({ onNavigate }) {
                 key={item.number}
 
                 className={`domain-card domain-card-${index + 1}`}
+                role="button"
+                tabIndex={0}
+                aria-haspopup="dialog"
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    setSelectedDomain(item)
+                  }
+                }}
 
                 onClick={() => setSelectedDomain(item)}
-
               >
 
 
@@ -820,14 +842,12 @@ export default function About({ onNavigate }) {
 
 
 
-            {selectedDomain && (
-
-
-
+            {selectedDomain && createPortal(
               <div
-
                 className="domain-modal"
-
+                role="dialog"
+                aria-modal="true"
+                aria-label={selectedDomain.title}
               >
 
 
@@ -855,6 +875,7 @@ export default function About({ onNavigate }) {
                   <button
 
                     className="domain-modal-close"
+                    type="button"
 
                     onClick={() => setSelectedDomain(null)}
 
@@ -1088,12 +1109,8 @@ export default function About({ onNavigate }) {
 
                 </div>
 
-
-
-              </div>
-
-
-
+              </div>,
+              document.body,
             )}
 
 

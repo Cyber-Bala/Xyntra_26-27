@@ -16,19 +16,18 @@ export default function Reveal({ children, stagger = false, className = '' }) {
 
     const context = gsap.context(() => {
       gsap.fromTo(targets,
-        { y: stagger ? 30 : 44, autoAlpha: 0 },
+        { y: stagger ? 18 : 28, autoAlpha: 0 },
         {
           y: 0,
           autoAlpha: 1,
-          duration: 1,
-          ease: 'none',
+          duration: 0.65,
+          ease: 'power2.out',
           stagger: stagger ? 0.08 : 0,
           overwrite: 'auto',
           scrollTrigger: {
             trigger: element,
             start: 'top 88%',
-            end: 'top 46%',
-            scrub: 0.75,
+            toggleActions: 'play none none reverse',
             invalidateOnRefresh: true,
           },
         },

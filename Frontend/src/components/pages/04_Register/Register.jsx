@@ -49,6 +49,15 @@ function loadRazorpay() {
   });
 }
 
+function RegistrationHomeButton({ onNavigate }) {
+  return (
+    <button className="registration-home-button" type="button" onClick={() => onNavigate?.(1)}>
+      <span className="registration-home-mark">XYNTRA<span>26—27</span></span>
+      <span className="registration-home-action">← MAIN SITE</span>
+    </button>
+  )
+}
+
 export default function Register({ onNavigate }) {
   const linkTokens = getLinkTokens();
   const [members, setMembers] = useState(() => Array.from({ length: 4 }, emptyMember));
@@ -221,6 +230,7 @@ export default function Register({ onNavigate }) {
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
         <AsciiNoiseBackground />
+        <RegistrationHomeButton onNavigate={onNavigate} />
         <p className="section-kicker">XYNTRA / EMAIL VERIFICATION</p>
         <h1 className="registration-title">Confirm your team email.</h1>
         <div className="stage-card">
@@ -239,6 +249,7 @@ export default function Register({ onNavigate }) {
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
         <AsciiNoiseBackground />
+        <RegistrationHomeButton onNavigate={onNavigate} />
         <p className="section-kicker">XYNTRA / APPLICATION STATUS</p>
         <h1 className="registration-title">Your team’s progress.</h1>
         <div className="stage-card">
@@ -265,6 +276,7 @@ export default function Register({ onNavigate }) {
     return (
       <section className="register-section register-stage-page" id="register" aria-live="polite">
         <AsciiNoiseBackground />
+        <RegistrationHomeButton onNavigate={onNavigate} />
         <p className="section-kicker">XYNTRA / ROUND 02</p>
         <h1 className="registration-title">Secure your place.</h1>
         <p className="stage-intro">This private payment link is sent only after your Round 1 presentation is selected.</p>
@@ -297,20 +309,39 @@ export default function Register({ onNavigate }) {
   return (
     <section className="register-section" id="register">
       <AsciiNoiseBackground />
+      <RegistrationHomeButton onNavigate={onNavigate} />
       <div className="registration-hero">
-        <div className="section-heading register-heading"><p className="section-kicker">05 / ROUND 01 REGISTRATION</p><h2 className="registration-title">Bring the idea.<br />Build the future.</h2><p>Submit your team and presentation deck for the first-round review.</p></div>
+        <div className="section-heading register-heading"><p className="section-kicker">ROUND 01 REGISTRATION</p><h2 className="registration-title">Bring the idea.<br />Build the future.</h2><p>Submit your team and presentation deck for the first-round review.</p></div>
         <div className="registration-terminal" role="img" aria-label="A retro Xyntra computer terminal, ready for teams to begin registration.">
           <div className="terminal-chrome"><span className="terminal-lights"><i /><i /><i /></span><span>XYNTRA / SYSTEM 26-27</span><span className="terminal-live">● READY</span></div>
-          <pre className="registration-ascii" aria-hidden="true">{`       .------------------.
-      /  X Y N T R A  26  /|
-     .------------------. |
-     |   .----------.   | |
-     |   |  READY_  |   | /
-     |   '----------'   |/
-     '--------+---------'
-          ____|____
-         /_________\\
-        /___________\\`}</pre>
+          <div className="terminal-display">
+            <div className="terminal-screen">
+              <div className="terminal-screen-label"><span>FIELD CONSOLE / 26.27</span><span>● UPLINK</span></div>
+              <pre className="registration-ascii" aria-hidden="true">{`01  01001000  01100001  01100011
+02  ░▒▓  X Y N T R A  ▓▒░
+03  01100001  01100011  01101011
+04  ░░▒▒▓▓  SYSTEM READY  ▓▓▒▒░░
+05  01010010  01100101  01100001
+06  ░▒▓  BUILD / SUBMIT / SHIP  ▓▒░
+07  01100100  01111001  00100001`}</pre>
+              <div className="terminal-screen-caption"><strong>XYNTRA</strong><span>REGISTRATION SYSTEM</span></div>
+            </div>
+            <div className="terminal-side-panel" aria-hidden="true">
+              <span className="terminal-dial" />
+              <span className="terminal-dial" />
+              <span className="terminal-meter"><i /></span>
+              <span className="terminal-panel-code">SYS<br />26—27</span>
+            </div>
+          </div>
+          <div className="terminal-control-deck" aria-hidden="true">
+            <div className="terminal-switches"><i /><i /><i /><span>POWER / DATA / LINK</span></div>
+            <div className="terminal-keyboard">
+              <span>Q</span><span>W</span><span>E</span><span>R</span><span>T</span><span>Y</span><span>U</span><span>I</span><span>O</span><span>P</span>
+              <span>A</span><span>S</span><span>D</span><span>F</span><span>G</span><span>H</span><span>J</span><span>K</span><span>L</span>
+              <span>⇧</span><span>Z</span><span>X</span><span>C</span><span>V</span><span>B</span><span>N</span><span>M</span><span>↵</span>
+            </div>
+            <div className="terminal-trackpad"><i /></div>
+          </div>
           <div className="terminal-status"><span>SYS / ONLINE</span><span>BUILD MODE / ACTIVE</span></div>
         </div>
       </div>

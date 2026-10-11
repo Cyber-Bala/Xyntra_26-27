@@ -9,7 +9,7 @@
   --bg: #0b0908;
   --bg2: #1a1020;
   --ink: #f1dfb6;             /* cream */
-  --font-speltale: 'Abril Fatface','Playfair Display',Georgia,serif;
+  --font-speltale: 'Playfair Display', Georgia, serif;
 }
 
 body {
@@ -27,7 +27,8 @@ body {
 /* Base display style */
 h1, h2, h3, .speltale {
   font-family: var(--font-speltale);
-  font-weight: 400;
+  font-style: italic;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: -.02em;
   line-height: .95;
@@ -42,15 +43,31 @@ h1, h2, h3, .speltale:not(.btn) {
   background-clip: text;
  background-image:
   linear-gradient(105deg, transparent 38%, rgba(255,250,235,.4) 47%, transparent 56%),
-  linear-gradient(175deg, #f6e8c4 0%, #f1dfb6 45%, #e8475f 100%);
+  linear-gradient(100deg, #f8eddb 0%, #eacb98 52%, #4fc9b8 100%);
 filter:
-  drop-shadow(0 0 10px var(--pink-glow))
-  drop-shadow(3px 3px 0 #1a0a12);
+  drop-shadow(0 0 10px rgba(234, 203, 152, .2))
+  drop-shadow(2px 2px 0 #1a0a12);
 }
 
 h1 { font-size: clamp(3rem, 17vw, 8rem); }
 h2 { font-size: clamp(1.8rem, 9vw, 3.2rem); }
 h3 { font-size: 1.5rem; }
+
+/* Keep display headings consistent even where section styles define their own type. */
+.app-root-wrapper .main-content-view h1,
+.app-root-wrapper .main-content-view h2,
+.app-root-wrapper .main-content-view h3 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+}
+
+/* Compact rule labels retain their pixel-console treatment. */
+.app-root-wrapper .main-content-view h2.rule-card-title {
+  font-family: 'Silkscreen', 'Space Grotesk', monospace !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
 
 .speltale-sub {
   font-family: var(--font-speltale);

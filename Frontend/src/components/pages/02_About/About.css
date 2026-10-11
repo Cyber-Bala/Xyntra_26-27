@@ -4947,3 +4947,63 @@ span::before {
 .domain-modal *::-webkit-scrollbar {
   display: none;
 }
+
+/* Keep the details dialog centered in the viewport and scrollable at every size. */
+.domain-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  box-sizing: border-box;
+  display: flex;
+  width: 100vw;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 24px;
+  overscroll-behavior: contain;
+}
+
+.domain-modal-card {
+  width: min(1100px, 92vw) !important;
+  height: min(680px, calc(100dvh - 48px)) !important;
+  max-height: calc(100dvh - 48px) !important;
+  min-height: 0;
+  grid-template-columns: 44% 56%;
+  overflow: hidden !important;
+}
+
+.domain-modal-info {
+  min-height: 0;
+  max-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 700px) {
+  .domain-modal {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .domain-modal-card {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    grid-template-columns: 1fr;
+    overflow: visible !important;
+  }
+
+  .domain-modal-visual {
+    min-height: 220px;
+  }
+
+  .domain-modal-info {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}

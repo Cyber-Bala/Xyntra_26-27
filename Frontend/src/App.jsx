@@ -1,10 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import './App.css'
 import Reveal from './components/animations/Reveal.jsx'
-import CursorAura from './components/animations/CursorAura.jsx'
-import RetroLabBackground from './components/background/RetroLabBackground.jsx'
 import Navbar from './components/navbar/Navbar.jsx'
-import PreloaderExperience from './components/preloader/PreloaderExperience.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
 import About from './components/pages/02_About/About.jsx'
 import Rules from './components/pages/03_Rules/Rules.jsx'
@@ -25,29 +22,11 @@ function isRegistrationRoute(pathname) {
 }
 
 export default function App() {
+  const scrollFrame = useRef(0)
   const [activePage, setActivePage] = useState(() => isRegistrationRoute(window.location.pathname) ? 4 : 1)
-  // Registration routes skip the preloader entirely.
-  const [introFinished, setIntroFinished] = useState(() => isRegistrationRoute(window.location.pathname))
-  const [pageVisible, setPageVisible] = useState(() => isRegistrationRoute(window.location.pathname))
   const isRegistrationPage = isRegistrationRoute(window.location.pathname)
 
-  // Reveal the page as the preloader reaches its reveal point.
-  const handleIntroReveal = useCallback(() => {
-    setPageVisible(true)
-  }, [])
-
-  // The preloader has fully faded out, so it can now be unmounted.
-  const handleIntroComplete = useCallback(() => {
-    setIntroFinished(true)
-  }, [])
-
-  // Keep Lenis from scrolling the page while the preloader is on screen.
-  useEffect(() => {
-    if (!introFinished) window.lenisInstance?.stop?.()
-    else window.lenisInstance?.start?.()
-  }, [introFinished])
-
-  const handleNavigate = useCallback((pageId, targetId) => {
+  const navigateImmediately = useCallback((pageId, targetId) => {
     const page = PAGES.find((item) => item.id === pageId)
     if (!page) return
 
@@ -78,6 +57,13 @@ export default function App() {
     })
   }, [])
 
+  const handleNavigate = useCallback((pageId, targetId) => {
+    const page = PAGES.find((item) => item.id === pageId)
+    if (!page) return
+
+    navigateImmediately(pageId, targetId)
+  }, [navigateImmediately])
+
   // Keep the URL and rendered view in sync with browser back/forward navigation.
   useEffect(() => {
     const handlePopState = () => {
@@ -94,43 +80,45 @@ export default function App() {
 
   // Update the highlighted nav item as the landing page scrolls between sections.
   useEffect(() => {
-    if (!introFinished || isRegistrationPage) return undefined
+    if (isRegistrationPage) return undefined
 
     const sections = PAGES.filter((page) => page.section)
       .map((page) => ({ ...page, element: document.getElementById(page.section) }))
       .filter((page) => page.element)
 
     const updateActiveSection = () => {
+      scrollFrame.current = 0
       const marker = window.innerHeight * 0.34
       const current = sections
         .filter((page) => page.element.getBoundingClientRect().top <= marker)
         .at(-1)
-      setActivePage(current?.id ?? 1)
+      const nextPage = current?.id ?? 1
+      setActivePage((currentPage) => currentPage === nextPage ? currentPage : nextPage)
     }
 
-    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    const scheduleActiveSectionUpdate = () => {
+      if (scrollFrame.current) return
+      scrollFrame.current = window.requestAnimationFrame(updateActiveSection)
+    }
+
+    window.addEventListener('scroll', scheduleActiveSectionUpdate, { passive: true })
     updateActiveSection()
-    return () => window.removeEventListener('scroll', updateActiveSection)
-  }, [introFinished, isRegistrationPage])
+    return () => {
+      window.removeEventListener('scroll', scheduleActiveSectionUpdate)
+      if (scrollFrame.current) window.cancelAnimationFrame(scrollFrame.current)
+    }
+  }, [isRegistrationPage])
 
   return (
     <>
-      {/* Sits outside the faded wrapper so it is visible from the first frame. */}
-      {!introFinished && (
-        <PreloaderExperience onReveal={handleIntroReveal} onComplete={handleIntroComplete} />
-      )}
-
-      <div className={`app-root-wrapper hero-reveal ${pageVisible ? 'is-visible' : ''}`}>
-        <CursorAura />
-
-        {/* One shared, code-generated SVG background for all pages. */}
-        <RetroLabBackground />
-
-        <Navbar
-          activePage={activePage}
-          onNavigate={handleNavigate}
-          pages={PAGES}
-        />
+      <div className="app-root-wrapper">
+        {!isRegistrationPage && (
+          <Navbar
+            activePage={activePage}
+            onNavigate={handleNavigate}
+            pages={PAGES}
+          />
+        )}
 
         <main className={`main-content-view ${isRegistrationPage ? 'registration-view' : 'landing-view'}`}>
           {isRegistrationPage ? (
@@ -141,7 +129,7 @@ export default function App() {
                 <Hero onNavigate={handleNavigate} />
               </Reveal>
               <Reveal className="landing-section-reveal">
-                <About onNavigate={handleNavigate} />
+                <About />
               </Reveal>
               <Reveal className="landing-section-reveal">
                 <Sponsors onNavigate={handleNavigate} />
