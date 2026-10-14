@@ -509,6 +509,25 @@ export default function About() {
 
               <div className="v6-orb">
 
+                
+<div className="v6-clock-numbers" aria-hidden="true">
+  {Array.from({ length: 12 }, (_, i) => {
+    const number = i === 0 ? 12 : i;
+    return (
+      <span
+        key={number}
+        className={`v6-clock-num v6-clock-num-${number}`}
+      >
+        {number}
+      </span>
+    );
+  })}
+</div>
+
+<div className="v6-clock-tick v6-clock-tick-12" />
+<div className="v6-clock-tick v6-clock-tick-3" />
+<div className="v6-clock-tick v6-clock-tick-6" />
+<div className="v6-clock-tick v6-clock-tick-9" />
 
 
                 <div className="v6-orb-ring v6-ring-one" />

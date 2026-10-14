@@ -5007,3 +5007,1058 @@ span::before {
     overflow: visible !important;
   }
 }
+
+
+
+/* ==========================================
+   XYNTRA — CLOCK REFINEMENT V1
+   ========================================== */
+
+/* Make the clock section more compact */
+.v6-bottom-orbit {
+  min-height: 420px !important;
+  padding: 28px 12px !important;
+  overflow: visible !important;
+}
+
+/* Medium-sized watch */
+.v6-bottom-orbit .v6-orb-wrapper {
+  width: min(100%, 340px) !important;
+  padding: 8px 0 !important;
+}
+
+/* Clean dial instead of the giant spoked wheel */
+.v6-bottom-orbit .v6-orb {
+  width: 270px !important;
+  height: 270px !important;
+  max-width: 270px !important;
+  max-height: 270px !important;
+  flex-shrink: 0;
+  border: 2px solid #c4a16a !important;
+  background:
+    radial-gradient(circle, #261a10 0%, #100b08 74%) !important;
+  box-shadow:
+    0 0 0 5px rgba(196, 161, 106, 0.10),
+    0 0 28px rgba(196, 161, 106, 0.14),
+    inset 0 0 24px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Remove extra orbit circles */
+.v6-bottom-orbit .v6-ring-one,
+.v6-bottom-orbit .v6-ring-two,
+.v6-bottom-orbit .v6-ring-three {
+  display: none !important;
+}
+
+/* Subtle inner dial border */
+.v6-bottom-orbit .v6-orb::before {
+  inset: 12px !important;
+  border: 1px solid rgba(229, 191, 124, 0.42) !important;
+}
+
+.v6-bottom-orbit .v6-orb::after {
+  inset: 23px !important;
+  border: 1px dashed rgba(229, 191, 124, 0.22) !important;
+}
+
+/* Keep the live clock hands visible and centred */
+.v6-bottom-orbit .v6-clock-hand {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 50% !important;
+  z-index: 4 !important;
+  transform-origin: 50% 100% !important;
+  border-radius: 10px !important;
+  pointer-events: none !important;
+}
+
+.v6-bottom-orbit .v6-clock-hour {
+  width: 5px !important;
+  height: 58px !important;
+  background: #fff0d3 !important;
+}
+
+.v6-bottom-orbit .v6-clock-minute {
+  width: 3px !important;
+  height: 83px !important;
+  background: #e5bf7c !important;
+}
+
+.v6-bottom-orbit .v6-clock-second {
+  width: 1.5px !important;
+  height: 96px !important;
+  background: #d93648 !important;
+}
+
+.v6-bottom-orbit .v6-clock-pin {
+  position: absolute !important;
+  z-index: 6 !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: #d93648 !important;
+  border: 2px solid #fff0d3 !important;
+}
+
+/* 24 HOURS remains the centrepiece */
+.v6-bottom-orbit .v6-orb-core {
+  width: 44% !important;
+  height: 44% !important;
+  z-index: 5 !important;
+  border: 1px solid rgba(229, 191, 124, 0.65) !important;
+  background: radial-gradient(circle, #302114, #100b08 78%) !important;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6) !important;
+}
+
+.v6-bottom-orbit .v6-orb-number {
+  font-size: 56px !important;
+  line-height: 1 !important;
+}
+
+/* Remove the hover text overlapping the clock */
+.v6-bottom-orbit .v6-orb-hover {
+  display: none !important;
+}
+
+/* Keep the caption tidy */
+.v6-bottom-orbit .v6-orb-caption {
+  width: 100% !important;
+  max-width: 300px !important;
+  margin-top: 18px !important;
+  padding-top: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  text-align: center !important;
+}
+
+/* Responsive clock */
+@media (max-width: 700px) {
+  .v6-bottom-orbit {
+    min-height: 370px !important;
+  }
+
+  .v6-bottom-orbit .v6-orb {
+    width: min(72vw, 250px) !important;
+    height: min(72vw, 250px) !important;
+  }
+
+  .v6-bottom-orbit .v6-orb-number {
+    font-size: 48px !important;
+  }
+
+  .v6-bottom-orbit .v6-clock-hour {
+    height: 48px !important;
+  }
+
+  .v6-bottom-orbit .v6-clock-minute {
+    height: 68px !important;
+  }
+
+  .v6-bottom-orbit .v6-clock-second {
+    height: 80px !important;
+  }
+}
+
+/* XYNTRA — Classic 12-number watch dial */
+
+.v6-bottom-orbit .v6-orb {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.v6-clock-numbers {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.v6-clock-num {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5bf7c;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(229, 191, 124, 0.3);
+  transform: translate(-50%, -50%);
+}
+
+/* Position all 12 numbers around the dial */
+.v6-clock-num-12 { left: 50%; top: 13%; }
+.v6-clock-num-1  { left: 68.5%; top: 18%; }
+.v6-clock-num-2  { left: 82%; top: 31.5%; }
+.v6-clock-num-3  { left: 87%; top: 50%; }
+.v6-clock-num-4  { left: 82%; top: 68.5%; }
+.v6-clock-num-5  { left: 68.5%; top: 82%; }
+.v6-clock-num-6  { left: 50%; top: 87%; }
+.v6-clock-num-7  { left: 31.5%; top: 82%; }
+.v6-clock-num-8  { left: 18%; top: 68.5%; }
+.v6-clock-num-9  { left: 13%; top: 50%; }
+.v6-clock-num-10 { left: 18%; top: 31.5%; }
+.v6-clock-num-11 { left: 31.5%; top: 18%; }
+
+/* Gold hour markers */
+.v6-clock-tick {
+  position: absolute;
+  z-index: 2;
+  width: 3px;
+  height: 9px;
+  background: #d5ad6d;
+  border-radius: 3px;
+  left: 50%;
+  top: 7%;
+  transform: translateX(-50%);
+}
+
+.v6-clock-tick-3 {
+  top: 50%;
+  left: auto;
+  right: 7%;
+  width: 9px;
+  height: 3px;
+  transform: translateY(-50%);
+}
+
+.v6-clock-tick-6 {
+  top: auto;
+  bottom: 7%;
+}
+
+.v6-clock-tick-9 {
+  top: 50%;
+  left: 7%;
+  width: 9px;
+  height: 3px;
+  transform: translateY(-50%);
+}
+
+/* ==========================================
+   XYNTRA — PREMIUM CLASSIC CLOCK FACE
+   ========================================== */
+
+.v6-bottom-orbit .v6-orb {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+
+  /* Remove the spoked-wheel background */
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      rgba(112, 77, 39, 0.24),
+      transparent 48%
+    ),
+    radial-gradient(
+      circle,
+      #17100b 0%,
+      #0b0807 75%
+    ) !important;
+
+  border: 3px solid #c9a56b !important;
+
+  box-shadow:
+    0 0 0 6px rgba(201, 165, 107, 0.07),
+    inset 0 0 0 17px rgba(201, 165, 107, 0.035),
+    inset 0 0 30px rgba(0, 0, 0, 0.8),
+    0 0 24px rgba(201, 165, 107, 0.12) !important;
+}
+
+/* Remove distracting orbit rings and floating dots */
+.v6-bottom-orbit .v6-orb-ring,
+.v6-bottom-orbit .v6-orb-dot {
+  display: none !important;
+}
+
+/* Elegant inner watch bezel */
+.v6-bottom-orbit .v6-orb::before {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 1px solid rgba(201, 165, 107, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.v6-bottom-orbit .v6-orb::after {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border: 1px dashed rgba(201, 165, 107, 0.16);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Numbers stay evenly distributed on the dial */
+.v6-bottom-orbit .v6-clock-numbers {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.v6-bottom-orbit .v6-clock-num {
+  color: #e8c78e !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 8px rgba(232, 199, 142, 0.18);
+}
+
+/* Centre hub: smaller, like the reference image */
+.v6-bottom-orbit .v6-orb-core {
+  position: relative !important;
+  z-index: 7 !important;
+  width: 26% !important;
+  height: 26% !important;
+  flex: 0 0 26% !important;
+  border-radius: 50% !important;
+  border: 1px solid #a9854f !important;
+
+  background:
+    radial-gradient(circle, #24180e, #0b0807 85%) !important;
+
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.65),
+    inset 0 0 12px rgba(201, 165, 107, 0.08) !important;
+}
+
+/* 24 HOURS — smaller, balanced centre text */
+.v6-bottom-orbit .v6-orb-number {
+  font-size: clamp(30px, 4vw, 43px) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.04em !important;
+  color: #fff0d3 !important;
+}
+
+.v6-bottom-orbit .v6-orb-normal {
+  margin-top: 5px !important;
+  font-size: 7px !important;
+  letter-spacing: 0.15em !important;
+  color: #e5bf7c !important;
+}
+
+/* Hands layer above the dial, below the centre hub */
+.v6-bottom-orbit .v6-clock-hand {
+  z-index: 6 !important;
+}
+
+.v6-bottom-orbit .v6-clock-hour {
+  width: 4px !important;
+  height: 23% !important;
+  background: linear-gradient(to top, #a7804a, #fff0d3) !important;
+}
+
+.v6-bottom-orbit .v6-clock-minute {
+  width: 2.5px !important;
+  height: 32% !important;
+  background: #e5bf7c !important;
+}
+
+.v6-bottom-orbit .v6-clock-second {
+  width: 1.5px !important;
+  height: 38% !important;
+  background: #d93648 !important;
+}
+
+.v6-bottom-orbit .v6-clock-pin {
+  z-index: 8 !important;
+  width: 9px !important;
+  height: 9px !important;
+  background: #d93648 !important;
+}
+
+/* Remove old hover content from the centre */
+.v6-bottom-orbit .v6-orb-hover {
+  display: none !important;
+}
+
+/* Responsive sizing */
+@media (max-width: 700px) {
+  .v6-bottom-orbit .v6-clock-num {
+    font-size: 15px !important;
+  }
+
+  .v6-bottom-orbit .v6-orb-number {
+    font-size: 32px !important;
+  }
+}
+
+/* XYNTRA — final clock cleanup */
+
+.v6-bottom-orbit .v6-orb-core {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  width: 25% !important;
+  height: 25% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  flex: none !important;
+}
+
+/* Keep all clock hands centred and behind the hub */
+.v6-bottom-orbit .v6-clock-hand {
+  left: 50% !important;
+  bottom: 50% !important;
+  transform-origin: 50% 100% !important;
+  z-index: 6 !important;
+}
+
+/* Remove unwanted legacy rings inside the dial */
+.v6-bottom-orbit .v6-orb > .v6-ring-one,
+.v6-bottom-orbit .v6-orb > .v6-ring-two,
+.v6-bottom-orbit .v6-orb > .v6-ring-three {
+  display: none !important;
+}
+
+/* Give the dial a cleaner premium finish */
+.v6-bottom-orbit .v6-orb {
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #21170f 0%,
+      #100b08 68%,
+      #080606 100%
+    ) !important;
+}
+
+/* Centre text should stay above the hands */
+.v6-bottom-orbit .v6-orb-number,
+.v6-bottom-orbit .v6-orb-normal {
+  position: relative !important;
+  z-index: 11 !important;
+}
+
+/* XYNTRA — remove all unwanted inner clock circles */
+
+/* Hide decorative pseudo-circle borders */
+.v6-bottom-orbit .v6-orb::before,
+.v6-bottom-orbit .v6-orb::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Hide old orbit/ring elements */
+.v6-bottom-orbit .v6-orb-ring,
+.v6-bottom-orbit .v6-ring-one,
+.v6-bottom-orbit .v6-ring-two,
+.v6-bottom-orbit .v6-ring-three {
+  display: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep only the main outer dial border */
+.v6-bottom-orbit .v6-orb {
+  border: 3px solid #c9a56b !important;
+  background: radial-gradient(
+    circle,
+    #17100b 0%,
+    #0b0807 78%
+  ) !important;
+  box-shadow:
+    0 0 0 5px rgba(201, 165, 107, 0.06),
+    0 0 24px rgba(201, 165, 107, 0.12) !important;
+}
+
+/* Keep the 24 HOURS centre clean */
+.v6-bottom-orbit .v6-orb-core {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+
+/* XYNTRA — align cards 04, 05, 06 like 01, 02, 03 */
+
+.domains-float-field {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-rows: 1fr !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  gap: 24px !important;
+}
+
+/* Every card gets the same width and height */
+.domains-float-field > .domain-card {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 360px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* All cards start their content at the same position */
+.domains-float-field > .domain-card .domain-card-top {
+  margin-top: 0 !important;
+}
+
+/* Keep title and description sections consistently positioned */
+.domains-float-field > .domain-card .domain-card-content {
+  margin-top: 28px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Same reserved title area for all six cards */
+.domains-float-field > .domain-card .domain-card-content h3,
+.domains-float-field > .domain-card .domain-card-title {
+  min-height: 2.5em !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep tags and arrow aligned at the bottom */
+.domains-float-field > .domain-card .domain-card-bottom {
+  margin-top: auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Responsive grid */
+@media (max-width: 1000px) {
+  .domains-float-field {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .domains-float-field {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+  }
+
+  .domains-float-field > .domain-card {
+    min-height: 320px !important;
+  }
+}
+
+
+
+
+
+/* XYNTRA — FIX DOMAIN CARD GRID ALIGNMENT */
+
+/* Restore the original 12-column grid */
+.domains-float-field {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  grid-template-rows: auto auto !important;
+  grid-auto-flow: row !important;
+  column-gap: 28px !important;
+  row-gap: 40px !important;
+  align-items: stretch !important;
+}
+
+/* Row 1: cards 01, 02, 03
+   Row 2: cards 04, 05, 06
+   All columns have identical widths */
+
+.domains-float-field > .domain-card-1,
+.domains-float-field > .domain-card-4 {
+  grid-column: 1 / 5 !important;
+}
+
+.domains-float-field > .domain-card-2,
+.domains-float-field > .domain-card-5 {
+  grid-column: 5 / 9 !important;
+}
+
+.domains-float-field > .domain-card-3,
+.domains-float-field > .domain-card-6 {
+  grid-column: 9 / 13 !important;
+}
+
+/* Consistent card dimensions */
+.domains-float-field > .domain-card {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 360px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  align-self: stretch !important;
+}
+
+/* Keep existing content styling; align bottom sections */
+.domains-float-field .domain-card-bottom {
+  margin-top: auto !important;
+}
+
+/* Tablet */
+@media (max-width: 1000px) {
+  .domains-float-field {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+
+  .domains-float-field > .domain-card-1,
+  .domains-float-field > .domain-card-3,
+  .domains-float-field > .domain-card-5 {
+    grid-column: 1 / 4 !important;
+  }
+
+  .domains-float-field > .domain-card-2,
+  .domains-float-field > .domain-card-4,
+  .domains-float-field > .domain-card-6 {
+    grid-column: 4 / 7 !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .domains-float-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .domains-float-field > .domain-card {
+    width: 100% !important;
+    min-height: 320px !important;
+    height: auto !important;
+  }
+}
+
+
+
+
+
+
+
+
+/* ==========================================
+   XYNTRA 26-27 — RETRO ZIGZAG TIMELINE
+   80s/90s computer interface inspired
+   ========================================== */
+
+/* Timeline area */
+.v6-timeline-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  padding: 30px 8px 125px !important;
+  scrollbar-width: thin;
+  scrollbar-color: #b69a68 #100c0a;
+}
+
+/* Subtle horizontal timeline rail */
+.v6-timeline-axis {
+  top: 50% !important;
+  left: 2% !important;
+  right: 2% !important;
+  height: 2px !important;
+  background: linear-gradient(
+    90deg,
+    #8f2938,
+    rgba(220, 192, 145, 0.65),
+    #d7ad5b,
+    rgba(220, 192, 145, 0.65),
+    #8f2938
+  ) !important;
+  opacity: 0.8;
+}
+
+/* Five evenly spaced timeline columns */
+.v6-timeline-items {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(180px, 1fr)) !important;
+  align-items: start !important;
+  gap: 22px !important;
+  min-width: 1050px !important;
+  padding: 0 4px !important;
+}
+
+/* Retro event-window cards */
+.v6-timeline-item {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+  min-height: 275px !important;
+  margin: 0 !important;
+  padding: 0 16px 18px !important;
+  box-sizing: border-box !important;
+
+  border: 1px solid rgba(220, 192, 145, 0.42) !important;
+  border-radius: 2px !important;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 192, 145, 0.07),
+      transparent 55%
+    ),
+    #100c0b !important;
+
+  box-shadow:
+    4px 4px 0 rgba(0, 0, 0, 0.35),
+    inset 0 0 0 3px rgba(220, 192, 145, 0.025) !important;
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+/* Alternate cards: up, down, up, down, up */
+.v6-timeline-item:nth-child(even) {
+  transform: translateY(105px) !important;
+}
+
+.v6-timeline-item:nth-child(odd) {
+  transform: translateY(0) !important;
+}
+
+/* Small retro window-header strip */
+.v6-timeline-item::before {
+  content: "EVENT_LOG.EXE";
+  display: block;
+  order: -1;
+  margin: 0 -16px 18px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(220, 192, 145, 0.38);
+  background: rgba(220, 192, 145, 0.07);
+
+  color: #cdb58c;
+  font-family: "Space Grotesk", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+/* Tiny pixel-inspired event numbers */
+.v6-timeline-number {
+  margin: 0 0 14px !important;
+  color: #e5bf7c !important;
+  font-family: "Space Grotesk", monospace !important;
+  font-size: 10px !important;
+  letter-spacing: 0.14em !important;
+}
+
+/* Event marker */
+.v6-timeline-node {
+  position: absolute !important;
+  top: -8px !important;
+  left: 20px !important;
+  width: 13px !important;
+  height: 13px !important;
+  margin: 0 !important;
+  border: 2px solid #d7ad5b !important;
+  border-radius: 0 !important;
+  background: #100c0a !important;
+  box-shadow: 0 0 0 4px #100c0a !important;
+}
+
+.v6-timeline-node span {
+  width: 4px !important;
+  height: 4px !important;
+  border-radius: 0 !important;
+  background: #e5bf7c !important;
+}
+
+/* Date label */
+.v6-timeline-date {
+  margin: 0 0 12px !important;
+  color: #e5bf7c !important;
+  font-family: "Space Grotesk", monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Keep existing elegant title typography */
+.v6-timeline-item h3 {
+  margin: 0 0 12px !important;
+  line-height: 1.25 !important;
+}
+
+/* Keep descriptions readable */
+.v6-timeline-item p {
+  max-width: none !important;
+  margin: 0 !important;
+  line-height: 1.7 !important;
+}
+
+/* Featured 24-hour hackathon window */
+.v6-timeline-highlight {
+  margin: 0 !important;
+  border-color: #d7ad5b !important;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(215, 173, 91, 0.12),
+      transparent 65%
+    ),
+    #100c0a !important;
+  box-shadow:
+    4px 4px 0 rgba(215, 173, 91, 0.13),
+    inset 0 0 0 2px rgba(215, 173, 91, 0.06) !important;
+}
+
+.v6-timeline-highlight::before {
+  content: "HACKATHON.EXE  *" !important;
+  color: #f0cf91 !important;
+  border-bottom-color: rgba(215, 173, 91, 0.6) !important;
+}
+
+.v6-timeline-highlight .v6-timeline-node {
+  background: #d7ad5b !important;
+}
+
+/* Subtle hover */
+.v6-timeline-item:hover {
+  border-color: #d7ad5b !important;
+  box-shadow:
+    5px 5px 0 rgba(215, 173, 91, 0.12),
+    inset 0 0 0 2px rgba(215, 173, 91, 0.05) !important;
+}
+
+/* Tablet and mobile: readable vertical sequence */
+@media (max-width: 700px) {
+  .v6-timeline-wrapper {
+    overflow: visible !important;
+    padding: 12px 0 25px !important;
+  }
+
+  .v6-timeline-axis {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 15px !important;
+    right: auto !important;
+    width: 2px !important;
+    height: auto !important;
+  }
+
+  .v6-timeline-items {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-width: 0 !important;
+    gap: 22px !important;
+    padding-left: 32px !important;
+  }
+
+  .v6-timeline-item,
+  .v6-timeline-item:nth-child(even),
+  .v6-timeline-item:nth-child(odd) {
+    min-height: 0 !important;
+    transform: none !important;
+    padding-bottom: 20px !important;
+  }
+
+  .v6-timeline-node {
+    left: -24px !important;
+    top: 12px !important;
+  }
+}
+
+
+
+
+
+
+
+/* XYNTRA — precise hero headline alignment */
+.v6-hero-title {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  line-height: 0.92 !important;
+  overflow: visible !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+.v6-hero-title > span {
+  display: block !important;
+  width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  line-height: inherit !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  flex: 0 0 auto !important;
+}
+
+/* Keep the outlined middle line aligned */
+.v6-hero-title > .v6-outline {
+  align-self: flex-start !important;
+}
+
+/* Prevent the headline from being clipped */
+.v6-hero-left {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+
+
+
+
+
+/* XYNTRA — MARK THE DATES headline alignment */
+
+.v6-timeline-title {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  line-height: 0.98 !important;
+  overflow: visible !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+.v6-timeline-title > span {
+  display: block !important;
+  width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  line-height: inherit !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  flex: 0 0 auto !important;
+}
+
+/* Keep the headline container from clipping */
+.v6-timeline-heading,
+.v6-timeline-header {
+  overflow: visible !important;
+}
+
+
+
+/* Fix MARK THE DATES line overlap */
+.v6-timeline-title {
+  line-height: 1.08 !important;
+}
+
+.v6-timeline-title > span {
+  line-height: 1.08 !important;
+  padding-bottom: 0.04em !important;
+  overflow: visible !important;
+}
+
+
+
+
+/* FIX: MARK THE DATES + CHOOSE YOUR WORLD */
+
+/* Timeline heading */
+.v6-timeline-title {
+  line-height: 1.12 !important;
+  overflow: visible !important;
+}
+
+.v6-timeline-title > span {
+  line-height: inherit !important;
+  padding-bottom: 0.06em !important;
+}
+
+/* Challenge tracks heading */
+.v6-domain-title {
+  line-height: 1.12 !important;
+  overflow: visible !important;
+}
+
+.v6-domain-title > span {
+  line-height: inherit !important;
+  padding-bottom: 0.06em !important;
+}
+
+/* Give the heading area enough room */
+.v6-timeline-heading,
+.v6-timeline-header {
+  min-height: max-content !important;
+  overflow: visible !important;
+}
+
+.v6-domain-title {
+  margin-bottom: 0.15em !important;
+}
+
+/* Keep the text below headings from overlapping */
+.v6-timeline-item p,
+.v6-timeline-item h3,
+.v6-domain-title + p {
+  overflow: visible !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Prevent clipping in both sections */
+.v6-timeline-wrapper,
+.v6-timeline-items {
+  overflow-y: visible !important;
+}
+
+
+
+
+
+/* =========================================
+   XYNTRA — HEADING ALIGNMENT FIX
+   Keep existing font, size and colours
+   ========================================= */
+
+/* MARK THE DATES */
+.v6-timeline .v6-section-head h2 {
+  width: max-content;
+  max-width: 100%;
+  line-height: 0.9;
+  text-wrap: nowrap;
+}
+
+.v6-timeline .v6-section-head h2 em {
+  display: inline-block;
+  white-space: nowrap;
+  font-style: inherit;
+}
+
+/* CHOOSE YOUR WORLD */
+.v6-problems .v6-section-head h2 {
+  width: max-content;
+  max-width: 100%;
+  line-height: 0.9;
+  text-wrap: nowrap;
+}
+
+.v6-problems .v6-section-head h2 em {
+  display: inline-block;
+  white-space: nowrap;
+  font-style: inherit;
+}
+
+/* Prevent headings from overflowing on small screens */
+@media (max-width: 600px) {
+  .v6-timeline .v6-section-head h2,
+  .v6-problems .v6-section-head h2 {
+    max-width: 100%;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .v6-timeline .v6-section-head h2 em,
+  .v6-problems .v6-section-head h2 em {
+    white-space: normal;
+  }
+}
+
+
