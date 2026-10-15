@@ -21,7 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(18px, 4vw, 48px);
+  flex-wrap: wrap;
+  gap: clamp(12px, 3vw, 42px);
   pointer-events: auto;
   padding: 5px 12px;
   background: transparent;
@@ -33,12 +34,12 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 9px 12px;
+  padding: 8px 12px;
   font-family: 'Space Grotesk', 'Outfit', sans-serif;
-  font-size: clamp(14px, 1.4vw, 17px);
+  font-size: clamp(13px, 1.3vw, 16px);
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #a1a1aa;
+  color: #b3a27f;
   border-radius: 999px;
   transition: color 320ms ease, background-color 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), text-shadow 320ms ease;
   outline: none;
@@ -56,7 +57,7 @@
   z-index: -1;
   inset: -2px;
   border-radius: inherit;
-  background: radial-gradient(ellipse, rgba(0, 4, 235, 0.28), transparent 72%);
+  background: radial-gradient(ellipse, rgba(242,169,59,0.28), transparent 72%);
   opacity: 0;
   filter: blur(8px);
   transition: opacity 360ms ease;
@@ -67,17 +68,17 @@
   right: 20%;
   bottom: 3px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #777fff, transparent);
+  background: linear-gradient(90deg, transparent, #ecc88a, transparent);
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .minimal-nav-link:hover {
-  color: #ffffff;
+  color: #f4e7c3;
   transform: translateY(-2px);
-  text-shadow: 0 0 18px rgba(104, 112, 255, 0.7);
-  background-color: rgba(0, 4, 235, 0.08);
+  text-shadow: 0 0 18px rgba(234, 194, 125, 0.7);
+  background-color: rgba(242,169,59,0.08);
 }
 
 .minimal-nav-link:hover::before,
@@ -91,22 +92,22 @@
 }
 
 .minimal-nav-link.active {
-  color: #ffffff;
+  color: #f4e7c3;
   font-weight: 800;
-  text-shadow: 0 0 14px rgba(104, 112, 255, 0.55);
-  background-color: rgba(0, 4, 235, 0.06);
+  text-shadow: 0 0 14px rgba(234, 194, 125, 0.55);
+  background-color: rgba(242,169,59,0.06);
 }
 
 @media (max-width: 600px) {
   .minimal-top-navbar {
-    padding: 12px 10px;
+    padding: 10px 8px;
   }
   .minimal-nav-links {
-    gap: 7px;
+    gap: 6px;
   }
   .minimal-nav-link {
-    font-size: 12px;
-    padding: 7px 8px;
+    font-size: 11px;
+    padding: 6px 8px;
   }
 }
 

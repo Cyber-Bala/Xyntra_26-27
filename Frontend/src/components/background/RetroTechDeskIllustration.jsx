@@ -20,9 +20,9 @@ export default function RetroTechDeskIllustration({ className = '' }) {
         <defs>
           {/* CRT Screen Glow */}
           <radialGradient id="screen-glow" cx="50%" cy="45%" r="65%">
-            <stop offset="0%" stopColor="#143d22" />
-            <stop offset="70%" stopColor="#081c10" />
-            <stop offset="100%" stopColor="#020804" />
+            <stop offset="0%" stopColor="#3b2c14" />
+            <stop offset="70%" stopColor="#1d160b" />
+            <stop offset="100%" stopColor="#080705" />
           </radialGradient>
 
           {/* Beige Chassis Gradient */}
@@ -49,8 +49,8 @@ export default function RetroTechDeskIllustration({ className = '' }) {
 
           {/* Book 2: BUILD */}
           <g transform="translate(4, 50)">
-            <rect x="0" y="0" width="126" height="26" rx="2" fill="#1b1c1e" stroke="#4fc9b8" strokeWidth="1.8" />
-            <rect x="4" y="3" width="14" height="20" fill="#4fc9b8" />
+            <rect x="0" y="0" width="126" height="26" rx="2" fill="#1f1c16" stroke="#eab04a" strokeWidth="1.8" />
+            <rect x="4" y="3" width="14" height="20" fill="#eab04a" />
             <text x="32" y="17" fill="#f1dfc0" fontFamily="'Silkscreen', monospace" fontSize="10" fontWeight="700">BUILD</text>
           </g>
 
@@ -63,8 +63,8 @@ export default function RetroTechDeskIllustration({ className = '' }) {
 
           {/* Book 4 (Top): HACK */}
           <g transform="translate(8, 0)">
-            <rect x="0" y="0" width="120" height="26" rx="2" fill="#201722" stroke="#a074df" strokeWidth="1.8" />
-            <rect x="4" y="3" width="14" height="20" fill="#a074df" />
+            <rect x="0" y="0" width="120" height="26" rx="2" fill="#1f1c16" stroke="#eab04a" strokeWidth="1.8" />
+            <rect x="4" y="3" width="14" height="20" fill="#eab04a" />
             <text x="32" y="17" fill="#f1dfc0" fontFamily="'Silkscreen', monospace" fontSize="10" fontWeight="700">HACK</text>
           </g>
         </g>
@@ -96,7 +96,7 @@ export default function RetroTechDeskIllustration({ className = '' }) {
           <rect x="35" y="24" width="238" height="190" rx="10" fill="#1b1713" stroke="#685741" strokeWidth="2.5" />
 
           {/* Glass CRT Screen */}
-          <rect x="44" y="32" width="220" height="174" rx="8" fill="url(#screen-glow)" stroke="#2d6e3c" strokeWidth="2" />
+          <rect x="44" y="32" width="220" height="174" rx="8" fill="url(#screen-glow)" stroke="#87672e" strokeWidth="2" />
           {/* Scanline overlay */}
           <rect x="44" y="32" width="220" height="174" rx="8" fill="url(#desk-crt-lines)" pointerEvents="none" />
 
@@ -108,7 +108,7 @@ export default function RetroTechDeskIllustration({ className = '' }) {
           />
 
           {/* Green Phosphor Terminal Content */}
-          <g className="terminal-text-content" fontFamily="'Silkscreen', monospace" fontSize="10" fill="#6fcf8a">
+          <g className="terminal-text-content" fontFamily="'Silkscreen', monospace" fontSize="10" fill="#eab04a">
             <text x="56" y="58">&gt; REWARDS: UNLOCKED</text>
             <text x="56" y="78">&gt; TOTAL: ₹1,00,000</text>
             <text x="56" y="98">&gt; BUILDERS ASSEMBLE</text>
@@ -120,7 +120,7 @@ export default function RetroTechDeskIllustration({ className = '' }) {
 
           {/* Monitor Power Knob & Badge */}
           <rect x="250" y="222" width="24" height="8" rx="2" fill="#1b1612" stroke="#6a5843" strokeWidth="1" />
-          <circle cx="50" cy="226" r="3" fill="#6fcf8a" className="monitor-led" />
+          <circle cx="50" cy="226" r="3" fill="#eab04a" className="monitor-led" />
           <text x="60" y="229" fill="#786650" fontFamily="'Silkscreen', monospace" fontSize="6">XYNTRA-80</text>
 
           {/* Monitor Stand */}

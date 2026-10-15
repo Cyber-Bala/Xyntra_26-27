@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 import './About.css'
+import bgAbout from '../../../assets/bg/bg-about.webp'
+import SectionBg from '../../fx/SectionBg.jsx'
 
 
 
@@ -43,7 +49,151 @@ function ClockHands() {
 }
 
 export default function About() {
+  const rootRef = useRef(null)
   const [selectedDomain, setSelectedDomain] = useState(null)
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+
+    const ctx = gsap.context(() => {
+      // 1. Problem Statements Section Head: Slide in from left
+      gsap.fromTo(
+        '.v6-problems .v6-section-head',
+        { autoAlpha: 0, x: -35 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.v6-problems',
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+            invalidateOnRefresh: true,
+          },
+        }
+      )
+
+      // 2. Problem Statements Cards: Staggered Side Incoming
+      const cards = gsap.utils.toArray('.domains-float-field > .domain-card')
+      if (cards.length) {
+        cards.forEach((card, idx) => {
+          const col = idx % 3
+          const fromX = col === 0 ? -55 : col === 2 ? 55 : 0
+          const fromY = col === 1 ? 40 : 16
+
+          gsap.fromTo(
+            card,
+            {
+              autoAlpha: 0,
+              x: fromX,
+              y: fromY,
+            },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              duration: 0.75,
+              delay: idx * 0.08,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: '.domains-float-field',
+                start: 'top 86%',
+                toggleActions: 'play reverse play reverse',
+                invalidateOnRefresh: true,
+              },
+            }
+          )
+        })
+      }
+
+      // 3. Timeline Section Head: Slide in from left
+      gsap.fromTo(
+        '.v6-timeline .v6-section-head',
+        { autoAlpha: 0, x: -35 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.v6-timeline',
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+            invalidateOnRefresh: true,
+          },
+        }
+      )
+
+      // 4. Registration Deadline Callout: Slide in from right
+      gsap.fromTo(
+        '.v6-deadline',
+        { autoAlpha: 0, x: 45 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          duration: 0.75,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.v6-timeline',
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+            invalidateOnRefresh: true,
+          },
+        }
+      )
+
+      // 5. Timeline Axis Rail: Draw across horizontally
+      gsap.fromTo(
+        '.v6-timeline-axis',
+        { scaleX: 0, transformOrigin: 'left center', autoAlpha: 0 },
+        {
+          scaleX: 1,
+          autoAlpha: 0.85,
+          duration: 0.85,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.v6-timeline-wrapper',
+            start: 'top 86%',
+            toggleActions: 'play reverse play reverse',
+            invalidateOnRefresh: true,
+          },
+        }
+      )
+
+      // 6. Timeline Cards: Cascading side incoming from the left
+      const timelineItems = gsap.utils.toArray('.v6-timeline-items > .v6-timeline-item')
+      if (timelineItems.length) {
+        timelineItems.forEach((item, idx) => {
+          gsap.fromTo(
+            item,
+            {
+              autoAlpha: 0,
+              x: -45,
+              y: idx % 2 === 1 ? 15 : -10,
+            },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              duration: 0.7,
+              delay: 0.12 + idx * 0.1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: '.v6-timeline-wrapper',
+                start: 'top 86%',
+                toggleActions: 'play reverse play reverse',
+                invalidateOnRefresh: true,
+              },
+            }
+          )
+        })
+      }
+    }, root)
+
+    return () => ctx.revert()
+  }, [])
 
   useEffect(() => {
     if (!selectedDomain) return undefined
@@ -262,7 +412,13 @@ export default function About() {
 
   return (
 
-    <section className="about-v6" id="about">
+    <section ref={rootRef} className="about-v6" id="about" data-accent="coral">
+      <SectionBg
+        src={bgAbout}
+        opacity={1}
+        position="right center"
+        gradient="linear-gradient(to right, rgba(10,8,6,0.85) 0%, rgba(10,8,6,0.4) 35%, transparent 65%)"
+      />
 
 
 
@@ -623,11 +779,7 @@ export default function About() {
 
             </p>
 
-
-
           </div>
-
-
 
         </section>
 
@@ -1131,8 +1283,6 @@ export default function About() {
               </div>,
               document.body,
             )}
-
-
 
         </section>
 

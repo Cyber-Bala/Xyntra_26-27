@@ -1,26 +1,35 @@
 :root {
-  --pink: #e8475f;            /* coral red: main accent, buttons */
+  /* ── Legacy palette (kept for backward compat) ─────────────── */
+  --pink: #e8475f;
   --pink-glow: rgba(232,71,95,.4);
-  --teal: #4fc9b8;
-  --rose: #d1478a;            /* magenta sunset */
-  --mustard: #eab04a;         /* amber */
-  --purple: #9a5fd1;
-  --green: #6fcf8a;
-  --bg: #0b0908;
-  --bg2: #1a1020;
-  --ink: #f1dfb6;             /* cream */
+  --rose: #d1478a;
+  --mustard: #eab04a;
+  --brass: #caa742;
+  --green: #f2a93b;
+
+  /* ── Core colour system ────────────────────────────────────── */
+  --bg: #0a0806;
+  --gold: #f2c14e;
+  --cream: #f5ecd7;
+  --coral: #ff6b4a;
+  --teal: #4fb3bf;
+  --violet: #8b6bd9;
+
+  /* Per-section accent — set via [data-accent] selectors below */
+  --accent: var(--gold);
+
   --font-speltale: 'Playfair Display', Georgia, serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  color: var(--ink);
+  color: var(--cream);
   font-family: 'Playfair Display', Georgia, serif;
   background:
-    radial-gradient(120% 55% at 50% 0%, var(--bg2) 0%, transparent 70%),
-    radial-gradient(60% 40% at 0% 100%, rgba(209,71,138,.14) 0%, transparent 70%),
-    radial-gradient(60% 40% at 100% 90%, rgba(79,201,184,.12) 0%, transparent 70%),
+    radial-gradient(120% 55% at 50% 0%, var(--bg) 0%, transparent 70%),
+    radial-gradient(60% 40% at 0% 100%, rgba(202,167,66,.06) 0%, transparent 70%),
+    radial-gradient(60% 40% at 100% 90%, rgba(234,176,74,.045) 0%, transparent 70%),
     var(--bg);
 }
 
@@ -43,7 +52,7 @@ h1, h2, h3, .speltale:not(.btn) {
   background-clip: text;
  background-image:
   linear-gradient(105deg, transparent 38%, rgba(255,250,235,.4) 47%, transparent 56%),
-  linear-gradient(100deg, #f8eddb 0%, #eacb98 52%, #4fc9b8 100%);
+  linear-gradient(100deg, #f8eddb 0%, #eacb98 100%);
 filter:
   drop-shadow(0 0 10px rgba(234, 203, 152, .2))
   drop-shadow(2px 2px 0 #1a0a12);
@@ -53,10 +62,11 @@ h1 { font-size: clamp(3rem, 17vw, 8rem); }
 h2 { font-size: clamp(1.8rem, 9vw, 3.2rem); }
 h3 { font-size: 1.5rem; }
 
-/* Keep display headings consistent even where section styles define their own type. */
-.app-root-wrapper .main-content-view h1,
-.app-root-wrapper .main-content-view h2,
-.app-root-wrapper .main-content-view h3 {
+/* Keep display headings consistent where section styles don't manage their own. */
+/* Exclude new animated sections (sp-section, rl-section, ft-footer) which set their own type. */
+.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline),
+.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline),
+.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline) {
   font-family: 'Playfair Display', Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;
@@ -88,4 +98,16 @@ h3 { font-size: 1.5rem; }
   cursor: pointer;
   box-shadow: 0 0 24px var(--pink-glow);
 }
-.btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.btn:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+
+/* ── Per-section accent mappings ─────────────────────────────── */
+[data-accent="teal"]   { --accent: var(--teal); }
+[data-accent="coral"]  { --accent: var(--coral); }
+[data-accent="violet"] { --accent: var(--violet); }
+[data-accent="gold"]   { --accent: var(--gold); }
+
+/* ── Readability panels for text over bright backgrounds ─────── */
+.bg-panel {
+  background: rgba(10, 8, 6, 0.7);
+  border: 1px solid rgba(242, 193, 78, 0.2);
+}

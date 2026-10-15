@@ -16,7 +16,13 @@
   box-sizing: border-box;
 }
 
+.hero-grid-floor {
+  z-index: 1;
+}
+
 .wireframe-hero-container {
+  position: relative;
+  z-index: 2;
   max-width: 1440px;
   width: 100%;
   min-height: calc(100vh - 148px);
@@ -56,7 +62,7 @@
   font-size: clamp(12px, 1.4vw, 16px);
   font-weight: 700;
   letter-spacing: clamp(0.25em, 0.5vw, 0.42em);
-  color: #ffffff;
+  color: #f4e7c3;
   text-transform: uppercase;
   margin: 0 0 clamp(10px, 1.6vh, 18px) 0;
   opacity: 0.95;
@@ -81,8 +87,8 @@
   margin: 0;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: clamp(2.4px, 0.32vw, 4.5px) #ffffff;
-  text-stroke: clamp(2.4px, 0.32vw, 4.5px) #ffffff;
+  -webkit-text-stroke: clamp(2.4px, 0.32vw, 4.5px) #f4e7c3;
+  text-stroke: clamp(2.4px, 0.32vw, 4.5px) #f4e7c3;
   position: relative;
   display: inline-flex;
   align-items: flex-start;
@@ -120,8 +126,8 @@
   font-weight: 900;
   letter-spacing: -0.02em;
   color: transparent;
-  -webkit-text-stroke: clamp(1.6px, 0.22vw, 2.8px) #ffffff;
-  text-stroke: clamp(1.6px, 0.22vw, 2.8px) #ffffff;
+  -webkit-text-stroke: clamp(1.6px, 0.22vw, 2.8px) #f4e7c3;
+  text-stroke: clamp(1.6px, 0.22vw, 2.8px) #f4e7c3;
   line-height: 1;
   position: relative;
   z-index: 2;
@@ -132,7 +138,7 @@
   font-size: clamp(13px, 1.5vw, 19px);
   font-weight: 700;
   letter-spacing: clamp(0.3em, 0.6vw, 0.5em);
-  color: #ffffff;
+  color: #f4e7c3;
   text-transform: uppercase;
   margin: clamp(12px, 2vh, 20px) 0 0 0;
   opacity: 0.95;
@@ -155,185 +161,253 @@
   font-size: clamp(12px, 1.3vw, 15px);
   font-weight: 700;
   letter-spacing: clamp(0.25em, 0.5vw, 0.4em);
-  color: #ffffff;
+  color: #f4e7c3;
   text-transform: uppercase;
   margin: 0 0 clamp(14px, 2vh, 22px) 0;
   text-align: center;
   opacity: 0.95;
 }
 
-/* BIG TECH CHAMFERED COUNTDOWN TIMER */
-.hero-countdown-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(12px, 2.2vw, 28px);
-  flex-wrap: nowrap;
-  margin-bottom: clamp(18px, 3vh, 32px);
+/* ================= 4 COUNTDOWN DIALS (EXACT SUNBURST STYLE) ================= */
+.hero-dials-strip {
+  --dial-size: min(clamp(72px, 15vw, 195px), 23vh);
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: clamp(8px, 2.2vw, 26px) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 clamp(24px, 4.5vh, 44px) 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  animation: heroFadeRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  opacity: 0;
 }
 
-.tech-countdown-box {
+.hero-dial-card {
   position: relative;
-  width: clamp(118px, 13vw, 175px);
-  height: clamp(98px, 11vw, 142px);
+  width: var(--dial-size);
+  height: var(--dial-size);
+  flex: 0 0 var(--dial-size);
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease, filter 0.25s ease;
+  border-radius: 50%;
+  cursor: default;
+  transition: transform 0.25s ease;
+  user-select: none;
 }
 
-.tech-countdown-box:hover {
-  transform: translateY(-3px);
-  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.35));
+.hero-dial-card:hover {
+  transform: scale(1.05);
 }
 
-.tech-card-svg {
+/* Background radiating rays SVG */
+.dial-sunburst-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
+  filter: drop-shadow(0 0 5px rgba(229, 191, 124, 0.28));
 }
 
-.tech-card-content {
+/* Inner dark disc where numbers sit */
+.dial-content-disk {
   position: relative;
   z-index: 2;
+  width: 66%;
+  height: 66%;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  width: 100%;
-  height: 100%;
+  gap: calc(var(--dial-size) * 0.02);
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255, 238, 204, 0.1), transparent 45%),
+    radial-gradient(circle, #21170f 0%, #100c09 85%);
+  border: 1px solid rgba(229, 191, 124, 0.52);
+  box-shadow:
+    inset 0 0 16px rgba(229, 191, 124, 0.1),
+    0 0 18px rgba(0, 0, 0, 0.7);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.tech-digit-num {
-  font-family: 'Space Grotesk', 'Outfit', sans-serif;
-  font-size: clamp(42px, 4.8vw, 64px);
-  font-weight: 900;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: clamp(1.6px, 0.2vw, 2.4px) #ffffff;
-  text-stroke: clamp(1.6px, 0.2vw, 2.4px) #ffffff;
-  letter-spacing: 0.04em;
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.18));
+/* Dial 01: Crimson Arc for DAYS */
+.hero-dial-card.dial-crimson .dial-content-disk {
+  border-color: rgba(217, 54, 72, 0.88);
+  box-shadow:
+    inset 0 0 22px rgba(217, 54, 72, 0.22),
+    0 0 20px rgba(217, 54, 72, 0.18),
+    0 0 18px rgba(0, 0, 0, 0.7);
 }
 
-.tech-unit-label {
+.hero-dial-card.dial-crimson .dial-step-tag {
+  color: #e04450 !important;
+}
+
+/* Step Tag (01 - 04) */
+.dial-step-tag {
+  position: relative;
+  font-size: clamp(8px, calc(var(--dial-size) * 0.075), 13px);
+  letter-spacing: 0.18em;
+  color: #e5bf7c;
   font-family: 'Space Grotesk', monospace;
-  font-size: clamp(10px, 1.1vw, 13px);
   font-weight: 700;
-  letter-spacing: 0.24em;
-  color: #ffffff;
-  text-transform: uppercase;
-  opacity: 0.9;
-}
-
-.tech-colon-separator {
-  font-family: 'Space Grotesk', monospace;
-  font-size: clamp(26px, 3.6vw, 42px);
-  font-weight: 900;
-  color: #ffffff;
-  opacity: 0.85;
   line-height: 1;
-  transform: translateY(-3px);
-  user-select: none;
 }
 
-/* TECH OUTLINE ACTION BUTTONS */
-.hero-action-buttons-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 2.5vw, 30px);
-  flex-wrap: nowrap;
-  width: 100%;
-}
-
-.tech-chamfer-btn {
+/* Main Number */
+.dial-value-num {
   position: relative;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  width: clamp(260px, 25vw, 360px);
-  height: clamp(48px, 5.5vh, 56px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  outline: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
-}
-
-.tech-btn-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transition: all 0.25s ease;
-}
-
-.tech-btn-svg polygon {
-  transition: all 0.25s ease;
-}
-
-.btn-content-inner {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  height: 100%;
-  padding: 0 22px;
-  transition: color 0.25s ease;
-}
-
-.btn-label-text {
+  margin: 0;
   font-family: 'Space Grotesk', 'Outfit', sans-serif;
-  font-size: clamp(12px, 1.15vw, 14px);
+  font-size: clamp(20px, calc(var(--dial-size) * 0.33), 62px);
   font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #ffffff;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition: color 0.25s ease;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #fff0d3;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  text-shadow:
+    0 0 12px rgba(229, 191, 124, 0.3),
+    0 2px 0 #382619;
 }
 
-.btn-arrow-icon {
+/* Unit Label (DAYS / HOURS / MINS / SECS) */
+.dial-unit-lbl {
+  position: relative;
+  font-size: clamp(8.5px, calc(var(--dial-size) * 0.078), 14px);
+  letter-spacing: 0.16em;
+  color: #d5b77d;
+  font-family: 'Space Grotesk', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ================= ACTION BUTTONS (EXACT SCREENSHOT STYLE) ================= */
+.hero-buttons-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  width: 100% !important;
+  animation: heroFadeRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  opacity: 0;
+}
+
+/* Primary Button: Solid Warm Gold-to-Cream Gradient Fill */
+.hero-btn-primary {
+  height: 56px !important;
+  min-height: 56px !important;
+  flex: 0 1 250px !important;
+  width: 100% !important;
+  max-width: 250px !important;
+  padding: 0 24px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  background: linear-gradient(135deg, #fff0d3 0%, #e5bf7c 55%, #c4a16a 100%) !important;
+  color: #0d080c !important;
+  font-family: 'Space Grotesk', monospace !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 4px 20px rgba(229, 191, 124, 0.28) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+.hero-btn-primary .btn-arrow {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0d080c;
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 24px rgba(229, 191, 124, 0.55), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  filter: brightness(1.06) !important;
+}
+
+.hero-btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Secondary Button: Transparent, Gold Border, Fills Gold on Hover */
+.hero-btn-secondary {
+  height: 56px !important;
+  min-height: 56px !important;
+  flex: 0 1 250px !important;
+  width: 100% !important;
+  max-width: 250px !important;
+  padding: 0 24px !important;
+  border-radius: 4px !important;
+  border: 1.5px solid #e5bf7c !important;
+  background: transparent !important;
+  color: #fff0d3 !important;
+  font-family: 'Space Grotesk', monospace !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+.hero-btn-secondary .btn-arrow {
   font-size: 16px;
-  color: #ffffff;
+  font-weight: 800;
+  color: #e5bf7c;
   transition: transform 0.25s ease, color 0.25s ease;
   line-height: 1;
 }
 
-/* HOVER EFFECTS: INVERT TO WHITE FILL WITH BLACK TEXT */
-.tech-chamfer-btn:hover {
-  transform: translateY(-2px);
-  filter: drop-shadow(0 0 18px rgba(0, 4, 235, 0.5));
+.hero-btn-secondary:hover {
+  transform: translateY(-2px) !important;
+  background: #e5bf7c !important;
+  color: #0d080c !important;
+  box-shadow: 0 0 24px rgba(229, 191, 124, 0.45) !important;
 }
 
-.tech-chamfer-btn:hover .tech-btn-svg polygon {
-  fill: rgba(0, 4, 235, 0.24);
-  stroke: #7c83ff;
+.hero-btn-secondary:hover .btn-arrow {
+  transform: translate(3px, -3px);
+  color: #0d080c;
 }
 
-.tech-chamfer-btn:hover .btn-label-text {
-  color: #ffffff;
+.hero-btn-primary:focus-visible,
+.hero-btn-secondary:focus-visible {
+  outline: 2px solid #e5bf7c !important;
+  outline-offset: 3px !important;
 }
 
-.tech-chamfer-btn:hover .btn-arrow-icon {
-  color: #aeb2ff;
-}
-
-.tech-chamfer-btn:hover .btn-arrow-icon {
-  transform: translateX(4px);
-}
-
-.tech-chamfer-btn:active {
-  transform: translateY(0);
+@keyframes heroFadeRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ================= RESPONSIVE BREAKPOINTS ================= */
@@ -347,20 +421,6 @@
     margin-bottom: 24px;
   }
 
-  .hero-countdown-strip {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .hero-action-buttons-row {
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .tech-chamfer-btn {
-    width: 100%;
-    max-width: 320px;
-  }
 }
 
 @media (max-width: 600px) {
@@ -381,29 +441,46 @@
     letter-spacing: 0.2em;
     margin-bottom: 12px;
   }
+}
 
-  .hero-countdown-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    max-width: 300px;
+@media (max-width: 520px) {
+  .hero-buttons-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
   }
 
-  .tech-colon-separator {
-    display: none;
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    flex: 0 0 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-width: 320px !important;
+    width: 100% !important;
+    font-size: 13px !important;
+    padding: 0 20px !important;
   }
+}
 
-  .tech-countdown-box {
-    width: 100%;
-    height: 85px;
+/* Accessibility: Disable Entrance Animation under Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-dials-strip {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
+}
 
-  .tech-digit-num {
-    font-size: 30px;
+/* Short laptop screens */
+@media (max-height: 760px) {
+  .hero-dials-strip {
+    margin-bottom: clamp(16px, 3.5vh, 28px) !important;
   }
+}
 
-  .tech-unit-label {
-    font-size: 9px;
+/* Phones under 400px screen protection */
+@media (max-width: 400px) {
+  .hero-dials-strip {
+    gap: 8px !important;
   }
 }

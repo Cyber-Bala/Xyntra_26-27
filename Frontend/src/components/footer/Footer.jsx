@@ -1,110 +1,193 @@
+import { useEffect, useRef } from 'react'
 import './Footer.css'
+import bgFooter from '../../assets/bg/bg-footer.webp'
+import SectionBg from '../fx/SectionBg.jsx'
 
 export default function Footer({ onNavigate }) {
+  const taglineRef = useRef(null)
+
   const quickLinks = [
-    { id: 1, label: 'Home & Countdown', code: '01' },
-    { id: 2, label: 'About & Tracks', code: '02' },
-    { id: 5, label: 'Prizes & Partners', code: '03' },
-    { id: 3, label: 'Rules & Protocol', code: '04' },
-    { id: 4, label: 'Team Registration', code: '05' },
+    { id: 1, label: 'Home', section: 'hero' },
+    { id: 2, label: 'About', section: 'about' },
+    { id: 6, label: 'Prizes & Partners', section: 'prizes' },
+    { id: 3, label: 'Rules', section: 'rules' },
+    { id: 4, label: 'Registration', path: '/register' },
+  ]
+
+  const resourceLinks = [
+    { label: 'Official Rulebook [PDF]', href: '#rules' },
+    { label: 'Challenge Tracks', href: '#problem-statements' },
+    { label: 'Campus Map & Travel', href: '#contact' },
+    { label: 'IEEE Student Chapter', href: 'https://www.computer.org/', external: true },
   ]
 
   const socials = [
-    { name: 'Instagram', href: '#instagram', icon: '↗' },
-    { name: 'LinkedIn', href: '#linkedin', icon: '↗' },
-    { name: 'X / Twitter', href: '#x', icon: '↗' },
-    { name: 'GitHub', href: '#github', icon: '↗' },
+    { name: 'X / Twitter', href: '#x', symbol: '𝕏' },
+    { name: 'LinkedIn', href: '#linkedin', symbol: 'in' },
+    { name: 'GitHub', href: '#github', symbol: '⌥' },
+    { name: 'Instagram', href: '#instagram', symbol: '◈' },
+    { name: 'Discord', href: '#discord', symbol: '✦' },
   ]
 
+  useEffect(() => {
+    const el = taglineRef.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const targetText = 'Ideas • Code • Impact'
+    let timer = null
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (timer) clearTimeout(timer)
+          let i = 0
+          el.textContent = ''
+          const step = () => {
+            el.textContent = targetText.slice(0, ++i)
+            if (i < targetText.length) {
+              timer = setTimeout(step, 45)
+            }
+          }
+          timer = setTimeout(step, 150)
+        } else {
+          if (timer) clearTimeout(timer)
+          el.textContent = ''
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      if (timer) clearTimeout(timer)
+    }
+  }, [])
+
   return (
-    <footer className="retro-master-footer">
-      {/* Top Telemetry Strip */}
-      <div className="footer-telemetry-strip">
-        <div className="footer-status-tag">
-          <span className="retro-status-led led-green" />
-          <span className="footer-status-text">TERMINAL BROADCAST: ACTIVE</span>
+    <footer className="fullscreen-retro-footer" id="contact" data-accent="violet">
+      <SectionBg
+        src={bgFooter}
+        opacity={1}
+        position="center top"
+        gradient="linear-gradient(to bottom, transparent 0%, rgba(10,8,6,0.35) 60%, rgba(10,8,6,0.95) 100%)"
+      />
+      {/* Main Expansive Content Container */}
+      <div className="footer-fullwidth-content">
+        <div className="footer-main-grid">
+          {/* Brand Block */}
+          <div className="footer-brand-column">
+            <div className="footer-logo-line">
+              <span className="footer-brand-title">
+                XYNTRA <span className="brand-accent">26-27</span>
+              </span>
+            </div>
+            <p className="footer-brand-subtitle">24-HOUR NATIONAL LEVEL HACKATHON</p>
+            <div className="footer-brand-tag-badge">
+              <span className="badge-dot" />
+              <span className="badge-text">IEEE CS &bull; REC CAMPUS</span>
+            </div>
+            <p className="footer-mission-lead">
+              Empowering bold thinkers to turn ideas into high-impact software, hardware, and AI innovations.
+            </p>
+          </div>
+
+          {/* Quick Links Navigation */}
+          <div className="footer-nav-column">
+            <span className="footer-column-heading">NAVIGATION</span>
+            <nav className="footer-links-stack" aria-label="Footer navigation">
+              {quickLinks.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="footer-nav-btn"
+                  onClick={() => onNavigate(item.id, item.section)}
+                >
+                  <span className="link-chevron" aria-hidden="true">&gt;</span>
+                  <span className="link-text">{item.label}</span>
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Resources & Docs */}
+          <div className="footer-resources-column">
+            <span className="footer-column-heading">DOCUMENTATION</span>
+            <div className="footer-links-stack">
+              {resourceLinks.map((res, rIdx) => (
+                <a
+                  key={rIdx}
+                  href={res.href}
+                  className="footer-anchor-link"
+                  target={res.external ? '_blank' : undefined}
+                  rel={res.external ? 'noopener noreferrer' : undefined}
+                >
+                  <span className="link-chevron" aria-hidden="true">&gt;</span>
+                  <span className="link-text">{res.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact & Socials */}
+          <div className="footer-contact-column">
+            <span className="footer-column-heading">COMMUNICATION</span>
+            <div className="footer-contact-stack">
+              <div className="contact-row">
+                <span className="contact-prefix">EMAIL:</span>
+                <a href="mailto:xyntra.hackathon@college.edu" className="contact-link">
+                  xyntra.hackathon@college.edu
+                </a>
+              </div>
+              <div className="contact-row">
+                <span className="contact-prefix">PHONE:</span>
+                <span className="contact-text">+91 98765 43210</span>
+              </div>
+              <div className="contact-row">
+                <span className="contact-prefix">VENUE:</span>
+                <span className="contact-text">Rajalakshmi Engineering College, Chennai</span>
+              </div>
+            </div>
+
+            <div className="footer-social-cluster">
+              {socials.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  className="retro-keycap-btn"
+                  aria-label={s.name}
+                >
+                  <span className="keycap-symbol">{s.symbol}</span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        <span className="footer-channel-id">CH-XYNTRA.26 // REC_CAMPUS_NET</span>
       </div>
 
-      <div className="footer-grid-body">
-        {/* COL 1: ABOUT SOCIETY */}
-        <div className="footer-col">
-          <div className="footer-heading-wrap">
-            <span className="footer-kicker-tag">[SYS_PATRON]</span>
-            <h3 className="footer-heading">ABOUT SOCIETY</h3>
-          </div>
-          <p className="footer-society-desc">
-            IEEE Computer Society Student Branch Chapter is a premier technical collective dedicated to advancing
-            technological disruption through national hackathons, open research, and developer incubations.
-          </p>
-          <div className="footer-contact-cluster">
-            <div className="footer-contact-row">
-              <span className="contact-type-label">SIGNAL:</span>
-              <a href="mailto:xyntra.hackathon@college.edu" className="contact-val-link">
-                xyntra.hackathon@college.edu
-              </a>
-            </div>
-            <div className="footer-contact-row">
-              <span className="contact-type-label">TEL_LINE:</span>
-              <span className="contact-val-text">+91 98765 43210</span>
-            </div>
-          </div>
+      {/* ── BOTTOM FULL-WIDTH TERMINAL STRIP ─────────────────────── */}
+      <div className="footer-bottom-terminal-strip">
+        <div className="terminal-strip-inner">
+          <span className="terminal-strip-copy">
+            &copy; 2026&ndash;2027 XYNTRA. All Rights Reserved. IEEE Computer Society REC.
+          </span>
+
+          <span ref={taglineRef} className="terminal-strip-tagline">
+            Ideas • Code • Impact
+          </span>
+
+          <button
+            type="button"
+            className="footer-back-to-top"
+            onClick={() => {
+              if (window.lenisInstance) window.lenisInstance.scrollTo(0)
+              else window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+            aria-label="Scroll back to top"
+          >
+            <span>TOP</span>
+            <span aria-hidden="true">&uarr;</span>
+          </button>
         </div>
-
-        {/* COL 2: QUICK LINKS */}
-        <div className="footer-col">
-          <div className="footer-heading-wrap">
-            <span className="footer-kicker-tag">[DIR_NAV]</span>
-            <h3 className="footer-heading">QUICK LINKS</h3>
-          </div>
-          <div className="footer-nav-list">
-            {quickLinks.map((link) => (
-              <button
-                key={link.id}
-                type="button"
-                className="footer-nav-btn"
-                onClick={() => onNavigate(link.id)}
-              >
-                <span className="nav-btn-code">[{link.code}]</span>
-                <span className="nav-btn-label">{link.label}</span>
-                <span className="nav-btn-arrow">»</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* COL 3: CONNECT & SOCIALS */}
-        <div className="footer-col">
-          <div className="footer-heading-wrap">
-            <span className="footer-kicker-tag">[COMM_PORTS]</span>
-            <h3 className="footer-heading">CONNECT &amp; SOCIALS</h3>
-          </div>
-          <div className="footer-social-links">
-            {socials.map((s) => (
-              <a key={s.name} href={s.href} className="social-pill-btn">
-                <span>{s.name}</span>
-                <span className="social-arrow">{s.icon}</span>
-              </a>
-            ))}
-          </div>
-
-          {/* Official Certified Seal Stamp */}
-          <div className="footer-certified-badge">
-            <div className="badge-stamp-header">
-              <span className="stamp-dot" />
-              <span>OFFICIAL TELEMETRY SEAL</span>
-            </div>
-            <div className="badge-stamp-title">XYNTRA 2026 HACKATHON</div>
-            <div className="badge-stamp-sub">IEEE CS CHAPTER · REC CHENNAI</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Legal / Copyright Strip */}
-      <div className="footer-bottom-strip">
-        <span>© 2026-2027 XYNTRA PLATFORM · ALL PROTOCOLS RESERVED</span>
-        <span className="footer-sub-stamp">SECURE TERMINAL NODE // VERIFIED</span>
       </div>
     </footer>
   )
