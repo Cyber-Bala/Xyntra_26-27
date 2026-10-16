@@ -196,7 +196,7 @@ export default function Register({ onNavigate }) {
         description: `Round 2 registration · ${order.team_name}`,
         order_id: order.order_id,
         prefill: { email: payment.details.leader_email, name: order.team_name },
-        theme: { color: "#0004EB" },
+        theme: { color: "#f2a93b" },
         modal: { ondismiss: () => setPayment((current) => ({ ...current, busy: false })) },
         handler: async (checkoutResult) => {
           try {

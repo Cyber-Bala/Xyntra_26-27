@@ -1,0 +1,295 @@
+/* ============================================================
+   XYNTRA TIMELINE — IMAGE-PRESERVING ANIMATION
+   
+   All overlays are positioned as exact percentages of the base
+   image (1024x576) so they scale responsively and remain
+   perfectly aligned across any viewport size.
+   ============================================================ */
+
+/* ── FULL SCREEN SECTION ─────────────────────────────────── */
+
+/* ── FULL SCREEN SECTION ─────────────────────────────────── */
+
+.timeline-cassette-section {
+  width: 100vw;
+  height: auto;
+  min-height: 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 0;
+  margin-bottom: -120px;
+  padding: 0;
+  background: #020914;
+  display: block;
+}
+
+/* ── IMAGE WRAPPER (Expands 100% full width to both sides, normal uncropped 16:9) ── */
+
+.tl-image-wrapper {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+/* ── BASE IMAGE ──────────────────────────────────────────── */
+
+.tl-base-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── OVERLAYS CONTAINER ──────────────────────────────────── */
+
+.tl-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   1. CASSETTE REELS (TAPE RECORDER ROLLS)
+   
+   Original extracted circular hub cutouts placed directly over
+   the hubs and spinning around their mechanical centers.
+   ============================================================ */
+
+.tl-reel {
+  position: absolute;
+  border-radius: 50%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.tl-reel-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+}
+
+/* Continuous smooth reel rotation */
+.tl-spin-ccw {
+  animation: reelSpinCCW 5s linear infinite;
+}
+
+@keyframes reelSpinCCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* ── LEFT CASSETTE ─────────────────────────────────────────
+   Center L1: (109.43, 157.73), size 46x46
+   Center L2: (201.13, 171.33), size 44x44
+   ────────────────────────────────────────────────────────── */
+
+.tl-left-reel-l {
+  left: 8.4404%;
+  top: 23.3906%;
+  width: 4.4922%;
+  aspect-ratio: 1;
+  z-index: 5;
+}
+
+.tl-left-reel-r {
+  left: 17.4932%;
+  top: 25.9253%;
+  width: 4.2969%;
+  aspect-ratio: 1;
+  z-index: 5;
+}
+
+/* ── RIGHT CASSETTE ────────────────────────────────────────
+   Center R1: (813.5, 438.5), size 46x46
+   Center R2: (906.5, 413.5), size 46x46
+   ────────────────────────────────────────────────────────── */
+
+.tl-right-reel-l {
+  left: 77.1973%;
+  top: 72.1354%;
+  width: 4.4922%;
+  aspect-ratio: 1;
+  z-index: 5;
+}
+
+/* Stationary tape patch over bottom-left of Reel R1 */
+.tl-tape-patch-r1 {
+  position: absolute;
+  top: -4.3%;
+  left: -4.3%;
+  width: 108.7%;
+  height: 108.7%;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.tl-right-reel-r {
+  left: 86.2793%;
+  top: 67.7951%;
+  width: 4.4922%;
+  aspect-ratio: 1;
+  z-index: 5;
+}
+
+/* ============================================================
+   2. TOP-CENTER AUDIO SIGNAL WAVEFORM (IN MOTION)
+   ============================================================ */
+
+.tl-vector-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.tl-signal-waveform-group {
+  pointer-events: none;
+}
+
+.tl-signal-bar {
+  stroke: #5ef5ff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px rgba(80, 245, 255, 0.85));
+  animation: signalBarPulse 1.3s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+@keyframes signalBarPulse {
+  0% {
+    transform: scaleY(0.40);
+    opacity: 0.55;
+    stroke: #38c8f5;
+  }
+  50% {
+    transform: scaleY(1.22);
+    opacity: 1;
+    stroke: #ffffff;
+    filter: drop-shadow(0 0 5px rgba(160, 255, 255, 0.95));
+  }
+  100% {
+    transform: scaleY(0.75);
+    opacity: 0.80;
+    stroke: #5ef5ff;
+  }
+}
+
+/* ============================================================
+   3. BOTTOM-LEFT GLOBE (FULL ORIGINAL SIZE)
+   
+   Center: (38, 475), Radius: 215px -> Diameter: 430px
+   left = (38 - 215) / 1024  = -17.2852%
+   top  = (475 - 215) / 576  =  45.1389%
+   width = 430 / 1024        =  41.9922%
+   height = 430 / 576        =  74.6528%
+   ============================================================ */
+
+.tl-globe-wrapper {
+  position: absolute;
+  left: -17.2852%;
+  top: 45.1389%;
+  width: 41.9922%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.tl-globe-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.tl-globe-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  /* Atmospheric limb glow along upper-right edge of sphere */
+  box-shadow:
+    inset -5px 5px 22px rgba(220, 245, 255, 0.45),
+    0 0 16px rgba(180, 230, 255, 0.25);
+}
+
+/* ============================================================
+   4. DECORATIVE ELEMENTS (Stars)
+   ============================================================ */
+
+.tl-star {
+  position: absolute;
+  border-radius: 50%;
+  background: transparent;
+  z-index: 6;
+}
+
+.tl-star-1 {
+  width: 1.8%;
+  aspect-ratio: 1;
+  top: 42.5%;
+  left: 54.8%;
+  animation: starTwinkle 4s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.tl-star-2 {
+  width: 1.2%;
+  aspect-ratio: 1;
+  top: 33%;
+  left: 47%;
+  animation: starTwinkle 5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.tl-star-3 {
+  width: 0.8%;
+  aspect-ratio: 1;
+  top: 18%;
+  left: 37%;
+  animation: starTwinkle 4.5s ease-in-out infinite;
+  animation-delay: 2.8s;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0;
+  }
+  40%, 60% {
+    box-shadow:
+      0 0 4px 1px rgba(255, 255, 255, 0.22),
+      0 0 12px 4px rgba(255, 255, 255, 0.07);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION SUPPORT
+   ============================================================ */
+
+.tl-no-motion .tl-reel-img,
+.tl-no-motion .tl-signal-bar,
+.tl-no-motion .tl-star {
+  animation: none !important;
+}

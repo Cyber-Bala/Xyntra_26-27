@@ -5,14 +5,14 @@
    ============================================================ */
 
 .retro-rules-fullscreen-section {
-  --cr: #e8475f;          /* Aero Crimson */
-  --am: #f7d279;          /* Halogen Amber */
-  --card-bg: rgba(28, 23, 15, 0.82);
-  --card-bg-hover: rgba(42, 35, 22, 0.92);
-  --text-ivory: #f4ebd9;
-  --text-muted: #a8987a;
-  --line-gold: rgba(247, 210, 121, 0.22);
-  --line-subtle: rgba(247, 210, 121, 0.12);
+  --cr: var(--coral, #e8475f);
+  --am: var(--amber, #f2a93b);
+  --card-bg: rgba(23, 16, 10, 0.85);
+  --card-bg-hover: rgba(36, 26, 16, 0.95);
+  --text-ivory: var(--ink, #f4e7c3);
+  --text-muted: rgba(244, 231, 195, 0.65);
+  --line-gold: rgba(242, 169, 59, 0.22);
+  --line-subtle: rgba(242, 169, 59, 0.12);
 
   width: 100%;
   box-sizing: border-box;
@@ -152,7 +152,7 @@
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.05em;
-  color: #1a0f05;
+  color: var(--bg);
   line-height: 1.25;
   text-transform: uppercase;
 }
@@ -173,7 +173,7 @@
   font-family: 'Space Grotesk', monospace;
   font-size: 8px;
   font-weight: 700;
-  color: #3b2812;
+  color: rgba(244, 231, 195, 0.7);
   letter-spacing: 0.04em;
   margin-top: 4px;
 }
@@ -192,7 +192,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  background: rgba(26, 22, 14, 0.7);
+  background: rgba(23, 16, 10, 0.7);
   border: 1px solid var(--line-gold);
   border-radius: 4px;
   font-family: 'Space Grotesk', monospace;

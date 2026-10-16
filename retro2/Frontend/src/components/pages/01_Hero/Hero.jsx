@@ -46,7 +46,7 @@ function RadialDialCard({ index, value, unit, isHighlight }) {
             y1={s.y1}
             x2={s.x2}
             y2={s.y2}
-            stroke={s.isMajor ? '#caa157' : 'rgba(202, 161, 87, 0.36)'}
+            stroke={s.isMajor ? '#f2a93b' : 'rgba(242, 169, 59, 0.35)'}
             strokeWidth={s.isMajor ? 1.4 : 1.0}
             strokeLinecap="round"
           />
@@ -98,7 +98,7 @@ export default function Hero({ onNavigate }) {
                   <polygon
                     points="8,1 52,1 59,8 59,40 52,47 8,47 1,40 1,8"
                     fill="none"
-                    stroke="#ffffff"
+                    stroke="#f2a93b"
                     strokeWidth="1.6"
                     vectorEffect="non-scaling-stroke"
                   />

@@ -171,7 +171,7 @@
 
 .radial-dial-box:hover {
   transform: translateY(-3px) scale(1.02);
-  filter: drop-shadow(0 0 16px rgba(242, 169, 59, 0.38));
+  filter: drop-shadow(0 0 16px rgba(242, 169, 59, 0.4));
 }
 
 .radial-dial-svg {
@@ -181,12 +181,7 @@
   height: 100%;
   pointer-events: none;
   overflow: visible;
-  animation: dial-pulse 4s ease-in-out infinite alternate;
-}
-
-@keyframes dial-pulse {
-  0% { opacity: 0.85; filter: drop-shadow(0 0 4px rgba(202, 161, 87, 0.22)); }
-  100% { opacity: 1; filter: drop-shadow(0 0 12px rgba(242, 169, 59, 0.45)); }
+  filter: drop-shadow(0 0 6px rgba(242, 169, 59, 0.3));
 }
 
 .radial-dial-content {
@@ -204,13 +199,13 @@
   font-size: clamp(11px, 1.1vw, 13px);
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #caa157;
+  color: var(--amber);
   margin-bottom: 2px;
 }
 
 .radial-dial-badge.badge-coral {
-  color: #e8475f;
-  text-shadow: 0 0 8px rgba(232, 71, 95, 0.65);
+  color: var(--coral);
+  text-shadow: 0 0 10px rgba(232, 71, 95, 0.65);
 }
 
 .radial-digit-num {
@@ -218,9 +213,9 @@
   font-size: clamp(38px, 4.4vw, 56px);
   font-weight: 900;
   line-height: 1;
-  color: #fff4dc;
+  color: var(--ink);
   letter-spacing: -0.02em;
-  text-shadow: 0 0 16px rgba(245, 228, 189, 0.3);
+  text-shadow: 0 0 16px rgba(244, 231, 195, 0.28);
 }
 
 .radial-unit-label {
@@ -228,12 +223,12 @@
   font-size: clamp(9px, 0.95vw, 11px);
   font-weight: 800;
   letter-spacing: 0.24em;
-  color: #caa157;
+  color: var(--amber);
   text-transform: uppercase;
   margin-top: 4px;
 }
 
-/* ================= ACTION BUTTONS (SOLID GOLD & TECH OUTLINE) ================= */
+/* ================= ACTION BUTTONS (MINIMAL RETRO PALETTE) ================= */
 .hero-action-buttons-row {
   display: flex;
   align-items: center;
@@ -245,8 +240,8 @@
 
 .hero-solid-gold-btn {
   position: relative;
-  background: linear-gradient(135deg, #f5e4bd 0%, #e5b364 48%, #cb9742 100%);
-  border: 1px solid rgba(255, 238, 196, 0.75);
+  background: var(--amber);
+  border: 1px solid var(--amber);
   border-radius: 4px;
   cursor: pointer;
   min-width: clamp(200px, 18vw, 250px);
@@ -257,8 +252,8 @@
   gap: 12px;
   padding: 0 28px;
   outline: none;
-  box-shadow: 0 4px 22px rgba(229, 179, 100, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px rgba(242, 169, 59, 0.35);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-solid-gold-btn .btn-label-text {
@@ -266,14 +261,14 @@
   font-size: clamp(12px, 1.1vw, 13.5px);
   font-weight: 800;
   letter-spacing: 0.12em;
-  color: #140d05;
+  color: var(--bg);
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .hero-solid-gold-btn .btn-arrow-icon {
   font-size: 16px;
-  color: #140d05;
+  color: var(--bg);
   font-weight: 900;
   transition: transform 0.25s ease;
   line-height: 1;
@@ -281,8 +276,9 @@
 
 .hero-solid-gold-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(229, 179, 100, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  filter: brightness(1.05);
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 6px 28px rgba(244, 231, 195, 0.45);
 }
 
 .hero-solid-gold-btn:hover .btn-arrow-icon {
@@ -291,8 +287,8 @@
 
 .hero-outline-gold-btn {
   position: relative;
-  background: rgba(14, 11, 7, 0.65);
-  border: 1.5px solid rgba(229, 179, 100, 0.65);
+  background: rgba(23, 16, 10, 0.65);
+  border: 1.5px solid var(--amber);
   border-radius: 4px;
   cursor: pointer;
   min-width: clamp(200px, 18vw, 250px);
@@ -305,7 +301,7 @@
   outline: none;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-outline-gold-btn .btn-label-text {
@@ -313,15 +309,14 @@
   font-size: clamp(12px, 1.1vw, 13.5px);
   font-weight: 800;
   letter-spacing: 0.12em;
-  color: #f5e4bd;
+  color: var(--ink);
   text-transform: uppercase;
   white-space: nowrap;
-  transition: color 0.25s ease;
 }
 
 .hero-outline-gold-btn .btn-arrow-icon {
   font-size: 15px;
-  color: #e5b364;
+  color: var(--amber);
   font-weight: 800;
   transition: transform 0.25s ease, color 0.25s ease;
   line-height: 1;
@@ -329,14 +324,14 @@
 
 .hero-outline-gold-btn:hover {
   transform: translateY(-2px);
-  border-color: #f5e4bd;
-  background: rgba(229, 179, 100, 0.12);
-  filter: drop-shadow(0 0 16px rgba(242, 169, 59, 0.35));
+  border-color: var(--ink);
+  background: rgba(242, 169, 59, 0.12);
+  box-shadow: 0 0 18px rgba(242, 169, 59, 0.35);
 }
 
 .hero-outline-gold-btn:hover .btn-arrow-icon {
   transform: translate(2px, -2px);
-  color: #fff4dc;
+  color: var(--ink);
 }
 
 /* ================= RESPONSIVE BREAKPOINTS ================= */

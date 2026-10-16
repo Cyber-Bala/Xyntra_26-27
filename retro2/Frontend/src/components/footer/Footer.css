@@ -5,12 +5,12 @@
    ============================================================ */
 
 .fullscreen-retro-footer {
-  --cr: #e8475f;          /* Aero Crimson */
-  --am: #f7d279;          /* Halogen Amber */
-  --text-ivory: #f4ebd9;  /* Warm Paper Cream */
-  --text-muted: #a8987a;  /* Muted Hardware Gray */
-  --line-gold: rgba(247, 210, 121, 0.22);
-  --line-subtle: rgba(247, 210, 121, 0.12);
+  --cr: var(--coral, #e8475f);
+  --am: var(--amber, #f2a93b);
+  --text-ivory: var(--ink, #f4e7c3);
+  --text-muted: rgba(244, 231, 195, 0.65);
+  --line-gold: rgba(242, 169, 59, 0.22);
+  --line-subtle: rgba(242, 169, 59, 0.12);
 
   width: 100%;
   box-sizing: border-box;
@@ -85,8 +85,8 @@
   gap: 8px;
   margin-top: 4px;
   padding: 4px 10px;
-  background: rgba(26, 22, 14, 0.7);
-  border: 1px dashed rgba(247, 210, 121, 0.3);
+  background: rgba(23, 16, 10, 0.7);
+  border: 1px dashed rgba(242, 169, 59, 0.3);
   border-radius: 2px;
   width: fit-content;
 }
@@ -274,9 +274,9 @@
 .retro-keycap-btn:hover {
   background: var(--am);
   border-color: var(--am);
-  color: #14110c;
+  color: var(--bg);
   transform: translateY(-2px);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 12px rgba(247, 210, 121, 0.4);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 12px rgba(242, 169, 59, 0.4);
 }
 
 .retro-keycap-btn:active {
@@ -352,9 +352,9 @@
 
 .footer-back-to-top:hover {
   background: var(--am);
-  color: #14110c;
+  color: var(--bg);
   border-color: var(--am);
-  box-shadow: 0 0 10px rgba(247, 210, 121, 0.35);
+  box-shadow: 0 0 10px rgba(242, 169, 59, 0.35);
 }
 
 /* ── RESPONSIVE ─────────────────────────────────────────────── */

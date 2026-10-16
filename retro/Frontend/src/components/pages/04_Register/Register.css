@@ -308,10 +308,10 @@
   color: rgba(251, 242, 227, .7);
 }
 
-.terminal-lights i { background: #efc5d8; box-shadow: 0 0 8px rgba(239, 197, 216, .45); }
-.terminal-lights i:nth-child(2) { background: #f8ebd5; box-shadow: 0 0 8px rgba(248, 235, 213, .45); }
-.terminal-lights i:nth-child(3) { background: #eedbb9; box-shadow: 0 0 9px rgba(238, 219, 185, .48); }
-.terminal-live { color: #eedbb9; }
+.terminal-lights i { background: #e8475f; box-shadow: 0 0 8px rgba(232, 71, 95, .45); }
+.terminal-lights i:nth-child(2) { background: #f2a93b; box-shadow: 0 0 8px rgba(242, 169, 59, .45); }
+.terminal-lights i:nth-child(3) { background: #f4e7c3; box-shadow: 0 0 9px rgba(244, 231, 195, .48); }
+.terminal-live { color: #f2a93b; }
 
 .registration-ascii {
   width: max-content;
@@ -957,15 +957,15 @@
   bottom: 5px;
   left: 5px;
   height: 2px;
-  background: #b8a64f;
-  box-shadow: 0 0 5px rgba(184, 166, 79, .4);
+  background: var(--amber, #f2a93b);
+  box-shadow: 0 0 5px rgba(242, 169, 59, .4);
 }
 
 .registration-view .terminal-status {
   min-height: 27px;
   padding-inline: 16px;
   border-color: rgba(224, 216, 203, .12);
-  color: #8da18d;
+  color: rgba(244, 231, 195, 0.65);
 }
 
 .registration-view .round-card,

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import './About.css'
+import Timeline from '../05_Timeline/Timeline.jsx'
 
 
 
@@ -187,72 +188,6 @@ export default function About() {
       tags: ['EDTECH', 'SUSTAINABILITY', 'UX'],
 
       focus: 'HUMAN / FUTURE / UX',
-
-    },
-
-  ]
-
-
-
-  const timeline = [
-
-    {
-
-      number: '01',
-
-      date: 'OCT 01',
-
-      title: 'REGISTRATION OPENS',
-
-      description: 'The gates of the arena open.',
-
-    },
-
-    {
-
-      number: '02',
-
-      date: 'OCT 15',
-
-      title: 'PROBLEM STATEMENTS',
-
-      description: 'Tracks and problem sets unveiled.',
-
-    },
-
-    {
-
-      number: '03',
-
-      date: 'OCT 20',
-
-      title: 'REGISTRATION CLOSES',
-
-      description: 'Squads assemble and lock in.',
-
-    },
-
-    {
-
-      number: '04',
-
-      date: 'OCT 24–25',
-
-      title: '24H HACKATHON',
-
-      description: 'Non-stop prototype development.',
-
-    },
-
-    {
-
-      number: '05',
-
-      date: 'OCT 25',
-
-      title: 'GRAND DEMO DAY',
-
-      description: 'Pitches, judgement & awards.',
 
     },
 
@@ -1148,181 +1083,12 @@ export default function About() {
 
 
 
-        <section className="v6-timeline">
-
-
-
-          <div className="v6-section-head">
-
-
-
-            <div className="v6-section-number">
-
-              03
-
-            </div>
-
-
-
-            <div>
-
-
-
-              <span className="v6-eyebrow">
-
-                THE JOURNEY
-
-              </span>
-
-
-
-              <h2>
-
-                MARK
-
-                <br />
-
-                <em>THE DATES.</em>
-
-              </h2>
-
-
-
-            </div>
-
-
-
-            <div className="v6-deadline">
-
-
-
-              <span>
-
-                REGISTRATION CLOSES
-
-              </span>
-
-
-
-              <strong>
-
-                20 OCT 2026
-
-              </strong>
-
-
-
-              <small>
-
-                11:59 PM IST
-
-              </small>
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-
-
-          <div className="v6-timeline-wrapper">
-
-
-
-            <div className="v6-timeline-axis" />
-
-
-
-            <div className="v6-timeline-items">
-
-
-
-              {timeline.map((item, index) => (
-
-
-
-                <div
-
-                  className={`v6-timeline-item ${
-
-                    index === 3
-
-                      ? 'v6-timeline-highlight'
-
-                      : ''
-
-                  }`}
-
-                  key={item.number}
-
-                >
-
-
-
-                  <div className="v6-timeline-number">
-
-                    {item.number}
-
-                  </div>
-
-
-
-                  <div className="v6-timeline-node">
-
-                    <span />
-
-                  </div>
-
-
-
-                  <span className="v6-timeline-date">
-
-                    {item.date}
-
-                  </span>
-
-
-
-                  <h3>
-
-                    {item.title}
-
-                  </h3>
-
-
-
-                  <p>
-
-                    {item.description}
-
-                  </p>
-
-
-
-                </div>
-
-
-
-              ))}
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-        </section>
-
       </div>
+
+      {/* =====================================================
+          TIMELINE — FULL SCREEN
+          ===================================================== */}
+      <Timeline />
 
 
 

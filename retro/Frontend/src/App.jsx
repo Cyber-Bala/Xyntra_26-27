@@ -5,7 +5,6 @@ import Navbar from './components/navbar/Navbar.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
 import About from './components/pages/02_About/About.jsx'
 import Prizes from './components/pages/06_Prizes/Prizes.jsx'
-import TitleRelay from './components/fx/TitleRelay.jsx'
 import { CrtOverlay, Embers } from './components/fx/Atmosphere.jsx'
 import Rules from './components/pages/03_Rules/Rules.jsx'
 import Register from './components/pages/04_Register/Register.jsx'
@@ -122,7 +121,6 @@ export default function App() {
     <>
       <Embers />
       <CrtOverlay />
-      <TitleRelay />
       <div className="app-root-wrapper">
         {!isRegistrationPage && (
           <Navbar

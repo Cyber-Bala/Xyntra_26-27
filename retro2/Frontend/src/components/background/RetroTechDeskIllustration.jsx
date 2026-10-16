@@ -162,27 +162,27 @@ export default function RetroTechDeskIllustration({ className = '' }) {
 
           {/* Front 3.5" Floppy Disk */}
           <g transform="translate(25, 10)">
-            <rect x="0" y="0" width="76" height="82" rx="4" fill="#1b1c1e" stroke="#eab04a" strokeWidth="2" />
+            <rect x="0" y="0" width="76" height="82" rx="4" fill="#17100a" stroke="#f2a93b" strokeWidth="2" />
             {/* Metal Shutter Slider */}
-            <rect x="18" y="0" width="40" height="34" rx="2" fill="#c4d3db" stroke="#52636d" strokeWidth="1" />
-            <rect x="42" y="8" width="8" height="18" rx="1" fill="#1b1c1e" />
+            <rect x="18" y="0" width="40" height="34" rx="2" fill="#f4e7c3" stroke="#f2a93b" strokeWidth="1" />
+            <rect x="42" y="8" width="8" height="18" rx="1" fill="#17100a" />
             {/* White/Cream Paper Label */}
-            <rect x="8" y="40" width="60" height="36" rx="2" fill="#f8eedb" />
+            <rect x="8" y="40" width="60" height="36" rx="2" fill="#f4e7c3" />
             <line x1="12" y1="46" x2="64" y2="46" stroke="#e8475f" strokeWidth="1.5" />
-            <text x="14" y="58" fill="#151210" fontFamily="'Silkscreen', monospace" fontSize="7" fontWeight="700">XYNTRA.EXE</text>
-            <text x="14" y="69" fill="#887766" fontFamily="'Space Grotesk', monospace" fontSize="6">BOOT · V26</text>
+            <text x="14" y="58" fill="#0c0906" fontFamily="'Silkscreen', monospace" fontSize="7" fontWeight="700">XYNTRA.EXE</text>
+            <text x="14" y="69" fill="#7d6c52" fontFamily="'Space Grotesk', monospace" fontSize="6">BOOT · V26</text>
           </g>
         </g>
 
         {/* ================= 5. VINTAGE AUDIO CASSETTE TAPE ================= */}
         <g className="cassette-tape-group" transform="translate(630, 310)">
           {/* Cassette Shell */}
-          <rect x="0" y="0" width="105" height="66" rx="6" fill="#141113" stroke="#e8475f" strokeWidth="2.2" />
+          <rect x="0" y="0" width="105" height="66" rx="6" fill="#17100a" stroke="#e8475f" strokeWidth="2.2" />
           {/* Tape Label Area */}
-          <rect x="8" y="8" width="89" height="42" rx="3" fill="#f6eedc" />
+          <rect x="8" y="8" width="89" height="42" rx="3" fill="#f4e7c3" />
           {/* Decorative colored stripe on label */}
           <rect x="8" y="10" width="89" height="7" fill="#e8475f" />
-          <rect x="8" y="17" width="89" height="3" fill="#eab04a" />
+          <rect x="8" y="17" width="89" height="3" fill="#f2a93b" />
           <text x="24" y="27" fill="#181316" fontFamily="'Silkscreen', monospace" fontSize="7" fontWeight="700">XYNTRA 26</text>
 
           {/* Central Tape Window & Spools */}

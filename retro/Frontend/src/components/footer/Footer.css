@@ -1,384 +1,537 @@
 /* ============================================================
-   XYNTRA 26-27 — FULLSCREEN RETRO FOOTER (SEAMLESS FLOW)
-   Aero Crimson (#e8475f) + Halogen Amber (#f7d279)
-   Zero Outer Bounding Box / No Section Borders / Edge-to-Edge
+   XYNTRA 26-27 — CYBER-RETRO TERMINAL FOOTER
+   - Globe removed for pristine clean cosmic background
+   - Top unwanted piece removed
+   - Circuit traces strictly terminate at the top of registration box
+   - Flame Orange (#f06030) strongly influenced across all elements
    ============================================================ */
 
-.fullscreen-retro-footer {
-  --cr: #e8475f;          /* Aero Crimson */
-  --am: #f7d279;          /* Halogen Amber */
-  --text-ivory: #f4ebd9;  /* Warm Paper Cream */
-  --text-muted: #a8987a;  /* Muted Hardware Gray */
-  --line-gold: rgba(247, 210, 121, 0.22);
-  --line-subtle: rgba(247, 210, 121, 0.12);
+:root {
+  --ft-bg-space: #04294a;
+  --ft-flame-orange: #f06030;
+  --ft-flame-bright: #ff7a3d;
+  --ft-flame-glow: rgba(240, 96, 48, 0.55);
+  --ft-amber-gold: #ffb347;
+  --ft-amber-bright: #ffd180;
+  --ft-neon-cyan: #22d3ee;
+  --ft-copper: #d45d2b;
+  --ft-paper-ivory: #f4e7c3;
+  --ft-text-muted: rgba(244, 231, 195, 0.75);
+  --ft-text-faint: rgba(244, 231, 195, 0.45);
+}
 
-  width: 100%;
-  box-sizing: border-box;
-  background: transparent;
+.retro-cyber-footer {
+  width: 100vw;
+  max-width: 100vw;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 80px 0 0;
-  color: var(--text-ivory);
-}
-
-/* ── FULLWIDTH CONTENT WRAPPER ──────────────────────────────── */
-
-.footer-fullwidth-content {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 40px 50px;
+  overflow: hidden;
   box-sizing: border-box;
-}
-
-/* ── MAIN 4-COLUMN GRID ──────────────────────────────────────── */
-
-.footer-main-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
-  gap: 36px;
-  align-items: start;
-}
-
-/* ── BRAND COLUMN ────────────────────────────────────────────── */
-
-.footer-brand-column {
+  background-color: var(--ft-bg-space);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  min-height: clamp(440px, 36vw, 560px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.footer-logo-line {
-  display: flex;
-  align-items: center;
-}
-
-.footer-brand-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(24px, 2.2vw, 30px);
-  font-style: italic;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: var(--text-ivory);
-}
-
-.brand-accent {
-  color: var(--am);
-  -webkit-text-fill-color: var(--am);
-}
-
-.footer-brand-subtitle {
+  justify-content: space-between;
+  color: var(--ft-paper-ivory);
+  padding: 0;
   margin: 0;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--cr);
 }
 
-.footer-brand-tag-badge {
-  display: inline-flex;
+/* ── FLOWING REAL PCB CIRCUIT CANVAS ───────────────────────── */
+
+.footer-circuit-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── MAIN 3-ZONE CONTENT OVERLAY ───────────────────────────── */
+
+.footer-overlay-grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: clamp(24px, 2.5vw, 40px) clamp(20px, 3.5vw, 60px) 0;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1.15fr auto 1.15fr;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-  padding: 4px 10px;
-  background: rgba(26, 22, 14, 0.7);
-  border: 1px dashed rgba(247, 210, 121, 0.3);
-  border-radius: 2px;
-  width: fit-content;
+  gap: clamp(16px, 2vw, 36px);
+  flex: 1;
 }
 
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--am);
-  box-shadow: 0 0 6px var(--am);
-}
+/* ── LEFT ZONE: BRAND STATEMENT & EVENT DETAILS ─────────────── */
 
-.badge-text {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.footer-mission-lead {
-  margin: 6px 0 0;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--text-muted);
-  max-width: 320px;
-}
-
-/* ── NAV & RESOURCES COLUMNS ─────────────────────────────────── */
-
-.footer-nav-column,
-.footer-resources-column {
+.footer-zone-left {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-.footer-column-heading {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--am);
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--line-subtle);
-}
-
-.footer-links-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-nav-btn {
-  background: transparent;
-  border: none;
-  padding: 3px 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 13px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: color 180ms ease, transform 180ms ease;
-  text-align: left;
-}
-
-.link-chevron {
-  color: var(--cr);
-  font-family: monospace;
-  font-size: 13px;
-  font-weight: 700;
-  transition: transform 180ms ease;
-}
-
-.footer-nav-btn:hover {
-  color: var(--text-ivory);
-  transform: translateX(4px);
-}
-
-.footer-nav-btn:hover .link-chevron {
-  color: var(--am);
-  transform: translateX(2px);
-}
-
-.footer-anchor-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 13px;
-  color: var(--text-muted);
-  text-decoration: none;
-  letter-spacing: 0.04em;
-  transition: color 180ms ease, transform 180ms ease;
-}
-
-.footer-anchor-link:hover {
-  color: var(--text-ivory);
-  transform: translateX(4px);
-}
-
-.footer-anchor-link:hover .link-chevron {
-  color: var(--am);
-}
-
-/* ── CONTACT & SOCIALS COLUMN ────────────────────────────────── */
-
-.footer-contact-column {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.footer-contact-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.contact-row {
-  display: flex;
   align-items: flex-start;
-  gap: 8px;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 12px;
-  line-height: 1.5;
+  justify-content: center;
+  padding-left: clamp(8px, 1.5vw, 32px);
 }
 
-.contact-prefix {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--am);
-  min-width: 50px;
+.footer-label-tag {
+  font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--ft-flame-orange);
+  margin-bottom: clamp(6px, 0.8vw, 12px);
+  text-shadow: 0 0 14px var(--ft-flame-glow);
 }
 
-.contact-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 180ms ease;
-}
-
-.contact-link:hover {
-  color: var(--text-ivory);
-  text-decoration: underline;
-}
-
-.contact-text {
-  color: var(--text-muted);
-}
-
-/* Retro Keycap Social Buttons */
-.footer-social-cluster {
+.footer-massive-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(36px, 4.2vw, 66px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: #f7ecd5;
+  text-shadow:
+    0 0 25px rgba(240, 96, 48, 0.28),
+    0 0 50px rgba(240, 96, 48, 0.14);
+  margin: 0 0 clamp(14px, 1.5vw, 24px) 0;
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.retro-keycap-btn {
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
+.footer-massive-heading span {
+  display: block;
+}
+
+.footer-event-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-event-title {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--ft-paper-ivory);
+  text-transform: uppercase;
+}
+
+.footer-event-date-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(10px, 0.85vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--ft-text-muted);
+  text-transform: uppercase;
+}
+
+.footer-meta-pipe {
+  color: var(--ft-flame-orange);
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+/* ── CENTER ZONE: CYBER TERMINAL & CTA ─────────────────────── */
+
+.footer-zone-center {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(29, 24, 16, 0.85);
-  border: 1px solid var(--line-gold);
-  border-radius: 3px;
-  color: var(--text-ivory);
-  font-family: 'Space Grotesk', monospace;
-  font-size: 13px;
-  text-decoration: none;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
-  transition: all 180ms ease;
+  position: relative;
 }
 
-.retro-keycap-btn:hover {
-  background: var(--am);
-  border-color: var(--am);
-  color: #14110c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 12px rgba(247, 210, 121, 0.4);
+.cyber-terminal-card {
+  width: clamp(290px, 26vw, 410px);
+  position: relative;
+  background: rgba(3, 28, 49, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(240, 96, 48, 0.65);
+  box-shadow:
+    0 -8px 25px rgba(240, 96, 48, 0.35),
+    0 12px 35px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(240, 96, 48, 0.08);
 }
 
-.retro-keycap-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
-}
-
-/* ── BOTTOM FULL-WIDTH TERMINAL STRIP ────────────────────────── */
-
-.footer-bottom-terminal-strip {
+/* Glowing Bus Interface Bar at the top of the card where traces plug in */
+.terminal-bus-landing-header {
   width: 100%;
-  background: rgba(10, 8, 5, 0.95);
-  border-top: 1px dashed var(--line-subtle);
-  padding: 14px 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(240, 96, 48, 0.4) 15%,
+    var(--ft-flame-orange) 50%,
+    rgba(240, 96, 48, 0.4) 85%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px var(--ft-flame-orange);
 }
 
-.terminal-strip-inner {
+/* Corner HUD Bracket Notches */
+.hud-corner {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-color: var(--ft-flame-orange);
+  pointer-events: none;
+}
+
+.hud-corner-tl {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.hud-corner-tr {
+  top: -2px;
+  right: -2px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+
+.hud-corner-bl {
+  bottom: -2px;
+  left: -2px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+
+.hud-corner-br {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.terminal-inner-content {
+  padding: clamp(14px, 1.4vw, 20px) clamp(16px, 1.6vw, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 0.8vw, 12px);
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 40px;
   box-sizing: border-box;
+  text-align: center;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 12px,
+    rgba(240, 96, 48, 0.025) 12px,
+    rgba(240, 96, 48, 0.025) 24px
+  );
+}
+
+.terminal-command-line {
+  margin: 0;
+  font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+  font-size: clamp(10px, 0.85vw, 12px);
+  letter-spacing: 0.05em;
+  color: var(--ft-paper-ivory);
+}
+
+.terminal-prompt-path {
+  color: var(--ft-flame-orange);
+  font-weight: 700;
+}
+
+.terminal-blinking-prompt {
+  margin: 0;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(12px, 0.95vw, 14px);
+  font-weight: 700;
+  color: var(--ft-flame-orange);
+  align-self: flex-start;
+  margin-left: 8px;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  animation: blinkUnderscore 1s steps(2, start) infinite;
+  color: var(--ft-flame-orange);
+  font-weight: 800;
+}
+
+/* Heavy Flame Orange influenced CTA button */
+.terminal-cta-button {
+  width: 90%;
+  max-width: 310px;
+  padding: clamp(10px, 0.9vw, 13px) clamp(16px, 1.5vw, 24px);
+  margin: 4px 0;
+  background: linear-gradient(135deg, #f06030 0%, #ff7a3d 50%, #f59e0b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  outline: none;
+  border-radius: 2px;
+  color: #020710;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(12px, 0.95vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:
+    0 0 22px rgba(240, 96, 48, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.terminal-cta-button:hover {
+  background: linear-gradient(135deg, #ff7a3d 0%, #f06030 50%, #fbbf24 100%);
+  box-shadow:
+    0 0 32px rgba(240, 96, 48, 0.9),
+    0 0 12px rgba(255, 122, 61, 0.6);
+  transform: translateY(-1px);
+}
+
+.terminal-cta-button .btn-arrow {
+  transition: transform 0.2s ease;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.terminal-cta-button:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.terminal-tagline-trio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.2vw, 16px);
   font-family: 'Space Grotesk', monospace;
+  font-size: clamp(9px, 0.75vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--ft-text-muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.terminal-tagline-trio .plus-sep {
+  color: var(--ft-flame-orange);
   font-size: 11px;
-  flex-wrap: wrap;
-  gap: 12px;
+  font-weight: 800;
 }
 
-.terminal-strip-copy {
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
+/* ── RIGHT ZONE: NAV & BRAND IDENTITY ──────────────────────── */
+
+.footer-zone-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(16px, 2.5vw, 40px);
+  padding-right: clamp(8px, 1.5vw, 32px);
 }
 
-.terminal-strip-tagline {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--am);
-  letter-spacing: 0.06em;
-  min-height: 1.2em;
+.footer-nav-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(7px, 0.7vw, 11px);
+  align-items: flex-start;
 }
 
-.terminal-strip-tagline::after {
-  content: '_';
-  color: var(--cr);
-  animation: cursor-blink 1s steps(2, start) infinite;
-  margin-left: 2px;
-}
-
-@keyframes cursor-blink {
-  to { opacity: 0; }
-}
-
-.footer-back-to-top {
+.footer-nav-link-item {
+  background: transparent;
+  border: none;
+  padding: 2px 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: rgba(29, 24, 16, 0.85);
-  border: 1px solid var(--line-gold);
-  border-radius: 2px;
-  color: var(--am);
+  gap: 8px;
   font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
+  font-size: clamp(11px, 0.9vw, 13px);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ft-text-muted);
   cursor: pointer;
-  transition: all 180ms ease;
+  transition: all 0.2s ease;
 }
 
-.footer-back-to-top:hover {
-  background: var(--am);
-  color: #14110c;
-  border-color: var(--am);
-  box-shadow: 0 0 10px rgba(247, 210, 121, 0.35);
+.footer-nav-link-item .nav-dash {
+  color: var(--ft-flame-orange);
+  opacity: 0.85;
+  font-weight: 800;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-/* ── RESPONSIVE ─────────────────────────────────────────────── */
+.footer-nav-link-item:hover {
+  color: var(--ft-flame-bright);
+  text-shadow: 0 0 10px rgba(240, 96, 48, 0.6);
+  transform: translateX(3px);
+}
 
-@media (max-width: 1024px) {
-  .footer-main-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
+.footer-nav-link-item:hover .nav-dash {
+  opacity: 1;
+  color: var(--ft-flame-orange);
+}
+
+.footer-vertical-rule {
+  width: 1px;
+  height: clamp(100px, 9vw, 135px);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(240, 96, 48, 0.5) 30%,
+    rgba(240, 96, 48, 0.5) 70%,
+    transparent 100%
+  );
+}
+
+.footer-brand-identity-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.6vw, 9px);
+  align-items: flex-start;
+}
+
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.footer-social-icon-btn {
+  color: var(--ft-paper-ivory);
+  opacity: 0.85;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-social-icon-btn:hover {
+  opacity: 1;
+  color: var(--ft-flame-orange);
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 8px rgba(240, 96, 48, 0.7));
+}
+
+.footer-brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-brand-spark {
+  color: var(--ft-flame-orange);
+  font-size: 13px;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(240, 96, 48, 0.7);
+}
+
+.footer-brand-name {
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(12px, 0.95vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--ft-paper-ivory);
+  text-transform: uppercase;
+}
+
+.footer-slogan-block {
+  margin: 0;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(9px, 0.75vw, 11px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.16em;
+  color: var(--ft-text-muted);
+  text-transform: uppercase;
+}
+
+.footer-slogan-rule {
+  width: 28px;
+  height: 2px;
+  background: var(--ft-flame-orange);
+  box-shadow: 0 0 8px rgba(240, 96, 48, 0.7);
+  margin-top: 2px;
+}
+
+/* ── BOTTOM META BAR ───────────────────────────────────────── */
+
+.footer-bottom-meta-bar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 3.5vw, 60px) clamp(14px, 1.5vw, 24px);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(9px, 0.75vw, 11px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ft-text-faint);
+}
+
+.footer-dreamers-text .dreamers-dash {
+  color: var(--ft-flame-orange);
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(240, 96, 48, 0.7);
+}
+
+/* ── ANIMATIONS ────────────────────────────────────────────── */
+
+@keyframes blinkUnderscore {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
   }
 }
 
-@media (max-width: 640px) {
-  .footer-fullwidth-content {
-    padding: 0 20px 28px;
-  }
+/* ── RESPONSIVE BREAKPOINTS ────────────────────────────────── */
 
-  .footer-main-grid {
+@media (max-width: 960px) {
+  .footer-overlay-grid {
     grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 40px;
+  }
+
+  .footer-zone-left,
+  .footer-zone-center,
+  .footer-zone-right {
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .footer-massive-heading {
+    align-items: center;
+  }
+
+  .footer-zone-right {
+    flex-direction: row;
+    justify-content: center;
     gap: 24px;
   }
 
-  .terminal-strip-inner {
-    padding: 0 20px;
+  .footer-bottom-meta-bar {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 8px;
+    text-align: center;
+    padding-bottom: 24px;
   }
 }
