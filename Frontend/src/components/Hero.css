@@ -1,0 +1,510 @@
+/* =============================================================================
+   XYNTRA HERO SECTION - FULL-SCREEN 100VH RETRO BANNER
+   Target layout:
+   - XYNTRA title: rendered text width ~47vw
+   - HACKATHON subtitle: exact width matching XYNTRA title (~47vw)
+   - TM badge: anchored to top-right of XYNTRA title
+   - Laptop: width 44vw, max-height 80vh, left: 36vw, vertically centered
+   - Bottom-left: font-size 1.5vw, line-height 1.5, larger waveform
+   - Bottom-right: headline 2.6vw, button 1.3vw, countdown 3.2vw, width 17vw, no overlap
+   - All sizing using pure fluid vw/vh units without clamp() maximums or fixed px caps
+   ============================================================================= */
+
+/* Reset global page margins/paddings and remove unwanted scrollbars */
+html,
+body,
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* Hide old conflicting floating navigation */
+.minimal-top-navbar {
+  display: none !important;
+}
+
+/* =============================================================================
+   1. HERO FILLS THE WHOLE FIRST SCREEN (100vh, min-height: 640px, width: 100%)
+   ============================================================================= */
+.xyntra-hero-fullscreen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  background-color: #1F4FD8;
+  background: radial-gradient(circle at 58% 42%, #265DE2 0%, #1F4FD8 40%, #143BAE 85%, #0E2986 100%);
+  color: #E8E4C9;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Background textures */
+.xyntra-halftone-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 70vh;
+  background-image: radial-gradient(rgba(10, 26, 75, 0.65) 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  opacity: 0.85;
+  mask-image: radial-gradient(ellipse at top right, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at top right, black 30%, transparent 75%);
+  z-index: 2;
+}
+
+.xyntra-noise-texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 3;
+}
+
+.xyntra-ambient-glow {
+  position: absolute;
+  bottom: 0;
+  left: 36vw;
+  width: 50vw;
+  height: 40vh;
+  background: radial-gradient(ellipse at center, rgba(64, 224, 208, 0.22) 0%, rgba(31, 79, 216, 0) 70%);
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* =============================================================================
+   TOP NAVBAR (Inside Hero, flush at top-left and top-right)
+   ============================================================================= */
+.xyntra-nav-tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 52vw;
+  height: 8.5vh;
+  background-color: #EFEBD2;
+  border-bottom-right-radius: 1.8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2vw 0 1.8vw;
+  box-sizing: border-box;
+  z-index: 50;
+  box-shadow: 0 0.5vw 2vw rgba(6, 17, 56, 0.26);
+}
+
+.xyntra-nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6vw;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #0B1B3D;
+  text-decoration: none;
+}
+
+.xyntra-nav-arrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.35vw;
+  line-height: 1;
+  color: #0B1B3D;
+}
+
+.xyntra-nav-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.25vw;
+  letter-spacing: -0.01em;
+  color: #0B1B3D;
+}
+
+.xyntra-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+}
+
+.xyntra-nav-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.74vw;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #0E1E40;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+}
+
+.xyntra-nav-link:hover {
+  color: #1F4FD8;
+}
+
+/* Far Right Top Tagline */
+.xyntra-top-tagline {
+  position: absolute;
+  top: 2.5vh;
+  right: 3vw;
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78vw;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #E8E4C9;
+  z-index: 50;
+}
+
+.xyntra-tagline-slashes {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.95vw;
+  letter-spacing: 0.08em;
+  color: #8DE8FF;
+  text-shadow: 0 0 0.6vw rgba(141, 232, 255, 0.6);
+}
+
+/* =============================================================================
+   CONCENTRIC SIGNAL RINGS (Centered on laptop screen, expanding outward)
+   ============================================================================= */
+.xyntra-signal-rings-wrapper {
+  position: absolute;
+  left: 54.5vw;
+  top: 48vh;
+  transform: translate(-50%, -50%);
+  width: 150vw;
+  height: 150vw;
+  pointer-events: none;
+  z-index: 10;
+  animation: xyntraSignalPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes xyntraSignalPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.98);
+    opacity: 0.88;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.025);
+    opacity: 1;
+  }
+}
+
+.xyntra-signal-rings-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================================================
+   2. LAPTOP IMAGE (44vw wide, vertically centered, max-height 80vh, left: 32.5vw)
+   ============================================================================= */
+.xyntra-laptop-anchor {
+  position: absolute;
+  left: 32.5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44vw;
+  max-height: 80vh;
+  z-index: 25;
+}
+
+.xyntra-laptop-inner {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.xyntra-laptop-img {
+  width: 44vw;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1.8vw 2.8vw rgba(6, 17, 56, 0.78))
+    drop-shadow(0 0 2vw rgba(0, 160, 255, 0.18));
+}
+
+.xyntra-crt-screen-glow {
+  position: absolute;
+  top: 14%;
+  left: 37%;
+  width: 44%;
+  height: 40%;
+  background: radial-gradient(ellipse at center, rgba(120, 235, 255, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  border-radius: 0.5vw;
+}
+
+.xyntra-laptop-ground-shadow {
+  position: absolute;
+  bottom: -2%;
+  left: 5%;
+  width: 90%;
+  height: 3vw;
+  background: radial-gradient(ellipse, rgba(4, 12, 38, 0.85) 0%, transparent 75%);
+  filter: blur(1.4vw);
+  z-index: -1;
+}
+
+/* =============================================================================
+   3. TITLE (XYNTRA ~40vw wide, HACKATHON exactly same width, THE FREQUENCY ROUTE ~28vw)
+   ============================================================================= */
+.xyntra-hero-title-group {
+  position: absolute;
+  left: 3vw;
+  top: 12vh;
+  width: 40vw;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+}
+
+.xyntra-pixel-title-wrapper {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.app-root-wrapper .main-content-view .xyntra-pixel-title,
+.xyntra-hero-fullscreen h1.xyntra-pixel-title,
+.xyntra-pixel-title {
+  display: inline-block !important;
+  width: fit-content !important;
+  position: relative !important;
+  margin: 0 !important;
+  font-family: 'Jersey 10', 'Pixelify Sans', monospace !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 14.6vw !important;
+  line-height: 0.82 !important;
+  color: #E8E4C9 !important;
+  -webkit-text-fill-color: #E8E4C9 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  filter: none !important;
+  letter-spacing: 0.02em !important;
+  text-shadow: 0.35vw 0.35vw 0 rgba(7, 20, 65, 0.45) !important;
+  text-transform: uppercase !important;
+  user-select: none;
+  white-space: nowrap !important;
+}
+
+/* Small TM badge attached directly to top-right corner of XYNTRA title */
+.xyntra-tm-badge {
+  position: absolute;
+  top: 0.35vw;
+  right: -1.3vw;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9vw;
+  font-weight: 700;
+  color: #E8E4C9;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* HACKATHON Subtitle (equal width to XYNTRA title: 40vw) */
+.xyntra-hackathon-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40vw;
+  margin-top: 0.8vh;
+  font-family: 'Jersey 10', 'Pixelify Sans', 'Space Mono', monospace;
+  font-size: 3.3vw;
+  font-weight: 700;
+  color: #E8E4C9;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+/* THE FREQUENCY ROUTE (about 28vw wide, ~1.4vw font size) */
+.xyntra-frequency-route {
+  width: 28vw;
+  margin: 1.2vh 0 0;
+  font-family: 'Space Grotesk', 'Space Mono', sans-serif;
+  font-size: 1.4vw;
+  font-weight: 600;
+  color: #D6D0B4;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* =============================================================================
+   4. BOTTOM-LEFT (font-size 1.5vw, line-height 1.5, larger waveform)
+   ============================================================================= */
+.xyntra-bottom-left-corner {
+  position: absolute;
+  left: 3vw;
+  bottom: 4vh;
+  display: flex;
+  align-items: center;
+  gap: 2.2vw;
+  z-index: 35;
+}
+
+.xyntra-manifesto-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4vh;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.5vw;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #E8E4C9;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.xyntra-waveform-box {
+  display: flex;
+  align-items: center;
+  width: 15vw;
+  filter: drop-shadow(0 0 0.6vw rgba(144, 224, 239, 0.45));
+}
+
+.xyntra-waveform-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.xyntra-eq-icon {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35vw;
+  height: 2.2vw;
+}
+
+.xyntra-eq-bar {
+  width: 0.35vw;
+  background-color: #E8E4C9;
+  border-radius: 0.15vw;
+  display: inline-block;
+}
+
+.xyntra-eq-bar.bar-1 { height: 35%; }
+.xyntra-eq-bar.bar-2 { height: 65%; }
+.xyntra-eq-bar.bar-3 { height: 100%; }
+.xyntra-eq-bar.bar-4 { height: 60%; }
+.xyntra-eq-bar.bar-5 { height: 40%; }
+
+/* =============================================================================
+   5. BOTTOM-RIGHT CORNER (width ~17vw, right: 3vw, bottom: 4vh)
+   Headline 2.6vw, button text 1.3vw, countdown nums 3.2vw, labels 0.8vw
+   ============================================================================= */
+.xyntra-bottom-right-corner {
+  position: absolute;
+  right: 3vw;
+  bottom: 4vh;
+  width: 17vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6vh;
+  z-index: 40;
+}
+
+.app-root-wrapper .main-content-view .xyntra-right-headline,
+.xyntra-hero-fullscreen h2.xyntra-right-headline,
+.xyntra-right-headline {
+  margin: 0 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  font-size: 2.6vw !important;
+  line-height: 1.05 !important;
+  color: #E8E4C9 !important;
+  -webkit-text-fill-color: #E8E4C9 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  filter: none !important;
+  letter-spacing: -0.01em !important;
+  text-transform: uppercase !important;
+}
+
+/* Lime CTA Button (taller, text 1.3vw) */
+.xyntra-lime-register-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7vw;
+  width: 100%;
+  background-color: #C8F03C;
+  color: #0A1428;
+  border: none;
+  border-radius: 0.6vw;
+  padding: 1.6vh 1.4vw;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3vw;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 0.4vw 1.5vw rgba(200, 240, 60, 0.42);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.xyntra-lime-btn-arrow {
+  font-size: 1.4vw;
+  line-height: 1;
+}
+
+.xyntra-lime-register-btn:hover {
+  background-color: #D6F846;
+  transform: translateY(-2px);
+  box-shadow: 0 0.6vw 2vw rgba(200, 240, 60, 0.65);
+}
+
+/* Dark Navy Countdown Box (wider and taller to fit 3.2vw numbers) */
+.xyntra-navy-countdown-box {
+  width: 100%;
+  background-color: #081329;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.6vw;
+  padding: 1.6vh 1vw 1.4vh;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4vw;
+  box-shadow: 0 0.8vw 2.5vw rgba(4, 11, 32, 0.65);
+  box-sizing: border-box;
+}
+
+.xyntra-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3vh;
+}
+
+.xyntra-countdown-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 3.2vw;
+  color: #E8E4C9;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.xyntra-countdown-lbl {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8vw;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #6C84A3;
+  text-transform: uppercase;
+}
