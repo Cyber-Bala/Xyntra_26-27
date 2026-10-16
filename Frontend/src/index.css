@@ -25,7 +25,10 @@ body {
 }
 
 /* Base display style */
-h1, h2, h3, .speltale {
+h1:not(.xyntra-pixel-title),
+h2:not(.xyntra-right-headline),
+h3,
+.speltale {
   font-family: var(--font-speltale);
   font-style: italic;
   font-weight: 500;
@@ -36,7 +39,10 @@ h1, h2, h3, .speltale {
 }
 
 /* Lit gradient fill (not for buttons) */
-h1, h2, h3, .speltale:not(.btn) {
+h1:not(.xyntra-pixel-title),
+h2:not(.xyntra-right-headline),
+h3,
+.speltale:not(.btn) {
   color: transparent;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -55,8 +61,8 @@ h3 { font-size: 1.5rem; }
 
 /* Keep display headings consistent where section styles don't manage their own. */
 /* Exclude new animated sections (sp-section, rl-section, ft-footer) which set their own type. */
-.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline),
-.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline),
+.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline):not(.xyntra-pixel-title),
+.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline):not(.xyntra-right-headline),
 .app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline) {
   font-family: 'Playfair Display', Georgia, serif !important;
   font-style: italic !important;

@@ -120,9 +120,13 @@ export default function App() {
 
   return (
     <>
-      <Embers />
-      <CrtOverlay />
-      <TitleRelay />
+      {isRegistrationPage && (
+        <>
+          <Embers />
+          <CrtOverlay />
+          <TitleRelay />
+        </>
+      )}
       <div className="app-root-wrapper">
         {!isRegistrationPage && (
           <Navbar
