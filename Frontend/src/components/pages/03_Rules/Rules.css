@@ -259,7 +259,7 @@
 }
 
 .rules-protocol-card:hover {
-  transform: translateY(-3px) !important;
+  transform: translateY(-3px);
   border-color: var(--am);
   background: var(--card-bg-hover);
 }

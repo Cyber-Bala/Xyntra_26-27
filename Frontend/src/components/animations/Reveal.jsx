@@ -42,7 +42,7 @@ export default function Reveal({ children, stagger = false, direction = 'up', re
           scrollTrigger: {
             trigger: element,
             start: 'top 88%',
-            toggleActions: 'play reverse play reverse',
+            toggleActions: 'play none none reverse',
             invalidateOnRefresh: true,
           },
         },

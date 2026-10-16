@@ -16,13 +16,7 @@
   box-sizing: border-box;
 }
 
-.hero-grid-floor {
-  z-index: 1;
-}
-
 .wireframe-hero-container {
-  position: relative;
-  z-index: 2;
   max-width: 1440px;
   width: 100%;
   min-height: calc(100vh - 148px);
@@ -155,259 +149,194 @@
   margin-bottom: 8px;
 }
 
-/* CLEAN WHITE TEXT: REGISTRATION CLOSES IN */
-.hero-countdown-label {
-  font-family: 'Space Grotesk', 'Inter', monospace;
-  font-size: clamp(12px, 1.3vw, 15px);
-  font-weight: 700;
-  letter-spacing: clamp(0.25em, 0.5vw, 0.4em);
-  color: #f4e7c3;
-  text-transform: uppercase;
-  margin: 0 0 clamp(14px, 2vh, 22px) 0;
-  text-align: center;
-  opacity: 0.95;
-}
-
-/* ================= 4 COUNTDOWN DIALS (EXACT SUNBURST STYLE) ================= */
-.hero-dials-strip {
-  --dial-size: min(clamp(72px, 15vw, 195px), 23vh);
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: clamp(8px, 2.2vw, 26px) !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 0 clamp(24px, 4.5vh, 44px) 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  animation: heroFadeRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-  opacity: 0;
-}
-
-.hero-dial-card {
-  position: relative;
-  width: var(--dial-size);
-  height: var(--dial-size);
-  flex: 0 0 var(--dial-size);
-  aspect-ratio: 1 / 1;
+/* ================= RADIAL STARBURST DIAL COUNTDOWN ================= */
+.hero-radial-countdown-strip {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  cursor: default;
-  transition: transform 0.25s ease;
-  user-select: none;
+  gap: clamp(14px, 3.2vw, 44px);
+  flex-wrap: nowrap;
+  margin-bottom: clamp(24px, 4.5vh, 44px);
 }
 
-.hero-dial-card:hover {
-  transform: scale(1.05);
+.radial-dial-box {
+  position: relative;
+  width: clamp(124px, 14vw, 172px);
+  height: clamp(124px, 14vw, 172px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
 }
 
-/* Background radiating rays SVG */
-.dial-sunburst-svg {
+.radial-dial-box:hover {
+  transform: translateY(-3px) scale(1.02);
+  filter: drop-shadow(0 0 16px rgba(242, 169, 59, 0.38));
+}
+
+.radial-dial-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  filter: drop-shadow(0 0 5px rgba(229, 191, 124, 0.28));
+  overflow: visible;
+  animation: dial-pulse 4s ease-in-out infinite alternate;
 }
 
-/* Inner dark disc where numbers sit */
-.dial-content-disk {
+@keyframes dial-pulse {
+  0% { opacity: 0.85; filter: drop-shadow(0 0 4px rgba(202, 161, 87, 0.22)); }
+  100% { opacity: 1; filter: drop-shadow(0 0 12px rgba(242, 169, 59, 0.45)); }
+}
+
+.radial-dial-content {
   position: relative;
   z-index: 2;
-  width: 66%;
-  height: 66%;
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--dial-size) * 0.02);
-  background:
-    radial-gradient(circle at 35% 25%, rgba(255, 238, 204, 0.1), transparent 45%),
-    radial-gradient(circle, #21170f 0%, #100c09 85%);
-  border: 1px solid rgba(229, 191, 124, 0.52);
-  box-shadow:
-    inset 0 0 16px rgba(229, 191, 124, 0.1),
-    0 0 18px rgba(0, 0, 0, 0.7);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
 }
 
-/* Dial 01: Crimson Arc for DAYS */
-.hero-dial-card.dial-crimson .dial-content-disk {
-  border-color: rgba(217, 54, 72, 0.88);
-  box-shadow:
-    inset 0 0 22px rgba(217, 54, 72, 0.22),
-    0 0 20px rgba(217, 54, 72, 0.18),
-    0 0 18px rgba(0, 0, 0, 0.7);
-}
-
-.hero-dial-card.dial-crimson .dial-step-tag {
-  color: #e04450 !important;
-}
-
-/* Step Tag (01 - 04) */
-.dial-step-tag {
-  position: relative;
-  font-size: clamp(8px, calc(var(--dial-size) * 0.075), 13px);
-  letter-spacing: 0.18em;
-  color: #e5bf7c;
+.radial-dial-badge {
   font-family: 'Space Grotesk', monospace;
+  font-size: clamp(11px, 1.1vw, 13px);
   font-weight: 700;
-  line-height: 1;
+  letter-spacing: 0.12em;
+  color: #caa157;
+  margin-bottom: 2px;
 }
 
-/* Main Number */
-.dial-value-num {
-  position: relative;
-  margin: 0;
+.radial-dial-badge.badge-coral {
+  color: #e8475f;
+  text-shadow: 0 0 8px rgba(232, 71, 95, 0.65);
+}
+
+.radial-digit-num {
   font-family: 'Space Grotesk', 'Outfit', sans-serif;
-  font-size: clamp(20px, calc(var(--dial-size) * 0.33), 62px);
-  font-weight: 800;
+  font-size: clamp(38px, 4.4vw, 56px);
+  font-weight: 900;
   line-height: 1;
-  letter-spacing: -0.04em;
-  color: #fff0d3;
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1;
-  text-shadow:
-    0 0 12px rgba(229, 191, 124, 0.3),
-    0 2px 0 #382619;
+  color: #fff4dc;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 16px rgba(245, 228, 189, 0.3);
 }
 
-/* Unit Label (DAYS / HOURS / MINS / SECS) */
-.dial-unit-lbl {
-  position: relative;
-  font-size: clamp(8.5px, calc(var(--dial-size) * 0.078), 14px);
-  letter-spacing: 0.16em;
-  color: #d5b77d;
+.radial-unit-label {
   font-family: 'Space Grotesk', monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-/* ================= ACTION BUTTONS (EXACT SCREENSHOT STYLE) ================= */
-.hero-buttons-row {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 20px !important;
-  width: 100% !important;
-  animation: heroFadeRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  opacity: 0;
-}
-
-/* Primary Button: Solid Warm Gold-to-Cream Gradient Fill */
-.hero-btn-primary {
-  height: 56px !important;
-  min-height: 56px !important;
-  flex: 0 1 250px !important;
-  width: 100% !important;
-  max-width: 250px !important;
-  padding: 0 24px !important;
-  border-radius: 4px !important;
-  border: none !important;
-  background: linear-gradient(135deg, #fff0d3 0%, #e5bf7c 55%, #c4a16a 100%) !important;
-  color: #0d080c !important;
-  font-family: 'Space Grotesk', monospace !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  box-shadow: 0 4px 20px rgba(229, 191, 124, 0.28) !important;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
-}
-
-.hero-btn-primary .btn-arrow {
-  font-size: 18px;
+  font-size: clamp(9px, 0.95vw, 11px);
   font-weight: 800;
-  color: #0d080c;
+  letter-spacing: 0.24em;
+  color: #caa157;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ================= ACTION BUTTONS (SOLID GOLD & TECH OUTLINE) ================= */
+.hero-action-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.2vw, 24px);
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.hero-solid-gold-btn {
+  position: relative;
+  background: linear-gradient(135deg, #f5e4bd 0%, #e5b364 48%, #cb9742 100%);
+  border: 1px solid rgba(255, 238, 196, 0.75);
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: clamp(200px, 18vw, 250px);
+  height: clamp(48px, 5.2vh, 54px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 28px;
+  outline: none;
+  box-shadow: 0 4px 22px rgba(229, 179, 100, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-solid-gold-btn .btn-label-text {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(12px, 1.1vw, 13.5px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #140d05;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-solid-gold-btn .btn-arrow-icon {
+  font-size: 16px;
+  color: #140d05;
+  font-weight: 900;
   transition: transform 0.25s ease;
   line-height: 1;
 }
 
-.hero-btn-primary:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 0 24px rgba(229, 191, 124, 0.55), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
-  filter: brightness(1.06) !important;
+.hero-solid-gold-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(229, 179, 100, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  filter: brightness(1.05);
 }
 
-.hero-btn-primary:hover .btn-arrow {
+.hero-solid-gold-btn:hover .btn-arrow-icon {
   transform: translateX(4px);
 }
 
-/* Secondary Button: Transparent, Gold Border, Fills Gold on Hover */
-.hero-btn-secondary {
-  height: 56px !important;
-  min-height: 56px !important;
-  flex: 0 1 250px !important;
-  width: 100% !important;
-  max-width: 250px !important;
-  padding: 0 24px !important;
-  border-radius: 4px !important;
-  border: 1.5px solid #e5bf7c !important;
-  background: transparent !important;
-  color: #fff0d3 !important;
-  font-family: 'Space Grotesk', monospace !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
+.hero-outline-gold-btn {
+  position: relative;
+  background: rgba(14, 11, 7, 0.65);
+  border: 1.5px solid rgba(229, 179, 100, 0.65);
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: clamp(200px, 18vw, 250px);
+  height: clamp(48px, 5.2vh, 54px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 28px;
+  outline: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
-.hero-btn-secondary .btn-arrow {
-  font-size: 16px;
+.hero-outline-gold-btn .btn-label-text {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: clamp(12px, 1.1vw, 13.5px);
   font-weight: 800;
-  color: #e5bf7c;
+  letter-spacing: 0.12em;
+  color: #f5e4bd;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.hero-outline-gold-btn .btn-arrow-icon {
+  font-size: 15px;
+  color: #e5b364;
+  font-weight: 800;
   transition: transform 0.25s ease, color 0.25s ease;
   line-height: 1;
 }
 
-.hero-btn-secondary:hover {
-  transform: translateY(-2px) !important;
-  background: #e5bf7c !important;
-  color: #0d080c !important;
-  box-shadow: 0 0 24px rgba(229, 191, 124, 0.45) !important;
+.hero-outline-gold-btn:hover {
+  transform: translateY(-2px);
+  border-color: #f5e4bd;
+  background: rgba(229, 179, 100, 0.12);
+  filter: drop-shadow(0 0 16px rgba(242, 169, 59, 0.35));
 }
 
-.hero-btn-secondary:hover .btn-arrow {
-  transform: translate(3px, -3px);
-  color: #0d080c;
-}
-
-.hero-btn-primary:focus-visible,
-.hero-btn-secondary:focus-visible {
-  outline: 2px solid #e5bf7c !important;
-  outline-offset: 3px !important;
-}
-
-@keyframes heroFadeRise {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-outline-gold-btn:hover .btn-arrow-icon {
+  transform: translate(2px, -2px);
+  color: #fff4dc;
 }
 
 /* ================= RESPONSIVE BREAKPOINTS ================= */
@@ -421,6 +350,23 @@
     margin-bottom: 24px;
   }
 
+  .hero-radial-countdown-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 320px;
+  }
+
+  .hero-action-buttons-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-solid-gold-btn,
+  .hero-outline-gold-btn {
+    width: 100%;
+    max-width: 320px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -436,51 +382,17 @@
     margin: 10px 0 16px 0;
   }
 
-  .hero-countdown-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    margin-bottom: 12px;
+  .radial-dial-box {
+    width: 118px;
+    height: 118px;
+  }
+
+  .radial-digit-num {
+    font-size: 32px;
+  }
+
+  .radial-unit-label {
+    font-size: 8.5px;
   }
 }
 
-@media (max-width: 520px) {
-  .hero-buttons-row {
-    flex-direction: column !important;
-    gap: 12px !important;
-    width: 100% !important;
-  }
-
-  .hero-btn-primary,
-  .hero-btn-secondary {
-    flex: 0 0 52px !important;
-    height: 52px !important;
-    min-height: 52px !important;
-    max-width: 320px !important;
-    width: 100% !important;
-    font-size: 13px !important;
-    padding: 0 20px !important;
-  }
-}
-
-/* Accessibility: Disable Entrance Animation under Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .hero-dials-strip {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* Short laptop screens */
-@media (max-height: 760px) {
-  .hero-dials-strip {
-    margin-bottom: clamp(16px, 3.5vh, 28px) !important;
-  }
-}
-
-/* Phones under 400px screen protection */
-@media (max-width: 400px) {
-  .hero-dials-strip {
-    gap: 8px !important;
-  }
-}

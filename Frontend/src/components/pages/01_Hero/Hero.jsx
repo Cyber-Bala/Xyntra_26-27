@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './Hero.css'
 import { Typewriter } from '../../fx/Atmosphere.jsx'
-import bgHero from '../../../assets/bg/bg-hero.webp'
-import SectionBg from '../../fx/SectionBg.jsx'
-
 
 const EVENT_DATE = new Date('2026-10-24T09:00:00+05:30').getTime()
 
@@ -20,62 +17,45 @@ function getTimeLeft() {
   }
 }
 
-function SunburstDial({ step, value, unit, isCrimson }) {
+function RadialDialCard({ index, value, unit, isHighlight }) {
+  const spokes = useMemo(() => {
+    const lines = []
+    const count = 44
+    for (let i = 0; i < count; i++) {
+      const angleDeg = (i * 360) / count
+      const rad = (angleDeg * Math.PI) / 180
+      const isMajor = i % 4 === 0
+      const r1 = 56
+      const r2 = isMajor ? 96 : 88
+      const x1 = 100 + Math.cos(rad) * r1
+      const y1 = 100 + Math.sin(rad) * r1
+      const x2 = 100 + Math.cos(rad) * r2
+      const y2 = 100 + Math.sin(rad) * r2
+      lines.push({ x1, y1, x2, y2, isMajor })
+    }
+    return lines
+  }, [])
+
   return (
-    <div className={`hero-dial-card ${isCrimson ? 'dial-crimson' : ''}`}>
-      <svg className="dial-sunburst-svg" viewBox="0 0 200 200" aria-hidden="true">
-        {Array.from({ length: 36 }, (_, i) => {
-          const deg = i * 10
-          const rad = (deg * Math.PI) / 180
-          const isCardinal = deg % 90 === 0
-          const isMajor = deg % 30 === 0
-          const r1 = 44
-          const r2 = 98
-          const x1 = +(100 + r1 * Math.sin(rad)).toFixed(2)
-          const y1 = +(100 - r1 * Math.cos(rad)).toFixed(2)
-          const x2 = +(100 + r2 * Math.sin(rad)).toFixed(2)
-          const y2 = +(100 - r2 * Math.cos(rad)).toFixed(2)
-
-          return (
-            <g key={deg}>
-              <line
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="#e5bf7c"
-                strokeWidth={isCardinal ? '1.5' : isMajor ? '1.2' : '0.9'}
-                strokeOpacity={isCardinal ? '0.95' : isMajor ? '0.8' : '0.55'}
-              />
-              {isCardinal && (
-                <line
-                  x1={+(100 + 70 * Math.sin(rad) - 3.5 * Math.cos(rad)).toFixed(2)}
-                  y1={+(100 - 70 * Math.cos(rad) - 3.5 * Math.sin(rad)).toFixed(2)}
-                  x2={+(100 + 70 * Math.sin(rad) + 3.5 * Math.cos(rad)).toFixed(2)}
-                  y2={+(100 - 70 * Math.cos(rad) + 3.5 * Math.sin(rad)).toFixed(2)}
-                  stroke="#e5bf7c"
-                  strokeWidth="1.4"
-                  strokeOpacity="0.9"
-                />
-              )}
-            </g>
-          )
-        })}
-        <circle
-          cx="100"
-          cy="100"
-          r="66"
-          fill="none"
-          stroke="rgba(229,191,124,0.3)"
-          strokeWidth="0.8"
-          strokeDasharray="2 3"
-        />
+    <div className="radial-dial-box">
+      <svg className="radial-dial-svg" viewBox="0 0 200 200" aria-hidden="true">
+        {spokes.map((s, idx) => (
+          <line
+            key={idx}
+            x1={s.x1}
+            y1={s.y1}
+            x2={s.x2}
+            y2={s.y2}
+            stroke={s.isMajor ? '#caa157' : 'rgba(202, 161, 87, 0.36)'}
+            strokeWidth={s.isMajor ? 1.4 : 1.0}
+            strokeLinecap="round"
+          />
+        ))}
       </svg>
-
-      <div className="dial-content-disk">
-        <span className="dial-step-tag">{step}</span>
-        <strong className="dial-value-num">{value}</strong>
-        <small className="dial-unit-lbl">{unit}</small>
+      <div className="radial-dial-content">
+        <span className={`radial-dial-badge ${isHighlight ? 'badge-coral' : ''}`}>{index}</span>
+        <span className="radial-digit-num">{value}</span>
+        <span className="radial-unit-label">{unit}</span>
       </div>
     </div>
   )
@@ -89,45 +69,18 @@ function HeroCountdown() {
   }, [])
 
   return (
-    <>
-      <p className="hero-countdown-label">REGISTRATION CLOSES IN</p>
-      <div className="hero-dials-strip" role="timer" aria-label="Registration countdown">
-        <SunburstDial
-          step="01"
-          value={String(timeLeft.days).padStart(2, '0')}
-          unit="DAYS"
-          isCrimson
-        />
-        <SunburstDial
-          step="02"
-          value={String(timeLeft.hours).padStart(2, '0')}
-          unit="HOURS"
-        />
-        <SunburstDial
-          step="03"
-          value={String(timeLeft.minutes).padStart(2, '0')}
-          unit="MINS"
-        />
-        <SunburstDial
-          step="04"
-          value={String(timeLeft.seconds).padStart(2, '0')}
-          unit="SECS"
-        />
-      </div>
-    </>
+    <div className="hero-radial-countdown-strip">
+      <RadialDialCard index="01" value={String(timeLeft.days).padStart(2, '0')} unit="DAYS" isHighlight={true} />
+      <RadialDialCard index="02" value={String(timeLeft.hours).padStart(2, '0')} unit="HOURS" />
+      <RadialDialCard index="03" value={String(timeLeft.minutes).padStart(2, '0')} unit="MINS" />
+      <RadialDialCard index="04" value={String(timeLeft.seconds).padStart(2, '0')} unit="SECS" />
+    </div>
   )
 }
 
 export default function Hero({ onNavigate }) {
   return (
-    <section className="wireframe-hero-section" id="hero" data-accent="teal">
-      <SectionBg
-        src={bgHero}
-        opacity={1}
-        position="center bottom"
-        gradient="linear-gradient(to top, rgba(10,8,6,0.6) 0%, transparent 45%, rgba(10,8,6,0.3) 100%)"
-        pixelated
-      />
+    <section className="wireframe-hero-section" id="hero">
       <div className="hero-grid-floor" aria-hidden="true" />
       <div className="wireframe-hero-container">
 
@@ -160,28 +113,28 @@ export default function Hero({ onNavigate }) {
           </p>
         </div>
 
-        {/* ===== BOTTOM STATION (COUNTDOWN & BUTTONS) ===== */}
+        {/* ===== BOTTOM STATION (RADIAL DIAL COUNTDOWN & GOLD BUTTONS) ===== */}
         <div className="hero-bottom-action-station">
           <HeroCountdown />
 
-          {/* ACTION BUTTONS (MATCHING EXACT CINEMATIC STYLE) */}
-          <div className="hero-buttons-row">
+          {/* ACTION BUTTONS (SOLID GOLD & OUTLINED TECH) */}
+          <div className="hero-action-buttons-row">
             <button
-              className="hero-btn-primary"
+              className="hero-solid-gold-btn glow-hover"
               onClick={() => onNavigate(4)}
               aria-label="Register Now"
             >
-              <span>REGISTER NOW</span>
-              <span className="btn-arrow" aria-hidden="true">→</span>
+              <span className="btn-label-text">REGISTER NOW</span>
+              <span className="btn-arrow-icon">→</span>
             </button>
 
             <button
-              className="hero-btn-secondary"
+              className="hero-outline-gold-btn glow-hover"
               onClick={() => onNavigate(2, 'problem-statements')}
               aria-label="Explore Tracks"
             >
-              <span>EXPLORE TRACKS</span>
-              <span className="btn-arrow" aria-hidden="true">↗</span>
+              <span className="btn-label-text">EXPLORE TRACKS</span>
+              <span className="btn-arrow-icon">↗</span>
             </button>
           </div>
         </div>
@@ -190,4 +143,3 @@ export default function Hero({ onNavigate }) {
     </section>
   )
 }
-

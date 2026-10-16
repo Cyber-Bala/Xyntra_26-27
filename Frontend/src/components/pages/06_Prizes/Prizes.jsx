@@ -2,8 +2,6 @@ import { useEffect, useMemo, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Prizes.css'
-import bgPrizes from '../../../assets/bg/bg-prizes.webp'
-import SectionBg from '../../fx/SectionBg.jsx'
 import ieeeCsLogo from '../../../assets/logos/ieee_cs_logo.png'
 import recLogo from '../../../assets/logos/rec_logo.png'
 
@@ -91,82 +89,38 @@ export default function Prizes() {
         amounts.forEach((el) => { el.textContent = fmt(Number(el.dataset.amount)) })
         return
       }
-
-      const runCounter = () => {
-        amounts.forEach((el, i) => {
-          const o = { v: 0 }
-          gsap.to(o, {
-            v: Number(el.dataset.amount),
-            duration: 1.4,
-            delay: i * 0.1,
-            ease: 'power3.out',
-            overwrite: 'auto',
-            onUpdate: () => { el.textContent = fmt(o.v) },
-          })
-        })
-      }
-      const resetCounter = () => {
-        amounts.forEach((el) => {
-          gsap.killTweensOf(el)
-          el.textContent = '₹0'
-        })
-      }
-
-      resetCounter()
+      amounts.forEach((el) => { el.textContent = '₹0' })
 
       const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.pz-stage',
-          start: 'top 75%',
-          toggleActions: 'play reverse play reverse',
-          invalidateOnRefresh: true,
-          onEnter: () => runCounter(),
-          onEnterBack: () => runCounter(),
-          onLeave: () => resetCounter(),
-          onLeaveBack: () => resetCounter(),
-        },
+        scrollTrigger: { trigger: '.pz-stage', start: 'top 72%', once: true },
         defaults: { ease: 'power3.out' },
       })
       tl.fromTo('.pz-floor', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 })
         .fromTo('.pz-step', { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, stagger: { each: 0.22, from: 'edges' }, ease: 'steps(14)' }, 0.1)
         .fromTo('.pz-trophy', { y: -140, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, stagger: { each: 0.18, from: 'edges' }, ease: 'bounce.out' }, '>-0.25')
         .fromTo('.pz-spot', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8 }, '<0.2')
+        .add(() => {
+          amounts.forEach((el, i) => {
+            const o = { v: 0 }
+            gsap.to(o, { v: Number(el.dataset.amount), duration: 1.6, delay: i * 0.1, ease: 'power3.out', onUpdate: () => { el.textContent = fmt(o.v) } })
+          })
+        }, '<')
         .fromTo('.pz-spark', { autoAlpha: 1, x: 0, y: 0, scale: 1 }, {
           x: () => gsap.utils.random(-130, 130), y: () => gsap.utils.random(-170, -30), autoAlpha: 0, scale: 0.2,
           duration: 1.1, stagger: 0.03, ease: 'power2.out',
         }, '<0.3')
         .fromTo('.pz-perks li', { autoAlpha: 0, x: -10 }, { autoAlpha: 1, x: 0, duration: 0.4, stagger: 0.05 }, '<0.4')
 
-      gsap.fromTo('.pz-bounty', { autoAlpha: 0, x: -24 }, {
-        autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.1, ease: 'steps(5)',
-        scrollTrigger: {
-          trigger: '.pz-board',
-          start: 'top 85%',
-          toggleActions: 'play reverse play reverse',
-          invalidateOnRefresh: true,
-        },
-      })
-      gsap.fromTo('.pz-partner', { autoAlpha: 0, y: 24 }, {
-        autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.pz-partners',
-          start: 'top 85%',
-          toggleActions: 'play reverse play reverse',
-          invalidateOnRefresh: true,
-        },
-      })
+      gsap.fromTo('.pz-bounty', { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.1, ease: 'steps(5)',
+        scrollTrigger: { trigger: '.pz-board', start: 'top 85%', once: true } })
+      gsap.fromTo('.pz-partner', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+        scrollTrigger: { trigger: '.pz-partners', start: 'top 85%', once: true } })
     }, root)
     return () => ctx.revert()
   }, [])
 
   return (
-    <section ref={rootRef} className="pz-section" id="prizes" data-accent="coral">
-      <SectionBg
-        src={bgPrizes}
-        opacity={1}
-        position="center bottom"
-        gradient="linear-gradient(to bottom, rgba(10,8,6,0.6) 0%, rgba(10,8,6,0.2) 50%, rgba(10,8,6,0.4) 100%)"
-      />
+    <section ref={rootRef} className="pz-section" id="prizes">
       <div className="pz-wrap">
         <header className="pz-head">
           <h2 className="pz-title">Rewards worth the <br />all-nighter.</h2>

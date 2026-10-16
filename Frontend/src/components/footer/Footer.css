@@ -25,8 +25,6 @@
 /* ── FULLWIDTH CONTENT WRAPPER ──────────────────────────────── */
 
 .footer-fullwidth-content {
-  position: relative;
-  z-index: 2;
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
@@ -289,8 +287,6 @@
 /* ── BOTTOM FULL-WIDTH TERMINAL STRIP ────────────────────────── */
 
 .footer-bottom-terminal-strip {
-  position: relative;
-  z-index: 2;
   width: 100%;
   background: rgba(10, 8, 5, 0.95);
   border-top: 1px dashed var(--line-subtle);

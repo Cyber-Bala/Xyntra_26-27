@@ -5719,11 +5719,11 @@ span::before {
 
 /* Alternate cards: up, down, up, down, up */
 .v6-timeline-item:nth-child(even) {
-  top: 105px !important;
+  transform: translateY(105px) !important;
 }
 
 .v6-timeline-item:nth-child(odd) {
-  top: 0 !important;
+  transform: translateY(0) !important;
 }
 
 /* Small retro window-header strip */
@@ -5858,7 +5858,6 @@ span::before {
   .v6-timeline-item:nth-child(even),
   .v6-timeline-item:nth-child(odd) {
     min-height: 0 !important;
-    top: 0 !important;
     transform: none !important;
     padding-bottom: 20px !important;
   }

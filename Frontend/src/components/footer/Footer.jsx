@@ -1,7 +1,5 @@
 import { useEffect, useRef } from 'react'
 import './Footer.css'
-import bgFooter from '../../assets/bg/bg-footer.webp'
-import SectionBg from '../fx/SectionBg.jsx'
 
 export default function Footer({ onNavigate }) {
   const taglineRef = useRef(null)
@@ -38,7 +36,7 @@ export default function Footer({ onNavigate }) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          if (timer) clearTimeout(timer)
+          observer.disconnect()
           let i = 0
           el.textContent = ''
           const step = () => {
@@ -47,10 +45,7 @@ export default function Footer({ onNavigate }) {
               timer = setTimeout(step, 45)
             }
           }
-          timer = setTimeout(step, 150)
-        } else {
-          if (timer) clearTimeout(timer)
-          el.textContent = ''
+          timer = setTimeout(step, 200)
         }
       },
       { threshold: 0.1 }
@@ -64,13 +59,7 @@ export default function Footer({ onNavigate }) {
   }, [])
 
   return (
-    <footer className="fullscreen-retro-footer" id="contact" data-accent="violet">
-      <SectionBg
-        src={bgFooter}
-        opacity={1}
-        position="center top"
-        gradient="linear-gradient(to bottom, transparent 0%, rgba(10,8,6,0.35) 60%, rgba(10,8,6,0.95) 100%)"
-      />
+    <footer className="fullscreen-retro-footer" id="contact">
       {/* Main Expansive Content Container */}
       <div className="footer-fullwidth-content">
         <div className="footer-main-grid">

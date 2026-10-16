@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Rules.css'
-import bgRules from '../../../assets/bg/bg-rules.webp'
-import SectionBg from '../../fx/SectionBg.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -63,7 +61,6 @@ export default function Rules({ onNavigate }) {
     if (!sect) return undefined
 
     const ctx = gsap.context(() => {
-      // 1. Rules Hero Block & Sticky note
       gsap.fromTo(
         '.rules-hero-block',
         { autoAlpha: 0, y: 24 },
@@ -75,82 +72,31 @@ export default function Rules({ onNavigate }) {
           scrollTrigger: {
             trigger: sect,
             start: 'top 85%',
-            toggleActions: 'play reverse play reverse',
-            invalidateOnRefresh: true,
+            toggleActions: 'play none none reverse',
           },
         }
       )
 
       gsap.fromTo(
-        '.rules-sticky-note',
-        { autoAlpha: 0, x: 45, rotation: 12 },
-        {
-          autoAlpha: 1,
-          x: 0,
-          rotation: 3,
-          duration: 0.75,
-          ease: 'back.out(1.5)',
-          scrollTrigger: {
-            trigger: sect,
-            start: 'top 85%',
-            toggleActions: 'play reverse play reverse',
-            invalidateOnRefresh: true,
-          },
-        }
-      )
-
-      // 2. Dossier Console Header
-      gsap.fromTo(
-        '.dossier-console-header',
-        { autoAlpha: 0, y: -16 },
+        '.rules-protocol-card',
+        { autoAlpha: 0, y: 24 },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.5,
+          stagger: 0.08,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: '.rules-protocol-grid',
-            start: 'top 90%',
-            toggleActions: 'play reverse play reverse',
-            invalidateOnRefresh: true,
+            start: 'top 88%',
+            toggleActions: 'play none none reverse',
           },
         }
       )
 
-      // 3. Rules Cards: Staggered Side Incoming (left column from left, right column from right)
-      const ruleCards = gsap.utils.toArray('.rules-protocol-grid > .rules-protocol-card')
-      if (ruleCards.length) {
-        ruleCards.forEach((card, idx) => {
-          const isLeft = idx % 2 === 0
-          gsap.fromTo(
-            card,
-            {
-              autoAlpha: 0,
-              x: isLeft ? -55 : 55,
-              y: 12,
-            },
-            {
-              autoAlpha: 1,
-              x: 0,
-              y: 0,
-              duration: 0.72,
-              delay: idx * 0.08,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: '.rules-protocol-grid',
-                start: 'top 86%',
-                toggleActions: 'play reverse play reverse',
-                invalidateOnRefresh: true,
-              },
-            }
-          )
-        })
-      }
-
-      // 4. Interlock Console
       gsap.fromTo(
         '.rules-interlock-console',
-        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 0, y: 20 },
         {
           autoAlpha: 1,
           y: 0,
@@ -159,8 +105,7 @@ export default function Rules({ onNavigate }) {
           scrollTrigger: {
             trigger: '.rules-interlock-console',
             start: 'top 90%',
-            toggleActions: 'play reverse play reverse',
-            invalidateOnRefresh: true,
+            toggleActions: 'play none none reverse',
           },
         }
       )
@@ -170,14 +115,7 @@ export default function Rules({ onNavigate }) {
   }, [])
 
   return (
-    <section ref={sectionRef} className="retro-rules-fullscreen-section" id="rules" data-accent="gold">
-      <SectionBg
-        src={bgRules}
-        opacity={1}
-        position="right center"
-        gradient="linear-gradient(to right, rgba(10,8,6,0.85) 0%, rgba(10,8,6,0.5) 45%, transparent 80%)"
-        className="rules-bg-strip"
-      />
+    <section ref={sectionRef} className="retro-rules-fullscreen-section" id="rules">
       {/* Main Expansive Content Container */}
       <div className="rules-fullwidth-wrapper">
         {/* ── HEADER BLOCK ─────────────────────────────────────────── */}

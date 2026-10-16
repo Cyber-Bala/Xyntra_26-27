@@ -5,8 +5,7 @@ import Navbar from './components/navbar/Navbar.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
 import About from './components/pages/02_About/About.jsx'
 import Prizes from './components/pages/06_Prizes/Prizes.jsx'
-import Evolution from './components/pages/01b_Evolution/Evolution.jsx'
-import ParticleHeadings from './components/fx/ParticleHeadings.jsx'
+import TitleRelay from './components/fx/TitleRelay.jsx'
 import { CrtOverlay, Embers } from './components/fx/Atmosphere.jsx'
 import Rules from './components/pages/03_Rules/Rules.jsx'
 import Register from './components/pages/04_Register/Register.jsx'
@@ -27,17 +26,10 @@ function isRegistrationRoute(pathname) {
 
 export default function App() {
   const scrollFrame = useRef(0)
-  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
   const [activePage, setActivePage] = useState(() => isRegistrationRoute(window.location.pathname) ? 4 : 1)
-  const isRegistrationPage = activePage === 4 || isRegistrationRoute(currentPath) || isRegistrationRoute(window.location.pathname)
+  const isRegistrationPage = isRegistrationRoute(window.location.pathname)
 
   const navigateImmediately = useCallback((pageId, targetId) => {
-    // Cancel any pending scroll spy frame immediately
-    if (scrollFrame.current) {
-      window.cancelAnimationFrame(scrollFrame.current)
-      scrollFrame.current = 0
-    }
-
     const page = PAGES.find((item) => item.id === pageId)
     if (!page) {
       if (targetId) {
@@ -51,22 +43,20 @@ export default function App() {
     }
 
     if (page.path) {
-      if (window.location.pathname !== page.path) {
-        window.history.pushState({}, '', page.path)
+      if (isRegistrationRoute(window.location.pathname)) {
+        setActivePage(page.id)
+        if (window.lenisInstance) window.lenisInstance.scrollTo(0)
+        else window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
       }
-      setCurrentPath(page.path)
+      if (window.location.pathname !== page.path) window.history.pushState({}, '', page.path)
       setActivePage(page.id)
-      window.scrollTo(0, 0)
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(0, { immediate: true })
-      }
+      if (window.lenisInstance) window.lenisInstance.scrollTo(0)
+      else window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
 
-    if (isRegistrationRoute(window.location.pathname)) {
-      window.history.pushState({}, '', '/')
-      setCurrentPath('/')
-    }
+    if (isRegistrationRoute(window.location.pathname)) window.history.pushState({}, '', '/')
     setActivePage(page.id)
     requestAnimationFrame(() => {
       const section = document.getElementById(targetId || page.section)
@@ -86,13 +76,11 @@ export default function App() {
   // Keep the URL and rendered view in sync with browser back/forward navigation.
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname
-      setCurrentPath(path)
-      const onRegistrationPage = isRegistrationRoute(path)
+      const onRegistrationPage = isRegistrationRoute(window.location.pathname)
       setActivePage(onRegistrationPage ? 4 : 1)
-      window.scrollTo(0, 0)
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(0, { immediate: true })
+      if (!onRegistrationPage) {
+        if (window.lenisInstance) window.lenisInstance.scrollTo(0)
+        else window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
     window.addEventListener('popstate', handlePopState)
@@ -109,17 +97,12 @@ export default function App() {
 
     const updateActiveSection = () => {
       scrollFrame.current = 0
-      if (isRegistrationRoute(window.location.pathname)) return
-
       const marker = window.innerHeight * 0.34
       const current = sections
         .filter((page) => page.element.getBoundingClientRect().top <= marker)
         .at(-1)
       const nextPage = current?.id ?? 1
-      setActivePage((currentPage) => {
-        if (currentPage === 4) return 4
-        return currentPage === nextPage ? currentPage : nextPage
-      })
+      setActivePage((currentPage) => currentPage === nextPage ? currentPage : nextPage)
     }
 
     const scheduleActiveSectionUpdate = () => {
@@ -139,7 +122,7 @@ export default function App() {
     <>
       <Embers />
       <CrtOverlay />
-      <ParticleHeadings />
+      <TitleRelay />
       <div className="app-root-wrapper">
         {!isRegistrationPage && (
           <Navbar
@@ -157,7 +140,6 @@ export default function App() {
               <Reveal className="landing-section-reveal">
                 <Hero onNavigate={handleNavigate} />
               </Reveal>
-              <Evolution onNavigate={handleNavigate} />
               <Reveal className="landing-section-reveal">
                 <About />
               </Reveal>
