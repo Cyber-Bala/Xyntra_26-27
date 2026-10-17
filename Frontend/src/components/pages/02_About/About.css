@@ -7359,3 +7359,112 @@ span::before {
   background: none !important;
   text-shadow: none !important;
 }
+
+
+
+/* =====================================================================
+   XYNTRA — MIXED HALFTONE BACKGROUND (replaces the straight diagonal bands)
+   Paste at the VERY END of About.css, after about-fixes.css.
+
+   Needs the two images in the SAME folder as About.css:
+     about-hero-bg.jpg
+     about-domains-bg.jpg
+   ===================================================================== */
+
+/* HERO — blue clouds, green + orange + cream patches, halftone edges */
+.about-v6 .v6-hero::before {
+  top: 0 !important;
+  bottom: -72px !important;
+  border: 0 !important;
+  background: url("./about-hero-bg.jpg") center bottom / cover no-repeat !important;
+}
+
+/* DOMAINS — same mix, ends in the cream patch that joins the Timeline */
+.about-v6 .v6-problems::before {
+  top: -72px !important;
+  bottom: 0 !important;
+  background: url("./about-domains-bg.jpg") center bottom / cover no-repeat !important;
+}
+
+/* the old halftone-dot overlays are baked into the images now */
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* phones: keep the texture at a sensible size instead of stretching it */
+@media (max-width: 700px) {
+  .about-v6 .v6-hero::before {
+    background: url("./about-hero-bg.jpg") center top / 1400px auto no-repeat !important;
+  }
+
+  .about-v6 .v6-problems::before {
+    background: url("./about-domains-bg.jpg") center bottom / 1400px auto no-repeat !important;
+  }
+}
+
+
+
+
+/* =====================================================================
+   XYNTRA — EVEN TOP STRIP
+   The plain strip around the top bar (NATIONAL HACKATHON) now uses the
+   same halftone background as the hero, so there is no flat band.
+   Paste at the VERY END of About.css (after about-mixed-bg.css) and
+   replace about-hero-bg.jpg with the new, taller image.
+   ===================================================================== */
+
+/* page padding + top bar + gap  =  distance from the hero's top edge up to the section's top edge.
+   A little extra is fine: the section clips anything above it. */
+.about-v6 .v6-hero::before {
+  top: -340px !important;
+}
+
+@media (max-width: 1100px) {
+  .about-v6 .v6-hero::before {
+    top: -300px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-hero::before {
+    top: -240px !important;
+  }
+}
+
+
+/* =====================================================================
+   XYNTRA — HERO BACKGROUND = SAME STYLE AS DOMAINS
+   Paste at the VERY END of About.css (after every other background patch).
+   It replaces the hero rules from about-mixed-bg.css and about-bg-even.css.
+
+   Image needed in the SAME folder as About.css:
+     about-hero-v2.jpg      (new name on purpose, so nothing old gets reused)
+   ===================================================================== */
+
+/* covers: top bar strip + gap + hero + 72px overlap into the domains section */
+.about-v6 .v6-hero::before {
+  top: -340px !important;
+  bottom: -72px !important;
+  border: 0 !important;
+  background: url("./about-hero-v2.jpg") center bottom / cover no-repeat !important;
+}
+
+.about-v6 .v6-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .about-v6 .v6-hero::before {
+    top: -300px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-hero::before {
+    top: -240px !important;
+    background: url("./about-hero-v2.jpg") center top / 1400px auto no-repeat !important;
+  }
+}
