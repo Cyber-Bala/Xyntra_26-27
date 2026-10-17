@@ -1,21 +1,43 @@
-import { useEffect, useRef } from 'react'
-import footerBg from '@/assets/images/footer_bg.png'
+import { useEffect, useRef, useState } from 'react'
+import PixelHeading from '../pages/02_About/PixelHeading.jsx'
 import './Footer.css'
 
 export default function Footer({ onNavigate }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const cardRef = useRef(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mql.matches)
+    const handler = (e) => setPrefersReducedMotion(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
 
   const navLinks = [
     { label: 'HOME', pageId: 1, sectionId: 'hero' },
     { label: 'ABOUT', pageId: 2, sectionId: 'about' },
     { label: 'PRIZES', pageId: 6, sectionId: 'prizes' },
     { label: 'RULES', pageId: 3, sectionId: 'rules' },
+    { label: 'REGISTER', pageId: 4, path: '/register' },
     { label: 'CONTACT', pageId: null, sectionId: 'contact' },
   ]
 
-  // Flowing PCB Circuit Traces Engine (Terminating at Top of Registration Card)
+  const handleNavClick = (item) => {
+    if (item.sectionId === 'contact') {
+      const el = document.getElementById('contact')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    } else if (item.path) {
+      onNavigate?.(item.pageId, item.path)
+    } else {
+      onNavigate?.(item.pageId, item.sectionId)
+    }
+  }
+
+  // ── FLOWING PCB CIRCUIT TRACES ENGINE ─────────────────────────
+  // Traces enter from top edge and converge symmetrically into the center registration box
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
@@ -25,14 +47,14 @@ export default function Footer({ onNavigate }) {
     let animId = null
     let isVisible = true
 
-    // Flame Orange-dominant palette inspired by the Prizes banner:
+    // Flame Orange-dominant electrical pulse palette matching reference:
     const PULSE_PALETTE = [
       { core: '#ffffff', glow: '#f06030', name: 'flame-orange' },
       { core: '#ffffff', glow: '#ff7a3d', name: 'bright-orange' },
       { core: '#ffffff', glow: '#f59e0b', name: 'amber-sunset' },
       { core: '#ffffff', glow: '#ffd180', name: 'gold' },
-      { core: '#ffffff', glow: '#22d3ee', name: 'cyan-spark' },
-      { core: '#ffffff', glow: '#a3e635', name: 'lime-spark' },
+      { core: '#ffffff', glow: '#38bdf8', name: 'cyan-spark' },
+      { core: '#ffffff', glow: '#d2f25f', name: 'lime-spark' },
     ]
 
     let width = 0
@@ -47,10 +69,10 @@ export default function Footer({ onNavigate }) {
     function buildCircuitPaths(w, h) {
       const cx = w * 0.5
 
-      // Accurately measure the registration card's position
-      let boxTop = h * 0.34
-      let boxLeft = cx - 180
-      let boxRight = cx + 180
+      // Accurately measure the center registration card's position
+      let boxTop = h * 0.36
+      let boxLeft = cx - 210
+      let boxRight = cx + 210
 
       if (cardRef.current && container) {
         const cRect = cardRef.current.getBoundingClientRect()
@@ -64,8 +86,8 @@ export default function Footer({ onNavigate }) {
       const viaPoints = []
       const silkscreenLabels = []
 
-      // 1. Center Dual-Rail Power Trunk (Runs straight down into top center of box)
-      const trunkOffset = 6
+      // 1. Center Dual-Rail Power Trunk (straight into top center of box)
+      const trunkOffset = 10
       const trunkLPts = [{ x: cx - trunkOffset, y: 0 }, { x: cx - trunkOffset, y: boxTop }]
       const trunkRPts = [{ x: cx + trunkOffset, y: 0 }, { x: cx + trunkOffset, y: boxTop }]
 
@@ -75,19 +97,17 @@ export default function Footer({ onNavigate }) {
       viaPoints.push({ x: cx - trunkOffset, y: boxTop, isLanding: true })
       viaPoints.push({ x: cx + trunkOffset, y: boxTop, isLanding: true })
 
-      silkscreenLabels.push({ text: 'PWR_+5V', x: cx + 14, y: boxTop * 0.45, align: 'left' })
-      silkscreenLabels.push({ text: 'GND_ISO', x: cx - 14, y: boxTop * 0.45, align: 'right' })
+      silkscreenLabels.push({ text: 'PWR_+5V', x: cx + 18, y: boxTop * 0.42, align: 'left' })
+      silkscreenLabels.push({ text: 'GND_ISO', x: cx - 18, y: boxTop * 0.42, align: 'right' })
 
-      // 2. Wide Multichannel PCB Bus Traces
-      // Covers much more area across top (up to cx ± 680px, spanning ~1360px)
-      // All traces end strictly 90° perpendicular at the top edge of registration box
+      // 2. Wide Multichannel PCB Bus Traces converging into center box
       const numSide = 8
-      const maxTopSpread = Math.min(w * 0.43, 680)
+      const maxTopSpread = Math.min(w * 0.45, 750)
       const leftTopStart = cx - maxTopSpread
-      const leftTopEnd = cx - 36
+      const leftTopEnd = cx - 44
 
-      const leftPinStart = boxLeft + 16
-      const leftPinEnd = cx - 18
+      const leftPinStart = boxLeft + 20
+      const leftPinEnd = cx - 24
 
       const labels = ['BUS_0', 'CLK_16M', 'SIG_TX', 'SIG_RX', 'IO_DATA', 'INT_0', 'ADDR_0', 'VREF']
 
@@ -96,17 +116,10 @@ export default function Footer({ onNavigate }) {
         const topX = leftTopStart + t * (leftTopEnd - leftTopStart)
         const pinX = leftPinStart + t * (leftPinEnd - leftPinStart)
 
-        // Monotonic staggered vertical runs:
-        // Outer traces start bending higher up, inner traces start bending lower
-        const y1 = 18 + t * 55
-        // Outer traces finish diagonal run higher up, inner traces finish lower
-        const y2 = Math.min(boxTop - 18, (boxTop - 65) + t * 42)
+        const y1 = 18 + t * 50
+        const y2 = Math.min(boxTop - 16, (boxTop - 60) + t * 40)
 
-        // Every trace:
-        // 1. Starts straight vertical from top edge: (topX, 0) -> (topX, y1)
-        // 2. Turns into clean diagonal chamfer: (topX, y1) -> (pinX, y2)
-        // 3. Drops straight vertical into top of registration card: (pinX, y2) -> (pinX, boxTop)
-        // -> Strictly 90° perpendicular landing on the top border with ZERO horizontal slant!
+        // Monotonic staggered vertical runs -> diagonal chamfer -> vertical landing
         const leftPts = [
           { x: topX, y: 0 },
           { x: topX, y: y1 },
@@ -121,26 +134,24 @@ export default function Footer({ onNavigate }) {
         generated.push({ points: leftPts, width: 2.6, isTrunk: false })
         generated.push({ points: rightPts, width: 2.6, isTrunk: false })
 
-        // Solder vias at elbows and terminations
         viaPoints.push(leftPts[1], leftPts[2])
         viaPoints.push({ x: pinX, y: boxTop, isLanding: true })
 
         viaPoints.push(rightPts[1], rightPts[2])
         viaPoints.push({ x: rightPinX, y: boxTop, isLanding: true })
 
-        // Silkscreen technical markings along vertical start
         if (i % 2 === 0) {
           silkscreenLabels.push({
             text: labels[i % labels.length],
             x: topX - 6,
-            y: Math.max(12, y1 * 0.5),
+            y: Math.max(14, y1 * 0.5),
             align: 'right',
             rotate: -Math.PI / 2,
           })
           silkscreenLabels.push({
             text: labels[i % labels.length],
             x: cx + (cx - topX) + 6,
-            y: Math.max(12, y1 * 0.5),
+            y: Math.max(14, y1 * 0.5),
             align: 'left',
             rotate: Math.PI / 2,
           })
@@ -182,7 +193,6 @@ export default function Footer({ onNavigate }) {
         tracks.push({ ...compile(p.points), width: p.width, isTrunk: p.isTrunk })
       })
 
-      // Generate active electrical pulses along traces
       pulses = []
       const numPulses = tracks.length * 2
       for (let i = 0; i < numPulses; i++) {
@@ -191,8 +201,8 @@ export default function Footer({ onNavigate }) {
         pulses.push({
           trackIdx: tIdx,
           progress: Math.random(),
-          speed: 0.0028 + Math.random() * 0.0038,
-          length: 22 + Math.random() * 28,
+          speed: 0.003 + Math.random() * 0.004,
+          length: 24 + Math.random() * 28,
           color: colorObj.glow,
           core: colorObj.core,
         })
@@ -223,7 +233,7 @@ export default function Footer({ onNavigate }) {
 
       ctx.clearRect(0, 0, width, height)
 
-      // ── 1. PHYSICAL PCB SUBSTRATE SHADOW (3D RAISED COPPER RELIEF) ─
+      // 1. PCB Substrate Shadow (3D Raised Relief)
       ctx.save()
       ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)'
       ctx.lineWidth = 4.2
@@ -234,7 +244,7 @@ export default function Footer({ onNavigate }) {
         ctx.beginPath()
         for (let j = 0; j < pts.length; j++) {
           const px = pts[j].x
-          const py = pts[j].y + 1.8 // 3D drop shadow
+          const py = pts[j].y + 1.8
           if (j === 0) ctx.moveTo(px, py)
           else ctx.lineTo(px, py)
         }
@@ -242,9 +252,9 @@ export default function Footer({ onNavigate }) {
       }
       ctx.restore()
 
-      // ── 2. METALLIC COPPER BASE TRACES (WARM FLAME COPPER #d45d2b) ─
+      // 2. Metallic Copper Base Traces (#d45d2b)
       ctx.save()
-      ctx.strokeStyle = '#d45d2b' // Rich copper-orange
+      ctx.strokeStyle = '#d45d2b'
       ctx.lineWidth = 2.8
       ctx.lineCap = 'round'
       ctx.lineJoin = 'miter'
@@ -259,7 +269,7 @@ export default function Footer({ onNavigate }) {
       }
       ctx.restore()
 
-      // ── 3. SPECULAR METALLIC GOLD TRACE CORE ─────────────────────
+      // 3. Specular Gold Trace Core
       ctx.save()
       ctx.strokeStyle = 'rgba(255, 214, 128, 0.55)'
       ctx.lineWidth = 1.0
@@ -274,39 +284,35 @@ export default function Footer({ onNavigate }) {
       }
       ctx.restore()
 
-      // ── 4. REAL PCB SOLDER VIAS & TERMINAL LANDING PINS ───────────
+      // 4. Solder Vias & Landing Pins
       for (let i = 0; i < vias.length; i++) {
         const v = vias[i]
 
-        // Outer copper/flame ring
         ctx.fillStyle = v.isLanding ? '#f06030' : '#b85b24'
         ctx.beginPath()
         ctx.arc(v.x, v.y, v.isLanding ? 4.8 : 4.0, 0, Math.PI * 2)
         ctx.fill()
 
-        // Gold solder pad
         ctx.fillStyle = '#ffd180'
         ctx.beginPath()
         ctx.arc(v.x, v.y, v.isLanding ? 3.4 : 2.8, 0, Math.PI * 2)
         ctx.fill()
 
-        // Center drill hole
         ctx.fillStyle = '#020710'
         ctx.beginPath()
         ctx.arc(v.x, v.y, 1.4, 0, Math.PI * 2)
         ctx.fill()
 
-        // Specular glint
         ctx.fillStyle = '#ffffff'
         ctx.beginPath()
         ctx.arc(v.x - 1.0, v.y - 1.0, 0.7, 0, Math.PI * 2)
         ctx.fill()
       }
 
-      // ── 5. PCB SILKSCREEN TECHNICAL MARKINGS ───────────────────────
+      // 5. Silkscreen Technical Labels
       ctx.save()
-      ctx.font = '600 8px "Space Grotesk", monospace'
-      ctx.fillStyle = 'rgba(240, 96, 48, 0.45)'
+      ctx.font = '700 8.5px "Space Grotesk", monospace'
+      ctx.fillStyle = 'rgba(240, 96, 48, 0.55)'
       for (let i = 0; i < silks.length; i++) {
         const s = silks[i]
         ctx.save()
@@ -319,7 +325,7 @@ export default function Footer({ onNavigate }) {
       }
       ctx.restore()
 
-      // ── 6. FLOWING ELECTRICAL PULSES (FLAME ORANGE INFLUENCED) ─────
+      // 6. Flowing Electrical Pulses (converge into center registration box)
       for (let i = 0; i < pulses.length; i++) {
         const p = pulses[i]
         const trk = tracks[p.trackIdx]
@@ -327,19 +333,18 @@ export default function Footer({ onNavigate }) {
 
         p.progress += p.speed
         if (p.progress >= 1.0) {
-          // Pulse hits the top of the registration box: trigger discharge spark ripple!
           const endPt = trk.points[trk.points.length - 1]
           landingRipples.push({
             x: endPt.x,
             y: endPt.y,
             radius: 1,
-            maxRadius: 16 + Math.random() * 10,
+            maxRadius: 18 + Math.random() * 10,
             alpha: 1.0,
             color: p.color,
           })
 
           p.progress = 0
-          p.speed = 0.0028 + Math.random() * 0.0038
+          p.speed = 0.003 + Math.random() * 0.004
           const newColor = PULSE_PALETTE[Math.floor(Math.random() * PULSE_PALETTE.length)]
           p.color = newColor.glow
           p.core = newColor.core
@@ -362,7 +367,6 @@ export default function Footer({ onNavigate }) {
         ctx.lineTo(head.x, head.y)
         ctx.stroke()
 
-        // Intense white-hot electron spark core
         ctx.fillStyle = p.core
         ctx.shadowColor = p.core
         ctx.shadowBlur = 8
@@ -371,7 +375,6 @@ export default function Footer({ onNavigate }) {
         ctx.fill()
         ctx.restore()
 
-        // Occasional micro-spark jitter along trace
         if (Math.random() < 0.02) {
           sparks.push({
             x: head.x + (Math.random() - 0.5) * 6,
@@ -383,7 +386,7 @@ export default function Footer({ onNavigate }) {
         }
       }
 
-      // ── 7. BOX LANDING IMPACT SPARK RIPPLES ────────────────────────
+      // 7. Landing Ripple Impacts
       for (let i = landingRipples.length - 1; i >= 0; i--) {
         const r = landingRipples[i]
         r.radius += 0.9
@@ -401,12 +404,12 @@ export default function Footer({ onNavigate }) {
         ctx.shadowColor = r.color
         ctx.shadowBlur = 8
         ctx.beginPath()
-        ctx.arc(r.x, r.y, r.radius, 0, Math.PI, true) // arc upward from pin
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI, true)
         ctx.stroke()
         ctx.restore()
       }
 
-      // ── 8. MICRO-SPARK PARTICLES ──────────────────────────────────
+      // 8. Micro-Sparks
       for (let i = sparks.length - 1; i >= 0; i--) {
         const sp = sparks[i]
         sp.life--
@@ -447,7 +450,6 @@ export default function Footer({ onNavigate }) {
       if (cardRef.current) ro.observe(cardRef.current)
     }
 
-    // Run multiple layout passes so cardRef layout is finalized even after webfonts render
     requestAnimationFrame(() => {
       resize()
       setTimeout(resize, 80)
@@ -466,23 +468,33 @@ export default function Footer({ onNavigate }) {
   return (
     <footer
       ref={containerRef}
-      className="retro-cyber-footer"
+      className={`retro-cyber-footer ${prefersReducedMotion ? 'ft-reduced-motion' : ''}`}
       id="contact"
-      style={{ backgroundImage: `url(${footerBg})` }}
     >
-      {/* ── FLOWING REAL PCB CIRCUIT CANVAS ───────────────────────── */}
+      {/* ── Background Film Grain Texture ── */}
+      <div className="ft-grain-texture-layer" aria-hidden="true" />
+      <div className="ft-smooth-cyan-glow" aria-hidden="true" />
+      <div className="ft-smooth-orange-glow" aria-hidden="true" />
+
+      {/* ── FLOWING REAL PCB CIRCUIT CANVAS (Assembles Into Center Box) ── */}
       <canvas ref={canvasRef} className="footer-circuit-canvas" aria-hidden="true" />
 
-      {/* ── MAIN 3-ZONE CONTENT OVERLAY ──────────────────────────── */}
+      {/* ── MAIN 3-ZONE CONTENT OVERLAY ── */}
       <div className="footer-overlay-grid">
-        {/* ── LEFT ZONE: BRAND STATEMENT & TIME ────────────────────── */}
+
+        {/* ── LEFT ZONE: BRAND STATEMENT & EVENT DETAILS ─────────── */}
         <div className="footer-zone-left">
           <div className="footer-label-tag">// 05</div>
 
-          <h2 className="footer-massive-heading">
-            <span>JOIN</span>
-            <span>THE BUILD.</span>
-          </h2>
+          {/* Heading rendered with PixelHeading dither reveal animation */}
+          <PixelHeading
+            as="h2"
+            size="xl"
+            level={2}
+            className="footer-massive-heading"
+          >
+            {"JOIN\nTHE BUILD."}
+          </PixelHeading>
 
           <div className="footer-event-meta">
             <span className="footer-event-title">XYNTRA 26-27</span>
@@ -494,16 +506,16 @@ export default function Footer({ onNavigate }) {
           </div>
         </div>
 
-        {/* ── CENTER ZONE: CYBER TERMINAL & CTA ────────────────────── */}
+        {/* ── CENTER ZONE: CYBER TERMINAL & CTA (Where Traces Assemble) ─ */}
         <div className="footer-zone-center">
           <div ref={cardRef} className="cyber-terminal-card">
-            {/* Terminal Corner Notches */}
+            {/* Terminal Corner HUD Notches */}
             <span className="hud-corner hud-corner-tl" />
             <span className="hud-corner hud-corner-tr" />
             <span className="hud-corner hud-corner-bl" />
             <span className="hud-corner hud-corner-br" />
 
-            {/* Glowing Bus Interface Bar at top where traces enter */}
+            {/* Glowing Bus Landing Header at top where circuit traces plug in */}
             <div className="terminal-bus-landing-header" aria-hidden="true" />
 
             <div className="terminal-inner-content">
@@ -511,27 +523,27 @@ export default function Footer({ onNavigate }) {
                 <span className="terminal-prompt-path">C:\&gt;</span> be_part_of_something_bigger.exe
               </p>
 
-              {/* MD Line 11: "x _" */}
               <p className="terminal-blinking-prompt">
                 x <span className="terminal-cursor">_</span>
               </p>
 
-              {/* MD Line 13: "[REGISTER NOW →](#register)" */}
+              {/* Main Registration Button */}
               <button
                 type="button"
                 className="terminal-cta-button"
                 onClick={() => onNavigate?.(4, '/register')}
+                aria-label="Register Now for Xyntra Hackathon"
               >
                 <span>REGISTER NOW</span>
                 <span className="btn-arrow" aria-hidden="true">&rarr;</span>
               </button>
 
-              {/* MD Line 15: "THINK*+*BUILD*+*DISRUPT" */}
+              {/* Tagline Trio */}
               <div className="terminal-tagline-trio">
                 <span>THINK</span>
-                <span className="plus-sep">+</span>
+                <span className="plus-sep">•</span>
                 <span>BUILD</span>
-                <span className="plus-sep">+</span>
+                <span className="plus-sep">•</span>
                 <span>DISRUPT</span>
               </div>
             </div>
@@ -540,21 +552,14 @@ export default function Footer({ onNavigate }) {
 
         {/* ── RIGHT ZONE: NAV & BRAND IDENTITY ─────────────────────── */}
         <div className="footer-zone-right">
-          {/* Navigation Links Column (MD Line 17) */}
+          {/* Navigation Links Column */}
           <nav className="footer-nav-stack" aria-label="Footer Navigation">
             {navLinks.map((item) => (
               <button
                 key={item.label}
                 type="button"
                 className="footer-nav-link-item"
-                onClick={() => {
-                  if (item.sectionId === 'contact') {
-                    const el = document.getElementById('contact')
-                    if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  } else {
-                    onNavigate?.(item.pageId, item.sectionId)
-                  }
-                }}
+                onClick={() => handleNavClick(item)}
               >
                 <span className="nav-dash">-</span>
                 <span className="nav-title">{item.label}</span>
@@ -577,7 +582,7 @@ export default function Footer({ onNavigate }) {
                 className="footer-social-icon-btn"
                 aria-label="Discord"
               >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                   <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
                 </svg>
               </a>
@@ -592,8 +597,8 @@ export default function Footer({ onNavigate }) {
               >
                 <svg
                   viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
+                  width="20"
+                  height="20"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -614,19 +619,19 @@ export default function Footer({ onNavigate }) {
                 className="footer-social-icon-btn"
                 aria-label="LinkedIn"
               >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                   <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c.92 0 1.66-.74 1.66-1.66s-.74-1.66-1.66-1.66c-.92 0-1.66.74-1.66 1.66s.74 1.66 1.66 1.66m1.39 9.74v-8.37H5.07v8.37h2.78z" />
                 </svg>
               </a>
             </div>
 
-            {/* Brand Logo & Name (MD Line 19) */}
+            {/* Brand Logo & Name */}
             <div className="footer-brand-title-row">
               <span className="footer-brand-spark" aria-hidden="true">&#10022;</span>
               <span className="footer-brand-name">XYNTRA</span>
             </div>
 
-            {/* Slogan (MD Line 21-23) */}
+            {/* Slogan */}
             <p className="footer-slogan-block">
               IDEAS FOR<br />
               A BRIGHTER<br />
@@ -639,7 +644,7 @@ export default function Footer({ onNavigate }) {
         </div>
       </div>
 
-      {/* ── BOTTOM META STRIP (MD Line 25) ───────────────────────── */}
+      {/* ── BOTTOM META BAR (TIGHTENED BOTTOM SPACING) ────────────── */}
       <div className="footer-bottom-meta-bar">
         <span className="footer-copyright-text">
           &copy; 2026 XYNTRA. ALL RIGHTS RESERVED.

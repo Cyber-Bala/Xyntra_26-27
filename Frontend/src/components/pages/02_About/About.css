@@ -11,9 +11,9 @@
 
 .about-v6 {
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
   position: relative;
-  padding: 120px 5vw;
+  padding: 32px 5vw 0;
   overflow: hidden;
 
   background: transparent;
@@ -7443,10 +7443,10 @@ span::before {
      about-hero-v2.jpg      (new name on purpose, so nothing old gets reused)
    ===================================================================== */
 
-/* covers: top bar strip + gap + hero + 72px overlap into the domains section */
+/* covers: gap + hero + overlap into the domains section */
 .about-v6 .v6-hero::before {
-  top: -340px !important;
-  bottom: -72px !important;
+  top: -60px !important;
+  bottom: -48px !important;
   border: 0 !important;
   background: url("./about-hero-v2.jpg") center bottom / cover no-repeat !important;
 }
@@ -7458,13 +7458,78 @@ span::before {
 
 @media (max-width: 1100px) {
   .about-v6 .v6-hero::before {
-    top: -300px !important;
+    top: -50px !important;
   }
 }
 
 @media (max-width: 700px) {
   .about-v6 .v6-hero::before {
-    top: -240px !important;
+    top: -40px !important;
     background: url("./about-hero-v2.jpg") center top / 1400px auto no-repeat !important;
   }
 }
+
+/* =====================================================================
+   XYNTRA — COMPACT SPACING (REMOVE UNWANTED TOP & BOTTOM SPACES)
+   ===================================================================== */
+
+/* 1. Remove excessive top and bottom padding on the About section */
+.about-v6 {
+  min-height: auto !important;
+  padding-top: clamp(24px, 3.5vw, 36px) !important;
+  padding-bottom: 0 !important;
+}
+
+/* 2. Tighten vertical gap between topbar, hero, and domains (was 145px) */
+.about-v6-container {
+  gap: clamp(24px, 3vw, 42px) !important;
+}
+
+/* 3. Hero compact sizing: remove 650px artificial min-height and reduce internal padding */
+.about-v6 .v6-hero {
+  min-height: auto !important;
+}
+
+.about-v6 .v6-hero-left {
+  padding: clamp(14px, 2vw, 24px) 0 !important;
+}
+
+.about-v6 .v6-hero-label {
+  margin-bottom: 14px !important;
+}
+
+.about-v6 .v6-hero-keywords {
+  margin-top: 20px !important;
+}
+
+.about-v6 .v6-hero-right {
+  padding: 12px 0 16px clamp(20px, 3.5vw, 50px) !important;
+}
+
+.about-v6 .v6-hero-stat {
+  min-height: 110px !important;
+  padding: 14px 14px !important;
+}
+
+/* 4. Domain tracks bottom padding: eliminate excess space before Timeline (was 70px) */
+.about-v6 .v6-problems {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.about-v6 .v6-section-head {
+  margin-bottom: clamp(20px, 3vw, 32px) !important;
+}
+
+/* 5. Keep domains background seamlessly joined */
+.about-v6 .v6-problems::before {
+  top: -48px !important;
+  bottom: 0 !important;
+  background: url("./about-domains-bg.jpg") center bottom / cover no-repeat !important;
+}
+
+/* 6. Timeline reveal wrapper zero-margin to remove upper unwanted gap */
+.about-timeline-reveal {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}

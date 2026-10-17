@@ -1,164 +1,295 @@
 /* ============================================================
-   XYNTRA TIMELINE — IMAGE-PRESERVING ANIMATION
-   
-   All overlays are positioned as exact percentages of the base
-   image (1024x576) so they scale responsively and remain
-   perfectly aligned across any viewport size.
+   XYNTRA TIMELINE — CODED ARTWORK WITH VECTOR TAPE & ROTATING GLOBE
+   - Pure coded background with real halftone threshold SVG filters
+   - Organic SVG turbulence grain overlays
+   - Vector copper magnetic tape with metallic highlight and depth shadow
+   - Clean transparent cutout cassettes from cassettes.webp
+   - 3D rotating globe (anchored at authentic bottom-left corner)
+   - Real-time animated audio waveform equalizer in top-center
+   - Pixel typography title "TIMELINE" placed in the white area
+   - Authentic glowing neon checkpoint markers along the copper tape
    ============================================================ */
 
-/* ── FULL SCREEN SECTION ─────────────────────────────────── */
-
-/* ── FULL SCREEN SECTION ─────────────────────────────────── */
+/* ── FULL SCREEN SECTION (100vw, Zero Unwanted Space, Screen-Fitting) ── */
 
 .timeline-cassette-section {
   width: 100vw;
-  height: auto;
-  min-height: 0;
+  max-width: 100vw;
   position: relative;
   left: 50%;
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  margin-top: 0;
-  margin-bottom: -120px;
-  padding: 0;
-  background: #020914;
-  display: block;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  background-color: #034674;
+  background-image:
+    radial-gradient(ellipse at 100% 0%, #0b36a2 0%, rgba(10, 63, 148, 0.7) 25%, transparent 55%),
+    radial-gradient(ellipse at 48% 50%, rgba(10, 92, 142, 0.9), transparent 65%),
+    radial-gradient(ellipse at 41% 82%, rgba(2, 47, 94, 0.85), transparent 40%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(500px, 82vh, 640px);
+  min-height: clamp(500px, 82vh, 640px);
+  max-height: min(85vh, 640px);
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* ── IMAGE WRAPPER (Expands 100% full width to both sides, normal uncropped 16:9) ── */
+/* Ambient Halftone Lighting Edge Extensions for ultrawide screens */
+.timeline-cassette-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 92% 70%, rgba(252, 104, 49, 0.22), transparent 45%),
+    radial-gradient(ellipse at 8% 10%, rgba(232, 226, 196, 0.15), transparent 35%);
+  z-index: 0;
+}
 
-.tl-image-wrapper {
+/* ── STAGE (Spans Full Screen Width and Height) ── */
+
+.tl-stage {
   position: relative;
   width: 100vw;
   max-width: 100vw;
-  aspect-ratio: 16 / 9;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  border-radius: 0;
-}
-
-/* ── BASE IMAGE ──────────────────────────────────────────── */
-
-.tl-base-image {
-  display: block;
-  width: 100%;
   height: 100%;
-  object-fit: fill;
-  user-select: none;
-  pointer-events: none;
+  overflow: hidden;
+  margin: 0 auto;
+  background: transparent;
 }
 
-/* ── OVERLAYS CONTAINER ──────────────────────────────────── */
+/* ── HALFTONE SHAPES (Fluidly Spanning Full Screen Width) ── */
 
-.tl-overlay {
+.tl-shapes {
   position: absolute;
   inset: 0;
+  filter: url(#rough);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tl-shapes > * {
+  position: absolute;
+}
+
+.tl-navy {
+  left: 0;
+  top: 7.9%;
+  width: 21.2%;
+  min-width: 200px;
+  height: 10.4%;
+  background: #003a6d;
+}
+
+.tl-dots {
+  background-size: 100% 100%, 7px 7px;
+  background-blend-mode: screen;
+}
+
+/* Top-Left Halftone White/Cream Wedge: sized to comfortably house the title */
+.tl-cream-top {
+  left: 0;
+  top: 0;
+  width: 55%;
+  height: clamp(86px, 19%, 130px);
+  clip-path: polygon(0 0, 100% 0, 48% 100%, 0 88%);
+  background-image: linear-gradient(90deg, #fff 20%, #aaa 55%, #000 95%), radial-gradient(circle, #fff, #000 60%);
+  filter: url(#ht-cream);
+}
+
+.tl-cream-bottom {
+  left: 35.55%;
+  top: 73.5%;
+  width: 46.25%;
+  height: 26.5%;
+  clip-path: polygon(0 100%, 0 72.6%, 71.9% 19%, 100% 0, 100% 100%);
+  background-image: linear-gradient(65deg, #fff 38%, #000 100%), radial-gradient(circle, #fff, #000 60%);
+  filter: url(#ht-cream);
+}
+
+.tl-orange {
+  left: 36.7%;
+  top: 17.35%;
+  width: 63.3%;
+  height: 82.65%;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  background-image: linear-gradient(340deg, #fff 0, #fff 40%, #000 88%), radial-gradient(circle, #fff, #000 60%);
+  filter: url(#ht-orange);
+}
+
+/* ── ORGANIC SVG GRAIN LAYERS ── */
+
+.tl-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 2;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 22%, transparent 68%), linear-gradient(180deg, #000 0, transparent 48%);
+  mask-image: linear-gradient(90deg, #000 0, #000 22%, transparent 68%), linear-gradient(180deg, #000 0, transparent 48%);
 }
 
-/* ============================================================
-   1. CASSETTE REELS (TAPE RECORDER ROLLS)
-   
-   Original extracted circular hub cutouts placed directly over
-   the hubs and spinning around their mechanical centers.
-   ============================================================ */
+.tl-grain.tl-grain-fine {
+  mix-blend-mode: overlay;
+  opacity: 0.75;
+}
 
-.tl-reel {
+.tl-grain.tl-grain-mottle {
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+}
+
+.tl-grain.tl-grain-speck-w {
+  opacity: 0.4;
+}
+
+.tl-grain.tl-grain-speck-d {
+  opacity: 0.5;
+}
+
+.tl-grain.tl-grain-merge {
+  -webkit-mask-image: linear-gradient(90deg, transparent 52%, #000 64%, #000 78%, transparent 90%), linear-gradient(180deg, transparent 60%, #000 76%);
+  mask-image: linear-gradient(90deg, transparent 52%, #000 64%, #000 78%, transparent 90%), linear-gradient(180deg, transparent 60%, #000 76%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: 0.85;
+}
+
+/* ── CRISP TYPOGRAPHY OVERLAY: POSITIONED UP IN THE WHITE/CREAM AREA ── */
+
+.tl-overlay-title-wrapper {
   position: absolute;
-  border-radius: 50%;
+  left: clamp(20px, 3.2vw, 54px);
+  top: clamp(6px, 1vw, 14px);
+  transform: none;
+  margin: 0;
+  padding: 0;
+  z-index: 25;
+  pointer-events: auto;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
   user-select: none;
-  pointer-events: none;
 }
 
-.tl-reel-img {
+.tl-eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Jersey 10', 'Pixelify Sans', monospace;
+  font-size: clamp(12px, 1.2vw, 15px);
+  letter-spacing: 0.14em;
+  color: #eb5c20;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.tl-eyebrow-tag span:first-child {
+  color: #eb5c20;
+  font-weight: 800;
+}
+
+.tl-overlay-title-wrapper .pixel-title {
+  font-family: 'Jersey 10', 'Pixelify Sans', monospace !important;
+  font-size: clamp(26px, 3.4vw, 48px) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  color: #eb5c20 !important;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 0 10px rgba(235, 92, 32, 0.35) !important;
+}
+
+/* ── 3D ROTATING GLOBE (ANCHORED DIRECTLY AT CORNER LEFT) ── */
+
+.tl-globe-wrapper {
+  position: absolute;
+  left: -4%;
+  bottom: -6%;
+  width: clamp(230px, 24vw, 360px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.tl-globe-canvas {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  transform-origin: 50% 50%;
 }
 
-/* Continuous smooth reel rotation */
-.tl-spin-ccw {
-  animation: reelSpinCCW 5s linear infinite;
-}
-
-@keyframes reelSpinCCW {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-/* ── LEFT CASSETTE ─────────────────────────────────────────
-   Center L1: (109.43, 157.73), size 46x46
-   Center L2: (201.13, 171.33), size 44x44
-   ────────────────────────────────────────────────────────── */
-
-.tl-left-reel-l {
-  left: 8.4404%;
-  top: 23.3906%;
-  width: 4.4922%;
-  aspect-ratio: 1;
-  z-index: 5;
-}
-
-.tl-left-reel-r {
-  left: 17.4932%;
-  top: 25.9253%;
-  width: 4.2969%;
-  aspect-ratio: 1;
-  z-index: 5;
-}
-
-/* ── RIGHT CASSETTE ────────────────────────────────────────
-   Center R1: (813.5, 438.5), size 46x46
-   Center R2: (906.5, 413.5), size 46x46
-   ────────────────────────────────────────────────────────── */
-
-.tl-right-reel-l {
-  left: 77.1973%;
-  top: 72.1354%;
-  width: 4.4922%;
-  aspect-ratio: 1;
-  z-index: 5;
-}
-
-/* Stationary tape patch over bottom-left of Reel R1 */
-.tl-tape-patch-r1 {
+.tl-globe-rim {
   position: absolute;
-  top: -4.3%;
-  left: -4.3%;
-  width: 108.7%;
-  height: 108.7%;
+  inset: 0;
+  border-radius: 50%;
   pointer-events: none;
-  z-index: 6;
+  box-shadow:
+    inset -5px 5px 22px rgba(220, 245, 255, 0.45),
+    0 0 18px rgba(180, 230, 255, 0.3);
 }
 
-.tl-right-reel-r {
-  left: 86.2793%;
-  top: 67.7951%;
-  width: 4.4922%;
-  aspect-ratio: 1;
-  z-index: 5;
+/* ── INNER COMPOSITION CANVAS (Exact 1308 / 634 Proportions, Fits Screen Without Zooming) ── */
+
+.tl-canvas-inner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  max-width: calc(clamp(500px, 82vh, 640px) * (1308 / 634));
+  aspect-ratio: 1308 / 634;
+  height: 100%;
+  max-height: clamp(500px, 82vh, 640px);
+  pointer-events: none;
+  z-index: 10;
 }
 
-/* ============================================================
-   2. TOP-CENTER AUDIO SIGNAL WAVEFORM (IN MOTION)
-   ============================================================ */
+/* ── PURE VECTOR COPPER MAGNETIC TAPE ── */
 
-.tl-vector-svg {
+.tl-tape-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* ── CUTOUT CASSETTES (cassettes.webp) ── */
+
+.tl-cassettes-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+  object-fit: fill;
+}
+
+/* ── AUDIO SIGNAL EQUALIZER WAVEFORM ── */
+
+.tl-signal-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 4;
+  z-index: 3;
 }
 
 .tl-signal-waveform-group {
@@ -193,55 +324,13 @@
   }
 }
 
-/* ============================================================
-   3. BOTTOM-LEFT GLOBE (FULL ORIGINAL SIZE)
-   
-   Center: (38, 475), Radius: 215px -> Diameter: 430px
-   left = (38 - 215) / 1024  = -17.2852%
-   top  = (475 - 215) / 576  =  45.1389%
-   width = 430 / 1024        =  41.9922%
-   height = 430 / 576        =  74.6528%
-   ============================================================ */
-
-.tl-globe-wrapper {
-  position: absolute;
-  left: -17.2852%;
-  top: 45.1389%;
-  width: 41.9922%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.tl-globe-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-.tl-globe-rim {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  /* Atmospheric limb glow along upper-right edge of sphere */
-  box-shadow:
-    inset -5px 5px 22px rgba(220, 245, 255, 0.45),
-    0 0 16px rgba(180, 230, 255, 0.25);
-}
-
-/* ============================================================
-   4. DECORATIVE ELEMENTS (Stars)
-   ============================================================ */
+/* ── DECORATIVE STAR GLINTS ── */
 
 .tl-star {
   position: absolute;
   border-radius: 50%;
   background: transparent;
-  z-index: 6;
+  z-index: 4;
 }
 
 .tl-star-1 {
@@ -284,12 +373,140 @@
   }
 }
 
-/* ============================================================
-   REDUCED MOTION SUPPORT
-   ============================================================ */
+/* ── CHECKPOINTS SVG MARKERS (STALKS, BASE ANCHORS & NEON TARGET RINGS) ── */
 
-.tl-no-motion .tl-reel-img,
+.tl-checkpoints-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+  overflow: visible;
+}
+
+.tl-cp-marker {
+  cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(0 0 5px #d2f25f) drop-shadow(0 0 12px rgba(210, 242, 95, 0.75));
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.tl-cp-marker:hover {
+  filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 20px #d2f25f);
+}
+
+/* ── REDUCED MOTION SUPPORT ── */
+
 .tl-no-motion .tl-signal-bar,
-.tl-no-motion .tl-star {
+.tl-no-motion .tl-star,
+.tl-no-motion .tl-cp-marker animate {
   animation: none !important;
+}
+
+/* ── MILESTONES CONTAINER & INTERACTIVE LABELS ── */
+
+.tl-milestones-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.tl-milestone-label {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.tl-label-text {
+  font-family: 'Jersey 10', 'Pixelify Sans', monospace;
+  font-size: clamp(12px, 1.2vw, 18px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  background: rgba(3, 16, 36, 0.92);
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(210, 242, 95, 0.65);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.65),
+    0 0 12px rgba(210, 242, 95, 0.4);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tl-milestone-label:hover .tl-label-text {
+  transform: scale(1.1);
+  border-color: #d2f25f;
+  color: #d2f25f;
+  box-shadow: 0 0 18px rgba(210, 242, 95, 0.85);
+}
+
+/* ── RESPONSIVE BEHAVIOR ── */
+
+@media (max-width: 768px) {
+  .timeline-cassette-section {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    padding: 0 !important;
+  }
+
+  .tl-stage {
+    height: auto !important;
+    aspect-ratio: 1308 / 634 !important;
+    width: 100vw !important;
+  }
+
+  .tl-canvas-inner {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    max-height: none !important;
+    aspect-ratio: 1308 / 634 !important;
+  }
+
+  .tl-globe-wrapper {
+    left: -10% !important;
+    bottom: -8% !important;
+    width: clamp(140px, 32vw, 220px) !important;
+  }
+
+  .tl-overlay-title-wrapper {
+    left: 14px !important;
+    top: 6px !important;
+  }
+
+  .tl-overlay-title-wrapper .pixel-title {
+    font-size: clamp(18px, 4.5vw, 26px) !important;
+  }
+
+  .tl-eyebrow-tag {
+    font-size: 10px !important;
+    gap: 4px !important;
+  }
+
+  .tl-label-text {
+    padding: 1px 5px !important;
+    font-size: 8px !important;
+    border-width: 0.5px !important;
+  }
+
+  .tl-milestone-pin-beacon {
+    width: 5px !important;
+    height: 5px !important;
+    border-width: 1px !important;
+  }
 }

@@ -121,11 +121,7 @@ export default function App() {
   return (
     <>
       {isRegistrationPage && (
-        <>
-          <Embers />
-          <CrtOverlay />
-          <TitleRelay />
-        </>
+        <CrtOverlay />
       )}
       <div className="app-root-wrapper">
         {!isRegistrationPage && (
@@ -144,16 +140,16 @@ export default function App() {
               <Reveal className="landing-section-reveal">
                 <Hero onNavigate={handleNavigate} />
               </Reveal>
-              <Reveal className="landing-section-reveal">
-                <About />
-              </Reveal>
+              <About />
               <Reveal className="landing-section-reveal">
                 <Prizes onNavigate={handleNavigate} />
               </Reveal>
               <Reveal className="landing-section-reveal">
                 <Rules onNavigate={handleNavigate} />
               </Reveal>
-              <Footer onNavigate={handleNavigate} />
+              <Reveal className="landing-section-reveal">
+                <Footer onNavigate={handleNavigate} />
+              </Reveal>
             </>
           )}
         </main>

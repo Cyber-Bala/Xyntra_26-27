@@ -25,9 +25,9 @@ body {
 }
 
 /* Base display style */
-h1:not(.xyntra-pixel-title),
-h2:not(.xyntra-right-headline),
-h3,
+h1:not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h2:not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h3:not(.rule-card-title):not(.pixel-title),
 .speltale {
   font-family: var(--font-speltale);
   font-style: italic;
@@ -38,21 +38,21 @@ h3,
   margin: 0;
 }
 
-/* Lit gradient fill (not for buttons) */
-h1:not(.xyntra-pixel-title),
-h2:not(.xyntra-right-headline),
-h3,
+/* Lit gradient fill (not for buttons or dedicated section titles) */
+h1:not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h2:not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h3:not(.rule-card-title):not(.pixel-title),
 .speltale:not(.btn) {
   color: transparent;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
- background-image:
-  linear-gradient(105deg, transparent 38%, rgba(255,250,235,.4) 47%, transparent 56%),
-  linear-gradient(100deg, #f8eddb 0%, #eacb98 100%);
-filter:
-  drop-shadow(0 0 10px rgba(234, 203, 152, .2))
-  drop-shadow(2px 2px 0 #1a0a12);
+  background-image:
+    linear-gradient(105deg, transparent 38%, rgba(255,250,235,.4) 47%, transparent 56%),
+    linear-gradient(100deg, #f8eddb 0%, #eacb98 100%);
+  filter:
+    drop-shadow(0 0 10px rgba(234, 203, 152, .2))
+    drop-shadow(2px 2px 0 #1a0a12);
 }
 
 h1 { font-size: clamp(3rem, 17vw, 8rem); }
@@ -60,10 +60,10 @@ h2 { font-size: clamp(1.8rem, 9vw, 3.2rem); }
 h3 { font-size: 1.5rem; }
 
 /* Keep display headings consistent where section styles don't manage their own. */
-/* Exclude new animated sections (sp-section, rl-section, ft-footer) which set their own type. */
-.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline):not(.xyntra-pixel-title),
-.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline):not(.xyntra-right-headline),
-.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline) {
+/* Exclude new animated sections (sp-section, rl-section, ft-footer, register, rules) which set their own type. */
+.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline):not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline):not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline):not(.rule-card-title):not(.pixel-title) {
   font-family: 'Playfair Display', Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;

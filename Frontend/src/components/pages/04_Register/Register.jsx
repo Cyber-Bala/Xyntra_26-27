@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
-import AsciiNoiseBackground from "../../background/AsciiNoiseBackground.jsx";
+import { useEffect, useState, useRef } from "react";
+import PixelHeading from "../02_About/PixelHeading.jsx";
 import "./Register.css";
 
 const API_ROOT = (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api").replace(/\/$/, "");
 const RAZORPAY_SCRIPT = "https://checkout.razorpay.com/v1/checkout.js";
+
+const AUDIO_MODES = [
+  { name: "STEREO", freq: "44.1 kHz", factor: 1.0 },
+  { name: "HI-RES", freq: "96.0 kHz", factor: 0.5 },
+  { name: "LO-FI",  freq: "22.0 kHz", factor: 1.8 },
+  { name: "STUDIO", freq: "192 kHz",  factor: 0.35 },
+];
+
 const emptyMember = () => ({
   full_name: "",
   email: "",
@@ -13,6 +21,65 @@ const emptyMember = () => ({
   ieee_membership_id: "",
   ieee_card: null,
 });
+
+const KEY_POINTS = [
+  {
+    num: "01",
+    title: "TEAM COMPOSITION",
+    desc: "4 to 6 builders per crew. Cross-college, cross-department, and multi-year squads are fully welcomed.",
+  },
+  {
+    num: "02",
+    title: "100% FREE ROUND 01 ENTRY",
+    desc: "Submit your idea pitch deck (PPT/PDF up to 10MB). No payment or entry fee is required for Round 01.",
+  },
+  {
+    num: "03",
+    title: "IEEE MEMBER ADVANTAGE",
+    desc: "Teams with verified IEEE members unlock exclusive subsidized rates for the 24-hour onsite finale.",
+  },
+  {
+    num: "04",
+    title: "24-HOUR ONSITE FINALE",
+    desc: "Shortlisted teams will hack live onsite with dedicated cloud credits, hardware sandboxes, and industry mentors.",
+  },
+  {
+    num: "05",
+    title: "PRIZES & CERTIFICATES",
+    desc: "Compete for cash rewards, official IEEE Computer Society certificates, swags, and direct incubation support.",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "Is there any registration fee for Round 01?",
+    a: "No. Round 01 abstract and deck submission is 100% free for all participating teams.",
+  },
+  {
+    q: "What is the team size requirement?",
+    a: "Each team must consist of 4 to 6 members. Solo builders or teams outside this range cannot be accepted.",
+  },
+  {
+    q: "Who is eligible to participate?",
+    a: "Open to all undergraduate, postgraduate, and diploma students from any recognized educational institution.",
+  },
+  {
+    q: "Can team members be from different colleges?",
+    a: "Yes! Inter-college and inter-disciplinary teams are completely permitted and strongly encouraged.",
+  },
+  {
+    q: "What should be included in the presentation deck?",
+    a: "Your PPT/PDF deck (up to 10MB) should clearly outline the problem statement, proposed solution, system architecture, tech stack, feasibility, and impact.",
+  },
+  {
+    q: "How does the IEEE discount work?",
+    a: "If any team member provides a valid IEEE membership ID during registration, the entire team unlocks the discounted rate for Round 02.",
+  },
+  {
+    q: "When will the Round 01 results be announced?",
+    a: "Shortlisted teams will receive direct email invitations to access private Round 02 confirmation and briefing.",
+  },
+];
 
 function getLinkTokens() {
   const path = window.location.pathname;
@@ -51,338 +118,986 @@ function loadRazorpay() {
 
 function RegistrationHomeButton({ onNavigate }) {
   return (
-    <button className="registration-home-button" type="button" onClick={() => onNavigate?.(1)}>
+    <button className="registration-home-button" type="button" onClick={() => onNavigate?.(1)} title="Return to home page">
       <span className="registration-home-mark">XYNTRA<span>26—27</span></span>
       <span className="registration-home-action">← MAIN SITE</span>
     </button>
-  )
+  );
+}
+
+// Pixel Art Album Icon for Pocket Pod Screen
+function PixelAlbumArt() {
+  return (
+    <div className="pixel-album-art" aria-hidden="true">
+      <svg viewBox="0 0 48 48" className="pixel-art-svg" width="44" height="44">
+        <rect width="48" height="48" fill="#0c1a40" rx="3" />
+        <rect x="4" y="4" width="6" height="6" fill="#f37a39" />
+        <rect x="12" y="4" width="6" height="6" fill="#f59e0b" />
+        <rect x="20" y="4" width="6" height="6" fill="#f37a39" />
+        <rect x="28" y="4" width="6" height="6" fill="#fed7aa" />
+        <rect x="36" y="4" width="6" height="6" fill="#f37a39" />
+
+        <rect x="4" y="12" width="6" height="6" fill="#f59e0b" />
+        <rect x="12" y="12" width="6" height="6" fill="#1e40af" />
+        <rect x="20" y="12" width="6" height="6" fill="#fed7aa" />
+        <rect x="28" y="12" width="6" height="6" fill="#f37a39" />
+        <rect x="36" y="12" width="6" height="6" fill="#f59e0b" />
+
+        <rect x="10" y="18" width="28" height="18" fill="#081028" rx="2" stroke="#f37a39" strokeWidth="1.5" />
+        <text x="24" y="32" fill="#fff" fontFamily="'Courier New', monospace" fontWeight="900" fontSize="13" textAnchor="middle" letterSpacing="2">XY</text>
+
+        <rect x="4" y="38" width="6" height="6" fill="#f37a39" />
+        <rect x="12" y="38" width="6" height="6" fill="#fed7aa" />
+        <rect x="20" y="38" width="6" height="6" fill="#f37a39" />
+        <rect x="28" y="38" width="6" height="6" fill="#f59e0b" />
+        <rect x="36" y="38" width="6" height="6" fill="#f37a39" />
+
+        <text x="7" y="46" fill="#fed7aa" fontFamily="monospace" fontSize="6" fontWeight="bold">FM</text>
+      </svg>
+    </div>
+  );
+}
+
+// Audio visualizer equalizer bars: dynamically reacts to volume, hold, and frequency mode!
+function EqualizerBars({ isPlaying = true, isHold = false, volume = 65, modeFactor = 1.0 }) {
+  const bars = [
+    { color: 'orange', h1: 14, h2: 28 },
+    { color: 'blue',   h1: 26, h2: 12 },
+    { color: 'orange', h1: 18, h2: 32 },
+    { color: 'blue',   h1: 30, h2: 16 },
+    { color: 'orange', h1: 22, h2: 10 },
+    { color: 'orange', h1: 12, h2: 26 },
+    { color: 'blue',   h1: 28, h2: 18 },
+    { color: 'orange', h1: 20, h2: 34 },
+    { color: 'blue',   h1: 10, h2: 24 },
+    { color: 'blue',   h1: 26, h2: 14 },
+    { color: 'orange', h1: 18, h2: 30 },
+    { color: 'blue',   h1: 28, h2: 14 },
+    { color: 'blue',   h1: 12, h2: 24 },
+    { color: 'blue',   h1: 22, h2: 12 },
+    { color: 'orange', h1: 14, h2: 26 },
+    { color: 'orange', h1: 24, h2: 16 },
+    { color: 'blue',   h1: 18, h2: 30 },
+    { color: 'blue',   h1: 28, h2: 12 },
+  ];
+
+  const volRatio = volume / 100;
+
+  return (
+    <div className={`screen-eq-cluster ${!isPlaying || isHold ? 'is-paused' : ''}`} aria-hidden="true">
+      {bars.map((bar, i) => {
+        const animDuration = (0.7 + (i % 4) * 0.22) * modeFactor;
+        const currentScale = (!isPlaying || isHold)
+          ? 0.15
+          : Math.max(0.2, (bar.h1 / 34) * volRatio * 1.3);
+
+        return (
+          <span
+            key={i}
+            className={`eq-bar-stick bar-${bar.color}`}
+            style={{
+              height: `${Math.round(bar.h1 * volRatio + 4)}px`,
+              animationDuration: `${animDuration}s`,
+              animationDelay: `${(i * 0.05) % 0.6}s`,
+              transform: `scaleY(${currentScale})`,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+// Integrated Control Deck at the bottom of the Pocket Pod device
+function IntegratedControlDeck({
+  volume,
+  currentMode,
+  isHold,
+  isPlaying,
+  deckActiveBtn,
+  onDeckButton,
+}) {
+  return (
+    <div className="pod-integrated-deck" role="region" aria-label="Pocket Pod Integrated Audio Controls">
+      <div className="deck-screw screw-tl" aria-hidden="true" />
+      <div className="deck-screw screw-tr" aria-hidden="true" />
+
+      {/* Main Row: Dials, Sliders, Buttons */}
+      <div className="deck-main-row">
+        {/* Left: Volume Section with Numerical Readout */}
+        <div className="deck-section-block vol-block">
+          <div className="section-label-strip">
+            <span className="lbl-tag">VOL</span>
+            <span className="lbl-reading">{String(volume).padStart(3, '0')}</span>
+          </div>
+          <div className="vol-btn-cluster">
+            <button
+              type="button"
+              className={`deck-push-btn vol-minus ${deckActiveBtn === 'vol-down' ? 'active' : ''}`}
+              onClick={() => onDeckButton('vol-down')}
+              title="Decrease Volume"
+              aria-label="Decrease Volume"
+            >
+              <span className="btn-glyph">−</span>
+            </button>
+            <button
+              type="button"
+              className={`deck-push-btn vol-plus ${deckActiveBtn === 'vol-up' ? 'active' : ''}`}
+              onClick={() => onDeckButton('vol-up')}
+              title="Increase Volume"
+              aria-label="Increase Volume"
+            >
+              <span className="btn-glyph">+</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Center: Play/Pause, Hold, Mode */}
+        <div className="deck-section-block transport-block">
+          <button
+            type="button"
+            className={`deck-pill-btn play-pause-btn ${!isPlaying ? 'paused' : ''} ${deckActiveBtn === 'play' ? 'active' : ''}`}
+            onClick={() => onDeckButton('play')}
+            title={isPlaying ? "Pause Audio Waves" : "Resume Audio Waves"}
+            aria-label={isPlaying ? "Pause Audio" : "Play Audio"}
+          >
+            <span className="pill-dot" />
+            <span className="pill-text">{isPlaying ? "PAUSE" : "PLAY"}</span>
+          </button>
+
+          <button
+            type="button"
+            className={`deck-pill-btn hold-btn ${isHold ? 'is-engaged' : ''} ${deckActiveBtn === 'hold' ? 'active' : ''}`}
+            onClick={() => onDeckButton('hold')}
+            title="Toggle Audio Wave Hold"
+            aria-label="Toggle Hold"
+          >
+            <span className={`hold-led ${isHold ? 'lit' : ''}`} />
+            <span className="pill-text">HOLD</span>
+          </button>
+
+          <button
+            type="button"
+            className={`deck-pill-btn mode-btn ${deckActiveBtn === 'mode' ? 'active' : ''}`}
+            onClick={() => onDeckButton('mode')}
+            title="Cycle Frequency Mode"
+            aria-label="Cycle Mode"
+          >
+            <span className="mode-led" />
+            <span className="pill-text">{currentMode.name}</span>
+          </button>
+        </div>
+
+        {/* Right: Frequency Readout */}
+        <div className="deck-section-block readout-block">
+          <div className="section-label-strip">
+            <span className="lbl-tag">FREQ</span>
+            <span className="lbl-reading freq-display">{currentMode.freq}</span>
+          </div>
+          <div className="deck-knob-cluster">
+            <div className={`deck-rotary-knob ${isHold ? 'locked' : ''}`} title="Frequency Tuner Dial">
+              <span className="knob-notches" />
+              <span className="knob-pointer" style={{ transform: `rotate(${(volume * 2.8) - 140}deg)` }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── RIGHT INFORMATIONAL COLUMN (Title + Points + FAQ) ──
+function RegistrationRightColumn({ onNavigate }) {
+  const [openFaq, setOpenFaq] = useState(0);
+
+  const toggleFaq = (idx) => {
+    setOpenFaq((cur) => (cur === idx ? null : idx));
+  };
+
+  return (
+    <div className="reg-right-info-column">
+      {/* Top Breadcrumb & Home Link */}
+      <div className="reg-info-top-bar">
+        <RegistrationHomeButton onNavigate={onNavigate} />
+        <span className="reg-round-badge">
+          <span className="badge-pulse-dot" /> ROUND 01 &bull; NOW OPEN
+        </span>
+      </div>
+
+      {/* Massive Registration Title */}
+      <div className="reg-header-block">
+        <PixelHeading
+          as="h1"
+          size="xl"
+          level={1}
+          className="reg-massive-title"
+        >
+          REGISTRATION
+        </PixelHeading>
+        <p className="reg-subtitle">
+          ASSEMBLE YOUR SQUAD &bull; TRANSMIT YOUR VISION &bull; BUILD WHAT&apos;S NEXT
+        </p>
+      </div>
+
+      {/* Key Points Below Title */}
+      <div className="reg-key-points-section">
+        <div className="reg-section-label">
+          <span>// KEY PARTICIPATION GUIDELINES</span>
+          <span className="section-rule-line" />
+        </div>
+
+        <div className="reg-key-points-grid">
+          {KEY_POINTS.map((pt) => (
+            <div key={pt.num} className="reg-point-card">
+              <span className="reg-point-num">{pt.num}</span>
+              <div className="reg-point-body">
+                <strong className="reg-point-title">{pt.title}</strong>
+                <p className="reg-point-desc">{pt.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Interactive FAQ Section Below Points */}
+      <div className="reg-faq-container">
+        <div className="reg-section-label">
+          <span>// FREQUENTLY ASKED QUESTIONS</span>
+          <span className="section-rule-line" />
+        </div>
+
+        <div className="reg-faq-accordion">
+          {FAQ_ITEMS.map((item, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div key={idx} className={`reg-faq-item ${isOpen ? "is-open" : ""}`}>
+                <button
+                  type="button"
+                  className="reg-faq-question-btn"
+                  onClick={() => toggleFaq(idx)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="reg-faq-q-text">{item.q}</span>
+                  <span className="reg-faq-toggle-icon">{isOpen ? "−" : "+"}</span>
+                </button>
+                {isOpen && (
+                  <div className="reg-faq-answer">
+                    <p>{item.a}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Register({ onNavigate }) {
-  const linkTokens = getLinkTokens();
-  const [members, setMembers] = useState(() => Array.from({ length: 4 }, emptyMember));
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [linkTokens, setLinkTokens] = useState(() => getLinkTokens());
+  const [members, setMembers] = useState(() => Array.from({ length: 4 }, () => emptyMember()));
+  const [pptFileName, setPptFileName] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
   const [payment, setPayment] = useState({ loading: false, details: null, error: "", message: "", busy: false });
-  const [emailVerification, setEmailVerification] = useState({ loading: false, error: "", message: "" });
-  const [registrationStatus, setRegistrationStatus] = useState({ loading: false, error: "", details: null });
+  const [registrationStatus, setRegistrationStatus] = useState({ loading: false, details: null, error: "" });
+
+  // Audio / Visualizer Deck interactive states
+  const [volume, setVolume] = useState(65);
+  const [modeIndex, setModeIndex] = useState(0);
+  const [isHold, setIsHold] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [deckActiveBtn, setDeckActiveBtn] = useState(null);
+
+  const formRef = useRef(null);
+  const currentMode = AUDIO_MODES[modeIndex];
+
+  // Control Deck Button Action Trigger
+  const triggerDeckButton = (action) => {
+    setDeckActiveBtn(action);
+    setTimeout(() => setDeckActiveBtn(null), 180);
+
+    if (action === "vol-up") {
+      setVolume((v) => Math.min(100, v + 5));
+    } else if (action === "vol-down") {
+      setVolume((v) => Math.max(0, v - 5));
+    } else if (action === "play") {
+      setIsPlaying((p) => !p);
+    } else if (action === "hold") {
+      setIsHold((h) => !h);
+    } else if (action === "mode") {
+      setModeIndex((m) => (m + 1) % AUDIO_MODES.length);
+    }
+  };
 
   useEffect(() => {
-    if (!linkTokens.payment) return undefined;
-    const controller = new AbortController();
-    setPayment((current) => ({ ...current, loading: true, error: "", details: null }));
-    fetch(`${API_ROOT}/payment-details/${encodeURIComponent(linkTokens.payment)}/`, { signal: controller.signal })
+    const handlePopState = () => setLinkTokens(getLinkTokens());
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (!linkTokens.payment) return;
+    setPayment((cur) => ({ ...cur, loading: true, error: "" }));
+    fetch(`${API_ROOT}/public/payment-details/${linkTokens.payment}/`)
       .then(readResponse)
-      .then((details) => setPayment((current) => ({ ...current, loading: false, details })))
-      .catch((error) => {
-        if (error.name !== "AbortError") setPayment((current) => ({ ...current, loading: false, error: error.message }));
-      });
-    return () => controller.abort();
+      .then((data) => setPayment((cur) => ({ ...cur, loading: false, details: data })))
+      .catch((err) => setPayment((cur) => ({ ...cur, loading: false, error: err.message })));
   }, [linkTokens.payment]);
 
   useEffect(() => {
-    if (!linkTokens.verification) return undefined;
-    const controller = new AbortController();
-    setEmailVerification({ loading: true, error: "", message: "" });
-    fetch(`${API_ROOT}/verify-email/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: linkTokens.verification }),
-      signal: controller.signal,
-    })
+    if (!linkTokens.status) return;
+    setRegistrationStatus({ loading: true, details: null, error: "" });
+    fetch(`${API_ROOT}/public/registration-status/${linkTokens.status}/`)
       .then(readResponse)
-      .then((result) => setEmailVerification({ loading: false, error: "", message: result.message }))
-      .catch((error) => {
-        if (error.name !== "AbortError") setEmailVerification({ loading: false, error: error.message, message: "" });
-      });
-    return () => controller.abort();
-  }, [linkTokens.verification]);
-
-  useEffect(() => {
-    if (!linkTokens.status) return undefined;
-    const controller = new AbortController();
-    setRegistrationStatus({ loading: true, error: "", details: null });
-    fetch(`${API_ROOT}/registration-status/?status_token=${encodeURIComponent(linkTokens.status)}`, { signal: controller.signal })
-      .then(readResponse)
-      .then((details) => setRegistrationStatus({ loading: false, error: "", details }))
-      .catch((error) => {
-        if (error.name !== "AbortError") setRegistrationStatus({ loading: false, error: error.message, details: null });
-      });
-    return () => controller.abort();
+      .then((data) => setRegistrationStatus({ loading: false, details: data, error: "" }))
+      .catch((err) => setRegistrationStatus({ loading: false, details: null, error: err.message }));
   }, [linkTokens.status]);
 
-  function updateMember(index, key, value) {
-    setMembers((current) => current.map((member, memberIndex) => memberIndex === index ? { ...member, [key]: value } : member));
-  }
+  const updateMember = (index, field, value) => {
+    setMembers((current) => current.map((member, i) => (i === index ? { ...member, [field]: value } : member)));
+  };
 
-  async function submitRegistration(event) {
+  const handlePptChange = (e) => {
+    const file = e.target.files?.[0];
+    setPptFileName(file ? file.name : "");
+  };
+
+  const submitRegistration = async (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (!form.reportValidity()) return;
-
-    const values = new FormData(form);
-    const pptFile = values.get("ppt_file");
-    if (pptFile.size > 10 * 1024 * 1024) {
-      setStatus({ type: "error", message: "The presentation deck must be 10 MB or smaller." });
+    if (!agreed) {
+      setStatus({ type: "error", message: "Please agree to the event guidelines before transmitting your application." });
       return;
     }
-
-    for (const [index, member] of members.entries()) {
-      if (member.ieee_member && member.ieee_card?.size > 5 * 1024 * 1024) {
-        setStatus({ type: "error", message: `The IEEE card for member ${index + 1} must be 5 MB or smaller.` });
-        return;
-      }
-    }
-
-    const roster = members.map((member) => {
-      const entry = { ...member };
-      delete entry.ieee_card;
-      return entry;
-    });
-    if (!roster.some((member) => member.email.trim().toLowerCase() === String(values.get("leader_email")).trim().toLowerCase())) {
-      setStatus({ type: "error", message: "The team leader email must match one of the team member emails." });
+    if (members.length < 4 || members.length > 6) {
+      setStatus({ type: "error", message: "Teams must contain between 4 and 6 builders." });
       return;
     }
-
-    const payload = new FormData();
-    payload.append("team_name", values.get("team_name"));
-    payload.append("leader_email", values.get("leader_email"));
-    payload.append("leader_phone", values.get("leader_phone"));
-    payload.append("ppt_file", pptFile);
-    payload.append("members", JSON.stringify(roster));
-    members.forEach((member, index) => {
-      if (member.ieee_card) payload.append(`ieee_card_${index + 1}`, member.ieee_card);
-    });
 
     setSubmitting(true);
     setStatus({ type: "", message: "" });
+
     try {
-      const response = await fetch(`${API_ROOT}/register/`, { method: "POST", body: payload });
-      const result = await readResponse(response);
-      const emailNote = result.confirmation_email_sent
-        ? "A verification link has been sent to the team leader’s email."
-        : "Your registration was saved, but the verification email could not be sent. Please contact the organizers.";
+      const formElement = event.currentTarget;
+      const formData = new FormData(formElement);
+      const pptFileInput = formElement.elements.namedItem("ppt_file");
+      if (pptFileInput?.files?.[0]) formData.set("ppt_file", pptFileInput.files[0]);
+
+      members.forEach((member, index) => {
+        formData.set(`members[${index}][full_name]`, member.full_name);
+        formData.set(`members[${index}][email]`, member.email);
+        formData.set(`members[${index}][phone]`, member.phone);
+        formData.set(`members[${index}][college]`, member.college);
+        formData.set(`members[${index}][ieee_member]`, String(member.ieee_member));
+        if (member.ieee_member) {
+          formData.set(`members[${index}][ieee_membership_id]`, member.ieee_membership_id || "");
+          if (member.ieee_card) formData.set(`members[${index}][ieee_card]`, member.ieee_card);
+        }
+      });
+
+      const response = await fetch(`${API_ROOT}/public/register/`, { method: "POST", body: formData });
+      const data = await readResponse(response);
+
       setStatus({
         type: "success",
-        message: `${result.message} Save your registration status token: ${result.status_token}. ${emailNote} No payment is collected in Round 1.`,
+        message: data.message || "Registration submitted successfully! Check the team leader email inbox to verify your address.",
       });
-      form.reset();
-      setMembers(Array.from({ length: 4 }, emptyMember));
+      formElement.reset();
+      setPptFileName("");
+      setMembers(Array.from({ length: 4 }, () => emptyMember()));
+      setAgreed(false);
     } catch (error) {
-      setStatus({ type: "error", message: error.message || "Could not reach the registration server. Please try again." });
+      setStatus({ type: "error", message: error.message });
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
-  async function startPayment() {
-    if (!linkTokens.payment || !payment.details?.email_verified || payment.details.is_paid) return;
-    setPayment((current) => ({ ...current, busy: true, error: "", message: "" }));
+  const startPayment = async () => {
     try {
-      const orderResponse = await fetch(`${API_ROOT}/create-order/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ payment_token: linkTokens.payment }),
-      });
-      const order = await readResponse(orderResponse);
+      setPayment((cur) => ({ ...cur, busy: true, error: "" }));
       await loadRazorpay();
-      if (!window.Razorpay) throw new Error("Razorpay Checkout did not initialize. Please try again.");
 
-      const checkout = new window.Razorpay({
-        key: order.key_id,
-        amount: order.amount_paise,
-        currency: order.currency,
-        name: payment.details.event_title || "XYNTRA",
-        description: `Round 2 registration · ${order.team_name}`,
-        order_id: order.order_id,
-        prefill: { email: payment.details.leader_email, name: order.team_name },
-        theme: { color: "#0004EB" },
-        modal: { ondismiss: () => setPayment((current) => ({ ...current, busy: false })) },
-        handler: async (checkoutResult) => {
+      const orderData = await fetch(`${API_ROOT}/public/create-order/${linkTokens.payment}/`, { method: "POST" }).then(readResponse);
+
+      const rzp = new window.Razorpay({
+        key: orderData.key_id,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "XYNTRA 26—27",
+        description: `Round 2 Payment — ${payment.details?.team_name || "Team"}`,
+        order_id: orderData.order_id,
+        prefill: { email: payment.details?.leader_email || "", contact: payment.details?.leader_phone || "" },
+        theme: { color: "#f37a39" },
+        handler: async (response) => {
           try {
-            const verifyResponse = await fetch(`${API_ROOT}/verify-payment/`, {
+            await fetch(`${API_ROOT}/public/verify-payment/`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                razorpay_order_id: checkoutResult.razorpay_order_id,
-                razorpay_payment_id: checkoutResult.razorpay_payment_id,
-                razorpay_signature: checkoutResult.razorpay_signature,
+                payment_token: linkTokens.payment,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
               }),
-            });
-            const verified = await readResponse(verifyResponse);
-            if (!verified.is_paid) throw new Error(verified.message || "Payment is awaiting confirmation. Check your status shortly.");
-            setPayment((current) => ({ ...current, busy: false, details: { ...current.details, is_paid: true }, message: verified.message }));
-          } catch (error) {
-            setPayment((current) => ({ ...current, busy: false, error: error.message }));
+            }).then(readResponse);
+
+            setPayment((cur) => ({
+              ...cur,
+              busy: false,
+              details: cur.details ? { ...cur.details, is_paid: true } : cur.details,
+              message: "Payment verified successfully! Your team is confirmed for the 24-hour hackathon.",
+            }));
+          } catch (err) {
+            setPayment((cur) => ({ ...cur, busy: false, error: err.message }));
           }
         },
       });
-      checkout.on("payment.failed", (failure) => {
-        setPayment((current) => ({ ...current, busy: false, error: failure.error?.description || "Payment did not complete. You can safely try again." }));
+
+      rzp.on("payment.failed", (response) => {
+        setPayment((cur) => ({ ...cur, busy: false, error: response.error?.description || "Payment failed. Try again." }));
       });
-      checkout.open();
-    } catch (error) {
-      setPayment((current) => ({ ...current, busy: false, error: error.message || "Unable to start checkout. Please try again." }));
+      rzp.open();
+    } catch (err) {
+      setPayment((cur) => ({ ...cur, busy: false, error: err.message }));
     }
-  }
+  };
 
-  if (linkTokens.verification) {
-    return (
-      <section className="register-section register-stage-page" id="register" aria-live="polite">
-        <AsciiNoiseBackground />
-        <RegistrationHomeButton onNavigate={onNavigate} />
-        <p className="section-kicker">XYNTRA / EMAIL VERIFICATION</p>
-        <h1 className="registration-title">Confirm your team email.</h1>
-        <div className="stage-card">
-          {emailVerification.loading && <p>Verifying your email…</p>}
-          {emailVerification.message && <p className="form-message success">{emailVerification.message}</p>}
-          {emailVerification.error && <p className="form-message error">{emailVerification.error}</p>}
-          <p>This confirms the team leader’s address for the Round 1 PPT submission.</p>
-          <button className="primary-btn glow-hover" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
-        </div>
-      </section>
-    );
-  }
-
+  // ── VIEW 1: Application Status View ──
   if (linkTokens.status) {
     const details = registrationStatus.details;
     return (
-      <section className="register-section register-stage-page" id="register" aria-live="polite">
-        <AsciiNoiseBackground />
-        <RegistrationHomeButton onNavigate={onNavigate} />
-        <p className="section-kicker">XYNTRA / APPLICATION STATUS</p>
-        <h1 className="registration-title">Your team’s progress.</h1>
-        <div className="stage-card">
-          {registrationStatus.loading && <p>Loading registration status…</p>}
-          {registrationStatus.error && <p className="form-message error">{registrationStatus.error}</p>}
-          {details && <>
-            <p className="stage-event">{details.event_title}</p>
-            <h2>{details.team_name}</h2>
-            <dl className="stage-details">
-              <div><dt>Presentation review</dt><dd>{details.selection_status}</dd></div>
-              <div><dt>Email verified</dt><dd>{details.email_verified ? "Yes" : "Pending"}</dd></div>
-              <div><dt>Round 2 payment</dt><dd>{details.is_paid ? "Complete" : details.selection_status === "selected" ? "Awaiting payment" : "Not open"}</dd></div>
-              <div><dt>Team members</dt><dd>{details.member_count}</dd></div>
-            </dl>
-          </>}
-          <button className="primary-btn glow-hover" type="button" onClick={() => onNavigate?.(1)}>Return to Xyntra</button>
+      <section className="register-section pod-page-view" id="register" aria-live="polite">
+        <div className="register-page-split-layout">
+          {/* ── LEFT PART: POD DEVICE (LEFT-ALIGNED) ── */}
+          <div className="reg-left-pod-column">
+            <div className="pocket-pod-device-chassis left-aligned-pod">
+              <header className="pod-device-header">
+                <div className="pod-brand-left">
+                  <span className="pod-brand-squares">
+                    <i className="sq-orange" /><i className="sq-peach" /><i className="sq-amber" /><i className="sq-burnt" />
+                  </span>
+                  <div className="pod-brand-text">
+                    <span className="pod-title">XYNTRA</span>
+                    <span className="pod-model">POCKET POD / MODEL 01</span>
+                  </div>
+                </div>
+                <div className="pod-status-right">
+                  <span className="pod-led-dot active" />
+                  <span className="pod-status-label">STATUS TELEMETRY</span>
+                  <span className="pod-screw" />
+                </div>
+              </header>
+
+              <div className="pod-cassette-well">
+                <div className="pod-cream-screen stage-screen">
+                  <div className="screen-now-playing-row">
+                    <PixelAlbumArt />
+                    <div className="now-playing-details">
+                      <span className="np-label">STATUS MONITOR</span>
+                      <h2 className="np-title">{details?.team_name || "TEAM APPLICATION"}</h2>
+                      <span className="np-track">{details?.event_title || "XYNTRA 26-27"}</span>
+                    </div>
+                    <EqualizerBars isPlaying={isPlaying} isHold={isHold} volume={volume} modeFactor={currentMode.factor} />
+                  </div>
+
+                  <div className="screen-progress-track">
+                    <div className="screen-progress-bar" style={{ width: `${volume}%` }}>
+                      <span className="progress-knob" />
+                    </div>
+                  </div>
+
+                  <div className="pod-stage-content">
+                    {registrationStatus.loading && <p className="stage-loading-text">Retrieving status telemetry…</p>}
+                    {registrationStatus.error && <div className="pod-alert error">{registrationStatus.error}</div>}
+                    {details && (
+                      <div className="pod-status-grid">
+                        <div className="status-cell">
+                          <span className="cell-label">REVIEW STATUS</span>
+                          <strong className="cell-val status-badge">{details.selection_status}</strong>
+                        </div>
+                        <div className="status-cell">
+                          <span className="cell-label">EMAIL VERIFIED</span>
+                          <strong className="cell-val">{details.email_verified ? "YES · CONFIRMED" : "PENDING"}</strong>
+                        </div>
+                        <div className="status-cell">
+                          <span className="cell-label">ROUND 2 PAYMENT</span>
+                          <strong className="cell-val">{details.is_paid ? "COMPLETE" : details.selection_status === "selected" ? "AWAITING" : "NOT OPEN"}</strong>
+                        </div>
+                        <div className="status-cell">
+                          <span className="cell-label">BUILDERS</span>
+                          <strong className="cell-val">{details.member_count} MEMBERS</strong>
+                        </div>
+                      </div>
+                    )}
+                    <div className="stage-actions">
+                      <button className="pod-burnt-orange-btn" type="button" onClick={() => onNavigate?.(1)}>
+                        <span>RETURN TO MAIN SITE ↗</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <IntegratedControlDeck
+                volume={volume}
+                currentMode={currentMode}
+                isHold={isHold}
+                isPlaying={isPlaying}
+                deckActiveBtn={deckActiveBtn}
+                onDeckButton={triggerDeckButton}
+              />
+
+              <footer className="pod-device-footer">
+                <span className="footer-audio-out">■ AUDIO OUT</span>
+                <span className="footer-builders">DESIGNED FOR BUILDERS</span>
+                <span className="footer-version">01 ■</span>
+              </footer>
+            </div>
+          </div>
+
+          {/* ── RIGHT PART: REGISTRATION TITLE, KEY POINTS & FAQ ── */}
+          <RegistrationRightColumn onNavigate={onNavigate} />
         </div>
       </section>
     );
   }
 
+  // ── VIEW 2: Payment View ──
   if (linkTokens.payment) {
     const details = payment.details;
     return (
-      <section className="register-section register-stage-page" id="register" aria-live="polite">
-        <AsciiNoiseBackground />
-        <RegistrationHomeButton onNavigate={onNavigate} />
-        <p className="section-kicker">XYNTRA / ROUND 02</p>
-        <h1 className="registration-title">Secure your place.</h1>
-        <p className="stage-intro">This private payment link is sent only after your Round 1 presentation is selected.</p>
-        <div className="stage-card payment-card">
-          {payment.loading && <p>Checking your private invitation…</p>}
-          {payment.error && <p className="form-message error">{payment.error}</p>}
-          {details && <>
-            <p className="stage-event">{details.event_title}</p>
-            <h2>{details.team_name}</h2>
-            <dl className="stage-details">
-              <div><dt>Selection</dt><dd>{details.selection_status || (details.is_paid ? "selected" : "—")}</dd></div>
-              <div><dt>Team members</dt><dd>{details.member_count ?? "—"}</dd></div>
-              <div><dt>Pricing</dt><dd>{details.pricing_tier === "ieee_discount" ? "Verified IEEE team rate" : details.pricing_tier === "regular" ? "Standard team rate" : "—"}</dd></div>
-              <div><dt>Round 2 fee</dt><dd>{details.amount_inr ? `₹${details.amount_inr}` : details.payment_details?.amount ? `₹${details.payment_details.amount}` : "—"}</dd></div>
-            </dl>
-            {!details.email_verified && <p className="form-message error">Verify the team leader’s email using the confirmation link before paying.</p>}
-            {details.is_paid && <p className="form-message success">Payment is already complete for this team.</p>}
-            {payment.message && <p className="form-message success">{payment.message}</p>}
-            <button className="primary-btn submit-btn glow-hover" type="button" onClick={startPayment} disabled={payment.loading || payment.busy || !details.email_verified || details.is_paid}>
-              {payment.busy ? "Connecting to secure checkout…" : details.is_paid ? "ROUND 02 CONFIRMED" : `PAY ₹${details.amount_inr}`}<span aria-hidden="true">→</span>
-            </button>
-            <p className="registration-note">Your PPT was submitted in Round 1. This step only confirms your selected team’s place with payment.</p>
-          </>}
-          {!details && !payment.loading && !payment.error && <p>This private link is missing its payment token. Open the full link sent to your team leader.</p>}
+      <section className="register-section pod-page-view" id="register" aria-live="polite">
+        <div className="register-page-split-layout">
+          {/* ── LEFT PART: POD DEVICE (LEFT-ALIGNED) ── */}
+          <div className="reg-left-pod-column">
+            <div className="pocket-pod-device-chassis left-aligned-pod">
+              <header className="pod-device-header">
+                <div className="pod-brand-left">
+                  <span className="pod-brand-squares">
+                    <i className="sq-orange" /><i className="sq-peach" /><i className="sq-amber" /><i className="sq-burnt" />
+                  </span>
+                  <div className="pod-brand-text">
+                    <span className="pod-title">XYNTRA</span>
+                    <span className="pod-model">POCKET POD / MODEL 01</span>
+                  </div>
+                </div>
+                <div className="pod-status-right">
+                  <span className="pod-led-dot active" />
+                  <span className="pod-status-label">PAYMENT CHANNEL ACTIVE</span>
+                  <span className="pod-screw" />
+                </div>
+              </header>
+
+              <div className="pod-cassette-well">
+                <div className="pod-cream-screen stage-screen">
+                  <div className="screen-now-playing-row">
+                    <PixelAlbumArt />
+                    <div className="now-playing-details">
+                      <span className="np-label">ROUND 02 PAYMENT</span>
+                      <h2 className="np-title">{details?.team_name || "CONFIRM PARTICIPATION"}</h2>
+                      <span className="np-track">XYNTRA 26—27</span>
+                    </div>
+                    <EqualizerBars isPlaying={isPlaying} isHold={isHold} volume={volume} modeFactor={currentMode.factor} />
+                  </div>
+
+                  <div className="screen-progress-track">
+                    <div className="screen-progress-bar" style={{ width: `${volume}%` }}>
+                      <span className="progress-knob" />
+                    </div>
+                  </div>
+
+                  <div className="pod-stage-content">
+                    {payment.loading && <p className="stage-loading-text">Loading checkout parameters…</p>}
+                    {payment.error && <div className="pod-alert error">{payment.error}</div>}
+                    {details && (
+                      <>
+                        <div className="pod-status-grid">
+                          <div className="status-cell">
+                            <span className="cell-label">TEAM NAME</span>
+                            <strong className="cell-val">{details.team_name}</strong>
+                          </div>
+                          <div className="status-cell">
+                            <span className="cell-label">BUILDERS</span>
+                            <strong className="cell-val">{details.member_count ?? "—"}</strong>
+                          </div>
+                          <div className="status-cell">
+                            <span className="cell-label">TIER</span>
+                            <strong className="cell-val">{details.pricing_tier === "ieee_discount" ? "IEEE RATE" : "STANDARD"}</strong>
+                          </div>
+                          <div className="status-cell">
+                            <span className="cell-label">ROUND 02 FEE</span>
+                            <strong className="cell-val text-burnt">{details.amount_inr ? `₹${details.amount_inr}` : "—"}</strong>
+                          </div>
+                        </div>
+
+                        {!details.email_verified && (
+                          <div className="pod-alert error">
+                            Verify the team leader email with the confirmation link before proceeding.
+                          </div>
+                        )}
+                        {details.is_paid && <div className="pod-alert success">Payment complete! Your team is confirmed.</div>}
+                        {payment.message && <div className="pod-alert success">{payment.message}</div>}
+
+                        <div className="stage-actions">
+                          <button
+                            className="pod-burnt-orange-btn"
+                            type="button"
+                            onClick={startPayment}
+                            disabled={payment.loading || payment.busy || !details.email_verified || details.is_paid}
+                          >
+                            <span>{payment.busy ? "CONNECTING TO RAZORPAY…" : details.is_paid ? "ROUND 02 CONFIRMED" : `PAY ₹${details.amount_inr} NOW`}</span>
+                            <span className="btn-arrow">↗</span>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <IntegratedControlDeck
+                volume={volume}
+                currentMode={currentMode}
+                isHold={isHold}
+                isPlaying={isPlaying}
+                deckActiveBtn={deckActiveBtn}
+                onDeckButton={triggerDeckButton}
+              />
+
+              <footer className="pod-device-footer">
+                <span className="footer-audio-out">■ AUDIO OUT</span>
+                <span className="footer-builders">DESIGNED FOR BUILDERS</span>
+                <span className="footer-version">01 ■</span>
+              </footer>
+            </div>
+          </div>
+
+          {/* ── RIGHT PART: REGISTRATION TITLE, KEY POINTS & FAQ ── */}
+          <RegistrationRightColumn onNavigate={onNavigate} />
         </div>
       </section>
     );
   }
 
+  // ── VIEW 3: Main Round 01 Registration Form (Split Layout) ──
   return (
-    <section className="register-section" id="register">
-      <AsciiNoiseBackground />
-      <RegistrationHomeButton onNavigate={onNavigate} />
-      <div className="registration-hero">
-        <div className="section-heading register-heading"><p className="section-kicker">ROUND 01 REGISTRATION</p><h2 className="registration-title">Bring the idea.<br />Build the future.</h2><p>Submit your team and presentation deck for the first-round review.</p></div>
-        <div className="registration-terminal" role="img" aria-label="A retro Xyntra computer terminal, ready for teams to begin registration.">
-          <div className="terminal-chrome"><span className="terminal-lights"><i /><i /><i /></span><span>XYNTRA / SYSTEM 26-27</span><span className="terminal-live">● READY</span></div>
-          <div className="terminal-display">
-            <div className="terminal-screen">
-              <div className="terminal-screen-label"><span>FIELD CONSOLE / 26.27</span><span>● UPLINK</span></div>
-              <pre className="registration-ascii" aria-hidden="true">{`01  01001000  01100001  01100011
-02  ░▒▓  X Y N T R A  ▓▒░
-03  01100001  01100011  01101011
-04  ░░▒▒▓▓  SYSTEM READY  ▓▓▒▒░░
-05  01010010  01100101  01100001
-06  ░▒▓  BUILD / SUBMIT / SHIP  ▓▒░
-07  01100100  01111001  00100001`}</pre>
-              <div className="terminal-screen-caption"><strong>XYNTRA</strong><span>REGISTRATION SYSTEM</span></div>
+    <section className="register-section pod-page-view" id="register">
+      <div className="register-page-split-layout">
+
+        {/* ── LEFT PART: POD DEVICE CHASSIS (LEFT-ALIGNED) ── */}
+        <div className="reg-left-pod-column">
+          <div className="pocket-pod-device-chassis left-aligned-pod" role="region" aria-label="Xyntra Pocket Pod Model 01 Registration Terminal">
+            
+            {/* Top Header of Device Chassis */}
+            <header className="pod-device-header">
+              <div className="pod-brand-left">
+                <span className="pod-brand-squares" aria-hidden="true">
+                  <i className="sq-orange" />
+                  <i className="sq-peach" />
+                  <i className="sq-amber" />
+                  <i className="sq-burnt" />
+                </span>
+                <div className="pod-brand-text">
+                  <span className="pod-title">XYNTRA</span>
+                  <span className="pod-model">POCKET POD / MODEL 01</span>
+                </div>
+              </div>
+
+              <div className="pod-status-right">
+                <span className="pod-led-dot active" aria-hidden="true" />
+                <span className="pod-status-label">INPUT READY</span>
+                <span className="pod-screw" aria-hidden="true" />
+              </div>
+            </header>
+
+            {/* Inner Recessed Cassette Well */}
+            <div className="pod-cassette-well">
+              {/* Retro Cream Screen */}
+              <div className="pod-cream-screen">
+                {/* Screen Header: Album Art, Now Registering, Equalizer */}
+                <div className="screen-now-playing-row">
+                  <PixelAlbumArt />
+                  <div className="now-playing-details">
+                    <span className="np-label">APPLICATION DRAFT</span>
+                    <h2 className="np-title">TEAM REGISTRATION</h2>
+                    <span className="np-track">XYNTRA 26—27</span>
+                  </div>
+                  <EqualizerBars isPlaying={isPlaying} isHold={isHold} volume={volume} modeFactor={currentMode.factor} />
+                </div>
+
+                {/* Audio Playback Progress Track synced with Volume */}
+                <div className="screen-progress-track" aria-label={`Volume level ${volume}%`}>
+                  <div className="screen-progress-bar" style={{ width: `${volume}%` }}>
+                    <span className="progress-knob" />
+                  </div>
+                </div>
+
+                {/* Clean, Readable Registration Form */}
+                <form className="pod-registration-form" onSubmit={submitRegistration} ref={formRef}>
+                  
+                  {/* SECTION 1: TEAM ESSENTIALS */}
+                  <div className="form-group-block">
+                    <div className="pod-block-label">
+                      <span>01 / TEAM DETAILS &amp; PRESENTATION</span>
+                    </div>
+
+                    <div className="pod-form-grid">
+                      <label className="pod-field">
+                        <span className="pod-field-title">TEAM NAME *</span>
+                        <input
+                          name="team_name"
+                          required
+                          maxLength="150"
+                          placeholder="Your team name"
+                          className="pod-input"
+                        />
+                      </label>
+
+                      <label className="pod-field">
+                        <span className="pod-field-title">LEADER EMAIL *</span>
+                        <input
+                          name="leader_email"
+                          type="email"
+                          required
+                          maxLength="254"
+                          placeholder="leader@college.edu"
+                          className="pod-input"
+                        />
+                      </label>
+
+                      <label className="pod-field">
+                        <span className="pod-field-title">LEADER PHONE *</span>
+                        <input
+                          name="leader_phone"
+                          type="tel"
+                          required
+                          maxLength="20"
+                          placeholder="+91 98765 43210"
+                          className="pod-input"
+                        />
+                      </label>
+
+                      <label className="pod-field file-upload-field">
+                        <span className="pod-field-title">
+                          PITCH DECK (PPT/PDF) *
+                          <span className="file-hint">MAX 10 MB</span>
+                        </span>
+                        <div className="custom-file-box">
+                          <input
+                            name="ppt_file"
+                            type="file"
+                            required
+                            accept=".pdf,.ppt,.pptx,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                            onChange={handlePptChange}
+                            className="pod-file-input"
+                            id="ppt-file-input"
+                          />
+                          <label htmlFor="ppt-file-input" className="file-pick-trigger">
+                            <span className="pick-icon">📁</span>
+                            <span className="pick-text">{pptFileName || "SELECT DECK FILE"}</span>
+                            <span className="pick-badge">BROWSE</span>
+                          </label>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* SECTION 2: TEAM ROSTER (4-6 BUILDERS) */}
+                  <div className="form-group-block">
+                    <div className="pod-block-label">
+                      <span>02 / TEAM ROSTER ({members.length} OF 6 BUILDERS)</span>
+                    </div>
+
+                    <div className="pod-roster-list">
+                      {members.map((member, index) => (
+                        <fieldset className="pod-member-card" key={index}>
+                          <legend className="member-card-legend">
+                            BUILDER {String(index + 1).padStart(2, "0")}
+                            {index === 0 ? " [ TEAM LEADER ]" : ""}
+                          </legend>
+
+                          <div className="pod-form-grid">
+                            <label className="pod-field">
+                              <span className="pod-field-title">FULL NAME *</span>
+                              <input
+                                required
+                                maxLength="150"
+                                value={member.full_name}
+                                onChange={(e) => updateMember(index, "full_name", e.target.value)}
+                                placeholder="Full name"
+                                className="pod-input"
+                              />
+                            </label>
+
+                            <label className="pod-field">
+                              <span className="pod-field-title">EMAIL ADDRESS *</span>
+                              <input
+                                required
+                                type="email"
+                                maxLength="254"
+                                value={member.email}
+                                onChange={(e) => updateMember(index, "email", e.target.value)}
+                                placeholder="email@college.edu"
+                                className="pod-input"
+                              />
+                            </label>
+
+                            <label className="pod-field">
+                              <span className="pod-field-title">PHONE NUMBER *</span>
+                              <input
+                                required
+                                type="tel"
+                                maxLength="20"
+                                value={member.phone}
+                                onChange={(e) => updateMember(index, "phone", e.target.value)}
+                                placeholder="+91 98765 43210"
+                                className="pod-input"
+                              />
+                            </label>
+
+                            <label className="pod-field">
+                              <span className="pod-field-title">COLLEGE / INSTITUTION *</span>
+                              <input
+                                required
+                                maxLength="255"
+                                value={member.college}
+                                onChange={(e) => updateMember(index, "college", e.target.value)}
+                                placeholder="College name"
+                                className="pod-input"
+                              />
+                            </label>
+                          </div>
+
+                          {/* IEEE Member Option */}
+                          <div className="pod-ieee-box">
+                            <label className="ieee-checkbox-wrap">
+                              <input
+                                type="checkbox"
+                                checked={member.ieee_member}
+                                onChange={(e) => updateMember(index, "ieee_member", e.target.checked)}
+                                className="pod-checkbox"
+                              />
+                              <span className="ieee-label-text">
+                                IEEE MEMBER VERIFICATION <small>(OPTIONAL · CLAIM IEEE TEAM RATE)</small>
+                              </span>
+                            </label>
+
+                            {member.ieee_member && (
+                              <div className="pod-form-grid ieee-expanded-grid">
+                                <label className="pod-field">
+                                  <span className="pod-field-title">IEEE MEMBERSHIP ID *</span>
+                                  <input
+                                    required
+                                    maxLength="100"
+                                    value={member.ieee_membership_id}
+                                    onChange={(e) => updateMember(index, "ieee_membership_id", e.target.value)}
+                                    placeholder="e.g. 98765432"
+                                    className="pod-input"
+                                  />
+                                </label>
+
+                                <label className="pod-field">
+                                  <span className="pod-field-title">IEEE ID CARD FILE *</span>
+                                  <input
+                                    required
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+                                    onChange={(e) => updateMember(index, "ieee_card", e.target.files?.[0] || null)}
+                                    className="pod-input-file"
+                                  />
+                                </label>
+                              </div>
+                            )}
+                          </div>
+                        </fieldset>
+                      ))}
+                    </div>
+
+                    {/* Add / Remove Member Buttons */}
+                    <div className="pod-roster-controls">
+                      {members.length < 6 && (
+                        <button
+                          className="pod-sub-btn add-btn"
+                          type="button"
+                          onClick={() => setMembers((cur) => [...cur, emptyMember()])}
+                        >
+                          <span>+ ADD TEAM MEMBER ({members.length}/6)</span>
+                        </button>
+                      )}
+                      {members.length > 4 && (
+                        <button
+                          className="pod-sub-btn remove-btn"
+                          type="button"
+                          onClick={() => setMembers((cur) => cur.slice(0, -1))}
+                        >
+                          <span>− REMOVE LAST MEMBER</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* AGREEMENT CHECKBOX */}
+                  <div className="pod-agreement-row">
+                    <label className="pod-agree-label">
+                      <input
+                        type="checkbox"
+                        checked={agreed}
+                        onChange={(e) => setAgreed(e.target.checked)}
+                        required
+                        className="pod-checkbox"
+                      />
+                      <span>I agree to follow the hackathon guidelines and code of conduct. *</span>
+                    </label>
+                  </div>
+
+                  {/* Status feedback message */}
+                  {status.message && (
+                    <div className={`pod-alert ${status.type}`} role="status">
+                      {status.message}
+                    </div>
+                  )}
+
+                  {/* SUBMIT BUTTON ROW */}
+                  <div className="pod-submit-row">
+                    <button
+                      className="pod-burnt-orange-btn"
+                      type="submit"
+                      disabled={submitting}
+                    >
+                      <span>{submitting ? "TRANSMITTING APPLICATION…" : "TRANSMIT APPLICATION"}</span>
+                      <span className="btn-arrow">↗</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div className="terminal-side-panel" aria-hidden="true">
-              <span className="terminal-dial" />
-              <span className="terminal-dial" />
-              <span className="terminal-meter"><i /></span>
-              <span className="terminal-panel-code">SYS<br />26—27</span>
-            </div>
+
+            {/* FULLY MERGED CONTROL DECK */}
+            <IntegratedControlDeck
+              volume={volume}
+              currentMode={currentMode}
+              isHold={isHold}
+              isPlaying={isPlaying}
+              deckActiveBtn={deckActiveBtn}
+              onDeckButton={triggerDeckButton}
+            />
+
+            {/* Chassis Footer Strip */}
+            <footer className="pod-device-footer">
+              <span className="footer-audio-out">■ AUDIO OUT</span>
+              <span className="footer-builders">DESIGNED FOR BUILDERS</span>
+              <span className="footer-version">01 ■</span>
+            </footer>
           </div>
-          <div className="terminal-control-deck" aria-hidden="true">
-            <div className="terminal-switches"><i /><i /><i /><span>POWER / DATA / LINK</span></div>
-            <div className="terminal-keyboard">
-              <span>Q</span><span>W</span><span>E</span><span>R</span><span>T</span><span>Y</span><span>U</span><span>I</span><span>O</span><span>P</span>
-              <span>A</span><span>S</span><span>D</span><span>F</span><span>G</span><span>H</span><span>J</span><span>K</span><span>L</span>
-              <span>⇧</span><span>Z</span><span>X</span><span>C</span><span>V</span><span>B</span><span>N</span><span>M</span><span>↵</span>
-            </div>
-            <div className="terminal-trackpad"><i /></div>
-          </div>
-          <div className="terminal-status"><span>SYS / ONLINE</span><span>BUILD MODE / ACTIVE</span></div>
         </div>
+
+        {/* ── RIGHT PART: REGISTRATION TITLE, KEY POINTS & FAQ ── */}
+        <RegistrationRightColumn onNavigate={onNavigate} />
+
       </div>
-      <div className="round-flow" aria-label="Hackathon rounds">
-        <article className="round-card round-active"><span>ROUND 01 / OPEN NOW</span><h3>Register + submit your PPT</h3><p>Every team can apply. Share your details and presentation for the selection review. No payment at this stage.</p></article>
-        <span className="round-arrow" aria-hidden="true">→</span>
-        <article className="round-card"><span>ROUND 02 / SELECTED TEAMS</span><h3>Private payment link</h3><p>Only shortlisted teams receive the payment link. Payment confirms their place in the final round.</p></article>
-      </div>
-      <form className="registration-form" onSubmit={submitRegistration}>
-        <div className="form-title"><div><span className="form-step">01 / TEAM DETAILS</span><h3>Tell us who's building.</h3></div><span className="required-note">* REQUIRED</span></div>
-        <div className="form-grid">
-          <label className="form-field"><span>Team name *</span><input name="team_name" required maxLength="150" placeholder="Your team name" /></label>
-          <label className="form-field"><span>Team leader email *</span><input name="leader_email" type="email" required maxLength="254" placeholder="leader@college.edu" /></label>
-          <label className="form-field"><span>Team leader phone *</span><input name="leader_phone" type="tel" required maxLength="20" placeholder="+91 98765 43210" /></label>
-          <label className="form-field file-field"><span>Presentation deck * <small>PDF, PPT or PPTX · max 10 MB</small></span><input name="ppt_file" type="file" required accept=".pdf,.ppt,.pptx,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" /></label>
-        </div>
-        <div className="form-title member-form-title"><div><span className="form-step">02 / TEAM ROSTER</span><h3>Your builders.</h3></div><span className="required-note">4–6 MEMBERS</span></div>
-        <div className="member-fields">
-          {members.map((member, index) => <fieldset className="member-fieldset" key={index}>
-            <legend>MEMBER {String(index + 1).padStart(2, "0")}{index === 0 ? " / LEADER" : ""}</legend>
-            <div className="form-grid member-grid">
-              <label className="form-field"><span>Full name *</span><input required maxLength="150" value={member.full_name} onChange={(event) => updateMember(index, "full_name", event.target.value)} placeholder="Full name" /></label>
-              <label className="form-field"><span>Email *</span><input required type="email" maxLength="254" value={member.email} onChange={(event) => updateMember(index, "email", event.target.value)} placeholder="name@college.edu" /></label>
-              <label className="form-field"><span>Phone *</span><input required type="tel" maxLength="20" value={member.phone} onChange={(event) => updateMember(index, "phone", event.target.value)} placeholder="Phone number" /></label>
-              <label className="form-field"><span>College *</span><input required maxLength="255" value={member.college} onChange={(event) => updateMember(index, "college", event.target.value)} placeholder="College / institution" /></label>
-            </div>
-            <label className="ieee-toggle"><input type="checkbox" checked={member.ieee_member} onChange={(event) => updateMember(index, "ieee_member", event.target.checked)} /><span>IEEE member</span><small>Optional · claim and provide ID details for organizer review</small></label>
-            {member.ieee_member && <div className="form-grid ieee-fields">
-              <label className="form-field"><span>IEEE membership ID *</span><input required maxLength="100" value={member.ieee_membership_id} onChange={(event) => updateMember(index, "ieee_membership_id", event.target.value)} placeholder="Membership ID" /></label>
-              <label className="form-field"><span>IEEE ID card *</span><input required type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" onChange={(event) => updateMember(index, "ieee_card", event.target.files?.[0] || null)} /></label>
-            </div>}
-          </fieldset>)}
-        </div>
-        <div className="roster-actions">
-          {members.length < 6 && <button className="quiet-button" type="button" onClick={() => setMembers((current) => [...current, emptyMember()])}>+ ADD TEAM MEMBER</button>}
-          {members.length > 4 && <button className="quiet-button remove-member" type="button" onClick={() => setMembers((current) => current.slice(0, -1))}>− REMOVE LAST MEMBER</button>}
-        </div>
-        {status.message && <p className={`form-message ${status.type}`} role="status">{status.message}</p>}
-        <button className="primary-btn submit-btn glow-hover" type="submit" disabled={submitting}>{submitting ? "Submitting…" : "Submit Round 1 Registration"}<span aria-hidden="true">→</span></button>
-        <p className="registration-note">No payment is collected now. Selected teams will receive a separate, private payment link.</p>
-      </form>
     </section>
   );
 }

@@ -23,7 +23,15 @@ export default function SmoothScrollProvider({ children }) {
     gsap.ticker.lagSmoothing(0)
     window.lenisInstance = lenis
 
+    const handleRefresh = () => ScrollTrigger.refresh()
+    window.addEventListener('load', handleRefresh)
+    window.addEventListener('resize', handleRefresh)
+    const refreshTimer = setTimeout(handleRefresh, 300)
+
     return () => {
+      clearTimeout(refreshTimer)
+      window.removeEventListener('load', handleRefresh)
+      window.removeEventListener('resize', handleRefresh)
       gsap.ticker.remove(handleTick)
       lenis.off('scroll', handleScroll)
       lenis.destroy()

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 
 import './About.css'
 import Timeline from '../05_Timeline/Timeline.jsx'
+import Reveal from '../../animations/Reveal.jsx'
 
 // Adjust these two paths to wherever you saved the files
 import PixelHeading from './PixelHeading.jsx'
@@ -110,68 +111,55 @@ export default function About() {
       <div className="v6-glow v6-glow-two" />
 
       <div className="about-v6-container">
-        {/* TOP BAR */}
-        <header className="v6-topbar">
-          <div className="v6-brand">
-            <span className="v6-brand-dot" />
-            <strong>XYNTRA</strong>
-            <span>26—27</span>
-          </div>
-
-          <div className="v6-top-center">NATIONAL HACKATHON</div>
-
-          <div className="v6-top-right">
-            <span>ABOUT</span>
-            <span>01 / 05</span>
-          </div>
-        </header>
-
         {/* HERO */}
-        <section className="v6-hero">
-          <div className="v6-hero-left">
-            <div className="v6-hero-label">
-              <span>01</span>
-              <span>MISSION / 2026</span>
-            </div>
-
-            <PixelHeading level={1} size="xl" accentLine={2}>
-              {"BUILD\nWHAT'S\nNEXT."}
-            </PixelHeading>
-
-            <div className="v6-hero-keywords">
-              <span>THINK</span>
-              <i>✦</i>
-              <span>BUILD</span>
-              <i>✦</i>
-              <span>DISRUPT</span>
-            </div>
-          </div>
-
-          <div className="v6-hero-right">
-            <div className="v6-hero-stats">
-              <div className="v6-hero-stat">
+        <Reveal className="about-hero-reveal">
+          <section className="v6-hero">
+            <div className="v6-hero-left">
+              <div className="v6-hero-label">
                 <span>01</span>
-                <strong>24</strong>
-                <small>HOURS</small>
+                <span>MISSION / 2026</span>
               </div>
 
-              <div className="v6-hero-stat">
-                <span>02</span>
-                <strong>06</strong>
-                <small>DOMAINS</small>
-              </div>
+              <PixelHeading level={1} size="xl" accentLine={2}>
+                {"BUILD\nWHAT'S\nNEXT."}
+              </PixelHeading>
 
-              <div className="v6-hero-stat">
-                <span>03</span>
-                <strong>01</strong>
-                <small>ARENA</small>
+              <div className="v6-hero-keywords">
+                <span>THINK</span>
+                <i>✦</i>
+                <span>BUILD</span>
+                <i>✦</i>
+                <span>DISRUPT</span>
               </div>
             </div>
-          </div>
-        </section>
+
+            <div className="v6-hero-right">
+              <div className="v6-hero-stats">
+                <div className="v6-hero-stat">
+                  <span>01</span>
+                  <strong>24</strong>
+                  <small>HOURS</small>
+                </div>
+
+                <div className="v6-hero-stat">
+                  <span>02</span>
+                  <strong>06</strong>
+                  <small>DOMAINS</small>
+                </div>
+
+                <div className="v6-hero-stat">
+                  <span>03</span>
+                  <strong>01</strong>
+                  <small>ARENA</small>
+                </div>
+              </div>
+            </div>
+          </section>
+        </Reveal>
 
         {/* DOMAINS */}
-        <section className="v6-problems" id="problem-statements">
+        <Reveal className="about-domains-reveal">
+          <section className="v6-problems" id="problem-statements">
           <div className="v6-section-head">
             <div className="v6-section-number">02</div>
 
@@ -350,10 +338,13 @@ export default function About() {
               document.body,
             )}
         </section>
+        </Reveal>
       </div>
 
       {/* TIMELINE — FULL SCREEN */}
-      <Timeline />
+      <Reveal className="about-timeline-reveal">
+        <Timeline />
+      </Reveal>
     </section>
   )
 }

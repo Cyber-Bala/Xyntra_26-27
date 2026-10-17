@@ -1,0 +1,125 @@
+/* PixelHeading — letter-by-letter, pixel-by-pixel reveal (no movement, no neon) */
+
+.pixel-title {
+  --pt-cream: #E8E4C9;
+  --pt-pod-orange: #f37a39;
+  --pt-gold: #f37a39;
+  --pt-ash: #8a8576;
+  --pt-white: #ffffff;
+
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  /* Matching the exact XYNTRA Hero pixel font */
+  font-family: 'Jersey 10', 'Pixelify Sans', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--pt-pod-orange);
+  text-shadow: 0 0 14px rgba(243, 122, 57, 0.45), 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+h1.pixel-title { font-size: clamp(30px, 7.4vw, 92px); }
+h2.pixel-title { font-size: clamp(24px, 5.2vw, 60px); }
+h3.pixel-title { font-size: clamp(14px, 2.6vw, 30px); }
+
+/* Option for cream font color when needed */
+.pixel-title--cream {
+  color: var(--pt-cream);
+  text-shadow: 0 0 14px rgba(232, 228, 201, 0.45), 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Option for pod orange font color */
+.pixel-title--pod-orange {
+  color: var(--pt-pod-orange);
+  text-shadow: 0 0 14px rgba(243, 122, 57, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.pixel-title__copy { display: block; }
+.pixel-title__word { display: inline-block; white-space: nowrap; }
+
+/* Each letter is shown through an 8x8 pixel mask: one font-pixel at a time. */
+.pixel-title__char {
+  display: inline-block;
+  opacity: 0; /* hidden until the title scrolls into view */
+  -webkit-mask-image: var(--pt-m0);
+  mask-image: var(--pt-m0);
+  -webkit-mask-size: 1em 1em;
+  mask-size: 1em 1em;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-position: calc(var(--ox) * 0.125em) calc(var(--oy) * 0.125em);
+  mask-position: calc(var(--ox) * 0.125em) calc(var(--oy) * 0.125em);
+}
+
+/* 0.075s between letters (LETTER_STEP in PixelHeading.jsx), 0.62s to fill each letter */
+.pixel-title.is-visible .pixel-title__char {
+  opacity: 1;
+  animation: pt-char 0.62s linear calc(var(--c) * 0.075s + 0.1s) both;
+}
+
+@keyframes pt-char {
+  0%      { -webkit-mask-image: var(--pt-m0);  mask-image: var(--pt-m0); }
+  6.25%   { -webkit-mask-image: var(--pt-m1);  mask-image: var(--pt-m1); }
+  12.5%   { -webkit-mask-image: var(--pt-m2);  mask-image: var(--pt-m2); }
+  18.75%  { -webkit-mask-image: var(--pt-m3);  mask-image: var(--pt-m3); }
+  25%     { -webkit-mask-image: var(--pt-m4);  mask-image: var(--pt-m4); }
+  31.25%  { -webkit-mask-image: var(--pt-m5);  mask-image: var(--pt-m5); }
+  37.5%   { -webkit-mask-image: var(--pt-m6);  mask-image: var(--pt-m6); }
+  43.75%  { -webkit-mask-image: var(--pt-m7);  mask-image: var(--pt-m7); }
+  50%     { -webkit-mask-image: var(--pt-m8);  mask-image: var(--pt-m8); }
+  56.25%  { -webkit-mask-image: var(--pt-m9);  mask-image: var(--pt-m9); }
+  62.5%   { -webkit-mask-image: var(--pt-m10); mask-image: var(--pt-m10); }
+  68.75%  { -webkit-mask-image: var(--pt-m11); mask-image: var(--pt-m11); }
+  75%     { -webkit-mask-image: var(--pt-m12); mask-image: var(--pt-m12); }
+  81.25%  { -webkit-mask-image: var(--pt-m13); mask-image: var(--pt-m13); }
+  87.5%   { -webkit-mask-image: var(--pt-m14); mask-image: var(--pt-m14); }
+  93.75%  { -webkit-mask-image: var(--pt-m15); mask-image: var(--pt-m15); }
+  100%    { -webkit-mask-image: var(--pt-m16); mask-image: var(--pt-m16); }
+}
+
+/* Debris: small neutral pixels that flicker in place near the letters being typed */
+.pixel-title__debris {
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+}
+
+.pixel-title__shard {
+  position: absolute;
+  left: var(--shard-x);
+  top: var(--shard-y);
+  display: block;
+  opacity: 0;
+}
+.pixel-title__shard--0 { width: 8px;  height: 8px; background: var(--pt-pod-orange); }
+.pixel-title__shard--1 { width: 6px;  height: 6px; background: var(--pt-cream); }
+.pixel-title__shard--2 { width: 12px; height: 4px; background: var(--pt-gold); }
+.pixel-title__shard--3 { width: 5px;  height: 5px; background: var(--pt-white); }
+
+.pixel-title.is-visible .pixel-title__shard {
+  animation: pt-shard 0.7s steps(7, end) var(--shard-delay) both;
+}
+
+@keyframes pt-shard {
+  0%   { opacity: 0; }
+  18%  { opacity: 0.95; }
+  60%  { opacity: 0.7; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--shard-dx) * 0.18), calc(var(--shard-dy) * 0.18));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-title__char {
+    opacity: 1;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .pixel-title.is-visible .pixel-title__char,
+  .pixel-title.is-visible .pixel-title__shard { animation: none; }
+  .pixel-title__debris { display: none; }
+}
