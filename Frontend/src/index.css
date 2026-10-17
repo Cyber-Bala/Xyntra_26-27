@@ -25,9 +25,9 @@ body {
 }
 
 /* Base display style */
-h1:not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-h2:not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-h3:not(.rule-card-title):not(.pixel-title),
+h1:not(.xyntra-pixel-title):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h2:not(.xyntra-right-headline):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h3:not(.rule-card-title):not(.pixel-title):not(.pz-card-title):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading),
 .speltale {
   font-family: var(--font-speltale);
   font-style: italic;
@@ -39,9 +39,9 @@ h3:not(.rule-card-title):not(.pixel-title),
 }
 
 /* Lit gradient fill (not for buttons or dedicated section titles) */
-h1:not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-h2:not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-h3:not(.rule-card-title):not(.pixel-title),
+h1:not(.xyntra-pixel-title):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h2:not(.xyntra-right-headline):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+h3:not(.rule-card-title):not(.pixel-title):not(.pz-card-title):not(.prizes-headline):not(.pz-title):not(.pz-backed-heading),
 .speltale:not(.btn) {
   color: transparent;
   -webkit-text-fill-color: transparent;
@@ -60,10 +60,10 @@ h2 { font-size: clamp(1.8rem, 9vw, 3.2rem); }
 h3 { font-size: 1.5rem; }
 
 /* Keep display headings consistent where section styles don't manage their own. */
-/* Exclude new animated sections (sp-section, rl-section, ft-footer, register, rules) which set their own type. */
-.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline):not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline):not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
-.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline):not(.rule-card-title):not(.pixel-title) {
+/* Exclude animated sections (prizes, register, rules, ft-footer, timeline) which set their own type. */
+.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline):not(.xyntra-pixel-title):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline):not(.xyntra-right-headline):not(.reg-massive-title):not(.ft-pixel-title-block):not(.footer-massive-heading):not(.fieldguide-massive-title):not(.pixel-title),
+.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline):not(.rule-card-title):not(.pixel-title) {
   font-family: 'Playfair Display', Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;
