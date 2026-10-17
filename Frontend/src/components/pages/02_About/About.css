@@ -2,7 +2,9 @@
    XYNTRA ABOUT V7
    PREMIUM / BRIGHT INTERACTIONS / DARK EDITORIAL
    ============================================================ */
-  
+ 
+  @import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap");   
+
 * {
   box-sizing: border-box;
 }
@@ -6073,3 +6075,1287 @@ span::before {
 }
 
 
+/* XYNTRA domain modal theme patch
+   Paste this at the VERY END of your existing About.css.
+   Do not replace your existing CSS. Timeline styles are intentionally untouched. */
+
+.about-v6 .domain-modal-backdrop {
+  background: rgba(8, 26, 43, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.about-v6 .domain-modal-card {
+  position: relative;
+  overflow: hidden;
+  color: #f7f1df;
+  background: linear-gradient(140deg, #123f5b 0%, #0c2e46 58%, #10283b 100%);
+  border: 1px solid rgba(238, 133, 65, 0.72);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(247, 241, 223, 0.06) inset;
+}
+
+.about-v6 .domain-modal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: linear-gradient(rgba(247,241,223,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(247,241,223,.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom right, black, transparent 82%);
+}
+
+.about-v6 .domain-modal-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-v6 .domain-modal-close {
+  color: #f7f1df;
+  background: rgba(247, 241, 223, 0.08);
+  border: 1px solid rgba(247, 241, 223, 0.32);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.about-v6 .domain-modal-close:hover {
+  color: #102f46;
+  background: #f08a45;
+  border-color: #f08a45;
+  transform: rotate(90deg);
+}
+
+.about-v6 .domain-modal-track,
+.about-v6 .domain-modal-info,
+.about-v6 .domain-modal-visual {
+  color: #f7f1df;
+}
+
+.about-v6 .domain-modal-track {
+  color: #f29a5b;
+  letter-spacing: .16em;
+}
+
+.about-v6 .domain-modal-visual {
+  background: linear-gradient(145deg, rgba(36, 100, 128, .72), rgba(10, 38, 57, .92));
+  border: 1px solid rgba(242, 154, 91, .5);
+  box-shadow: inset 0 0 36px rgba(12, 25, 37, .35);
+}
+
+.about-v6 .modal-core {
+  color: #102f46;
+  background: #f7f1df;
+  border: 2px solid #f08a45;
+  box-shadow: 0 0 0 8px rgba(240, 138, 69, .12), 0 0 28px rgba(240, 138, 69, .2);
+}
+
+.about-v6 .modal-number {
+  color: #f08a45;
+}
+
+.about-v6 .modal-orbit {
+  border-color: rgba(240, 138, 69, .65);
+}
+
+.about-v6 .modal-orbit-two {
+  border-color: rgba(143, 190, 181, .7);
+}
+
+.about-v6 .modal-visual-label {
+  color: #f7f1df;
+}
+
+.about-v6 .modal-description,
+.about-v6 .modal-focus,
+.about-v6 .modal-tech,
+.about-v6 .modal-footer {
+  color: #f7f1df;
+}
+
+.about-v6 .modal-divider {
+  background: rgba(247, 241, 223, .22);
+  border-color: rgba(247, 241, 223, .22);
+}
+
+.about-v6 .modal-grid {
+  border-color: rgba(247, 241, 223, .18);
+}
+
+.about-v6 .modal-tech span,
+.about-v6 .domain-tags span {
+  color: #f7f1df;
+  background: rgba(143, 190, 181, .12);
+  border: 1px solid rgba(143, 190, 181, .55);
+}
+
+.about-v6 .modal-focus {
+  border-left: 3px solid #f08a45;
+  background: rgba(240, 138, 69, .1);
+}
+
+@media (max-width: 640px) {
+  .about-v6 .domain-modal-backdrop {
+    padding: 12px;
+  }
+  .about-v6 .domain-modal-card {
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+}
+
+
+/* FIXED XYNTRA modal theme patch. Append this at the VERY END of About.css.
+   The modal uses createPortal(), so it is rendered outside .about-v6.
+   These selectors correctly target the portal modal. Timeline styles are untouched. */
+
+/* XYNTRA domain modal theme patch
+   Paste this at the VERY END of your existing About.css.
+   Do not replace your existing CSS. Timeline styles are intentionally untouched. */
+
+.domain-modal .domain-modal-backdrop {
+  background: rgba(8, 26, 43, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.domain-modal .domain-modal-card {
+  position: relative;
+  overflow: hidden;
+  color: #f7f1df;
+  background: linear-gradient(140deg, #123f5b 0%, #0c2e46 58%, #10283b 100%);
+  border: 1px solid rgba(238, 133, 65, 0.72);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(247, 241, 223, 0.06) inset;
+}
+
+.domain-modal .domain-modal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: linear-gradient(rgba(247,241,223,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(247,241,223,.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom right, black, transparent 82%);
+}
+
+.domain-modal .domain-modal-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.domain-modal .domain-modal-close {
+  color: #f7f1df;
+  background: rgba(247, 241, 223, 0.08);
+  border: 1px solid rgba(247, 241, 223, 0.32);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.domain-modal .domain-modal-close:hover {
+  color: #102f46;
+  background: #f08a45;
+  border-color: #f08a45;
+  transform: rotate(90deg);
+}
+
+.domain-modal .domain-modal-track,
+.domain-modal .domain-modal-info,
+.domain-modal .domain-modal-visual {
+  color: #f7f1df;
+}
+
+.domain-modal .domain-modal-track {
+  color: #f29a5b;
+  letter-spacing: .16em;
+}
+
+.domain-modal .domain-modal-visual {
+  background: linear-gradient(145deg, rgba(36, 100, 128, .72), rgba(10, 38, 57, .92));
+  border: 1px solid rgba(242, 154, 91, .5);
+  box-shadow: inset 0 0 36px rgba(12, 25, 37, .35);
+}
+
+.domain-modal .modal-core {
+  color: #102f46;
+  background: #f7f1df;
+  border: 2px solid #f08a45;
+  box-shadow: 0 0 0 8px rgba(240, 138, 69, .12), 0 0 28px rgba(240, 138, 69, .2);
+}
+
+.domain-modal .modal-number {
+  color: #f08a45;
+}
+
+.domain-modal .modal-orbit {
+  border-color: rgba(240, 138, 69, .65);
+}
+
+.domain-modal .modal-orbit-two {
+  border-color: rgba(143, 190, 181, .7);
+}
+
+.domain-modal .modal-visual-label {
+  color: #f7f1df;
+}
+
+.domain-modal .modal-description,
+.domain-modal .modal-focus,
+.domain-modal .modal-tech,
+.domain-modal .modal-footer {
+  color: #f7f1df;
+}
+
+.domain-modal .modal-divider {
+  background: rgba(247, 241, 223, .22);
+  border-color: rgba(247, 241, 223, .22);
+}
+
+.domain-modal .modal-grid {
+  border-color: rgba(247, 241, 223, .18);
+}
+
+.domain-modal .modal-tech span,
+.domain-modal .domain-tags span {
+  color: #f7f1df;
+  background: rgba(143, 190, 181, .12);
+  border: 1px solid rgba(143, 190, 181, .55);
+}
+
+.domain-modal .modal-focus {
+  border-left: 3px solid #f08a45;
+  background: rgba(240, 138, 69, .1);
+}
+
+@media (max-width: 640px) {
+  .domain-modal .domain-modal-backdrop {
+    padding: 12px;
+  }
+  .domain-modal .domain-modal-card {
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+}
+
+
+/* =====================================================================
+   XYNTRA — DENIM BLUE + ORANGE THEME (matches Timeline section)
+   Paste at the VERY END of About.css (after every existing patch).
+   No JSX change needed.
+   Palette:
+     denim   #0e4a8c   deep #0a2e5a   navy #071d3d
+     cream   #f3ead0   orange #f26a1b  lime #b6e52c
+   ===================================================================== */
+
+:root {
+  --xy-denim: #0e4a8c;
+  --xy-deep: #0a2e5a;
+  --xy-navy: #071d3d;
+  --xy-cream: #f3ead0;
+  --xy-cream-soft: rgba(243, 234, 208, 0.78);
+  --xy-line: rgba(243, 234, 208, 0.22);
+  --xy-orange: #f26a1b;
+  --xy-lime: #b6e52c;
+}
+
+/* ---------- PAGE BACKGROUND: denim + halftone dots ---------- */
+
+.about-v6 {
+  color: var(--xy-cream) !important;
+  background-color: var(--xy-denim) !important;
+  background-image:
+    radial-gradient(circle at 100% 100%, rgba(242, 106, 27, 0.35), transparent 38%),
+    radial-gradient(circle at 0% 0%, rgba(243, 234, 208, 0.12), transparent 30%),
+    radial-gradient(rgba(243, 234, 208, 0.10) 1px, transparent 1.4px),
+    linear-gradient(160deg, #0f5099 0%, #0b3a74 55%, #082a55 100%) !important;
+  background-size: auto, auto, 14px 14px, auto !important;
+}
+
+.about-v6 .v6-grid-bg {
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(243, 234, 208, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 234, 208, 0.07) 1px, transparent 1px);
+}
+
+.about-v6 .v6-particle {
+  background: var(--xy-cream);
+  box-shadow: 0 0 8px rgba(182, 229, 44, 0.5);
+}
+
+.about-v6 .v6-glow {
+  opacity: 0.12;
+  background: var(--xy-orange);
+}
+
+/* ---------- TOP BAR + LINES ---------- */
+
+.about-v6 .v6-topbar,
+.about-v6 .v6-hero {
+  border-color: var(--xy-line) !important;
+}
+
+.about-v6 .v6-topbar,
+.about-v6 .v6-hero-label,
+.about-v6 .v6-hero-keywords,
+.about-v6 .v6-section-number,
+.about-v6 .v6-eyebrow {
+  color: var(--xy-cream-soft) !important;
+}
+
+.about-v6 .v6-brand strong,
+.about-v6 .v6-hero-label span:first-child,
+.about-v6 .v6-hero-keywords span:first-child {
+  color: var(--xy-lime) !important;
+}
+
+.about-v6 .v6-brand-dot {
+  background: var(--xy-orange);
+  box-shadow: 0 0 12px rgba(242, 106, 27, 0.9);
+}
+
+.about-v6 .v6-brand span:last-child {
+  color: var(--xy-cream-soft) !important;
+}
+
+.about-v6 .v6-hero-right {
+  border-left-color: var(--xy-line) !important;
+}
+
+/* ---------- HERO HEADLINE ---------- */
+
+.about-v6 .v6-hero-title {
+  color: var(--xy-cream) !important;
+  text-shadow: 0 4px 0 rgba(7, 29, 61, 0.45) !important;
+}
+
+.about-v6 .v6-hero-title > span {
+  color: var(--xy-cream) !important;
+}
+
+.about-v6 .v6-hero-title > .v6-outline {
+  color: transparent !important;
+  -webkit-text-stroke: 2px var(--xy-cream) !important;
+  text-shadow: none !important;
+}
+
+.about-v6 .v6-hero-title > span:last-child {
+  color: var(--xy-orange) !important;
+}
+
+.about-v6 .v6-hero-keywords i {
+  color: var(--xy-orange);
+}
+
+/* ---------- THREE DIALS (24 / 06 / 01) ---------- */
+
+.about-v6 .v6-hero-stat {
+  background:
+    radial-gradient(circle, rgba(7, 29, 61, 0.55) 0%, rgba(7, 29, 61, 0.85) 58%, transparent 72%),
+    repeating-conic-gradient(from 0deg, rgba(243, 234, 208, 0.85) 0deg 1deg, transparent 1deg 15deg) !important;
+}
+
+.about-v6 .v6-hero-stat::before {
+  border: 1.5px solid rgba(243, 234, 208, 0.7) !important;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(243, 234, 208, 0.14), transparent 42%),
+    radial-gradient(circle, #0c3a74 0%, #071d3d 78%) !important;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+.about-v6 .v6-hero-stat:nth-child(1)::before {
+  border-color: var(--xy-orange) !important;
+  box-shadow: inset 0 0 25px rgba(242, 106, 27, 0.25), 0 0 20px rgba(242, 106, 27, 0.2) !important;
+}
+
+.about-v6 .v6-hero-stat:nth-child(2)::before {
+  border-color: var(--xy-lime) !important;
+}
+
+.about-v6 .v6-hero-stat:nth-child(3)::before {
+  border-color: var(--xy-cream) !important;
+}
+
+.about-v6 .v6-hero-stat > strong {
+  color: var(--xy-cream) !important;
+  text-shadow: 0 2px 0 var(--xy-navy) !important;
+}
+
+.about-v6 .v6-hero-stat > span {
+  color: var(--xy-lime) !important;
+}
+
+.about-v6 .v6-hero-stat > small {
+  color: var(--xy-cream-soft) !important;
+}
+
+/* ---------- SECTION HEADING ---------- */
+
+.about-v6 .v6-section-head h2 {
+  color: var(--xy-cream) !important;
+  text-shadow: 0 3px 0 rgba(7, 29, 61, 0.45) !important;
+}
+
+.about-v6 .v6-section-head h2 em {
+  color: var(--xy-orange) !important;
+}
+
+.about-v6 .v6-section-head > p {
+  color: var(--xy-cream-soft) !important;
+}
+
+/* ---------- DOMAIN CARDS ---------- */
+
+.about-v6 .domain-card {
+  border: 1px solid rgba(243, 234, 208, 0.38);
+  background:
+    radial-gradient(rgba(243, 234, 208, 0.06) 1px, transparent 1.3px) 0 0 / 12px 12px,
+    linear-gradient(150deg, rgba(14, 74, 140, 0.85), rgba(7, 29, 61, 0.92));
+  box-shadow: 6px 6px 0 rgba(7, 29, 61, 0.55);
+}
+
+.about-v6 .domain-card:hover {
+  border-color: var(--xy-orange);
+  background:
+    radial-gradient(rgba(243, 234, 208, 0.08) 1px, transparent 1.3px) 0 0 / 12px 12px,
+    linear-gradient(150deg, rgba(18, 88, 160, 0.95), rgba(8, 36, 76, 0.95));
+  box-shadow: 8px 8px 0 rgba(242, 106, 27, 0.45);
+}
+
+.about-v6 .domain-card::after {
+  background: radial-gradient(circle, rgba(242, 106, 27, 0.4), transparent 70%);
+}
+
+.about-v6 .domain-card-shine {
+  background: radial-gradient(400px circle at 50% 0%, rgba(243, 234, 208, 0.14), transparent 60%);
+}
+
+.about-v6 .domain-number {
+  color: var(--xy-cream) !important;
+}
+
+.about-v6 .domain-status {
+  color: var(--xy-cream-soft) !important;
+}
+
+.about-v6 .domain-status::before {
+  background: var(--xy-lime);
+  box-shadow: 0 0 10px rgba(182, 229, 44, 0.9);
+}
+
+.about-v6 .domain-card-content .domain-track {
+  color: var(--xy-orange) !important;
+}
+
+.about-v6 .domain-card-content h3 {
+  color: var(--xy-cream) !important;
+  text-shadow: none !important;
+}
+
+.about-v6 .domain-card-content p {
+  color: var(--xy-cream-soft) !important;
+  text-shadow: none !important;
+}
+
+.about-v6 .domain-tags span {
+  color: var(--xy-cream) !important;
+  background: rgba(182, 229, 44, 0.1) !important;
+  border: 1px solid rgba(182, 229, 44, 0.6) !important;
+}
+
+.about-v6 .domain-arrow {
+  color: var(--xy-cream);
+  border-color: rgba(243, 234, 208, 0.5);
+}
+
+.about-v6 .domain-card:hover .domain-arrow {
+  background: var(--xy-orange);
+  border-color: var(--xy-orange);
+  color: var(--xy-navy);
+}
+
+.about-v6 .domain-corner-one {
+  border-top-color: var(--xy-orange);
+  border-right-color: var(--xy-orange);
+}
+
+.about-v6 .domain-corner-two {
+  border-left-color: rgba(243, 234, 208, 0.4);
+  border-bottom-color: rgba(243, 234, 208, 0.4);
+}
+
+/* =====================================================================
+   EXPANDED CARD (MODAL) — blue + orange, no black
+   The modal is portaled to <body>, so selectors start with .domain-modal
+   ===================================================================== */
+
+.domain-modal .domain-modal-backdrop {
+  background: rgba(7, 29, 61, 0.86) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.domain-modal .domain-modal-card {
+  height: auto !important;
+  max-height: calc(100dvh - 48px) !important;
+  overflow: hidden !important;
+  color: var(--xy-cream);
+  border: 2px solid var(--xy-orange) !important;
+  border-radius: 6px;
+  background:
+    radial-gradient(rgba(243, 234, 208, 0.07) 1px, transparent 1.3px) 0 0 / 14px 14px,
+    linear-gradient(140deg, #0f5099 0%, #0b3a74 58%, #0a2e5a 100%) !important;
+  box-shadow: 10px 10px 0 rgba(242, 106, 27, 0.35), 0 40px 90px rgba(0, 0, 0, 0.45) !important;
+}
+
+.domain-modal .domain-modal-card::before {
+  content: none !important;
+}
+
+/* left visual panel */
+.domain-modal .domain-modal-visual {
+  min-height: 420px;
+  border-right: 1px solid rgba(243, 234, 208, 0.3) !important;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(243, 234, 208, 0.16), transparent 46%),
+    radial-gradient(rgba(243, 234, 208, 0.09) 1px, transparent 1.3px) 0 0 / 12px 12px,
+    linear-gradient(145deg, #12569f, #0a2e5a) !important;
+  box-shadow: none !important;
+}
+
+.domain-modal .modal-grid {
+  opacity: 0.4;
+  background-image:
+    linear-gradient(rgba(243, 234, 208, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 234, 208, 0.08) 1px, transparent 1px);
+}
+
+.domain-modal .modal-orbit {
+  border-color: rgba(242, 106, 27, 0.7) !important;
+}
+
+.domain-modal .modal-orbit-two {
+  border-color: rgba(182, 229, 44, 0.65) !important;
+}
+
+.domain-modal .modal-number {
+  color: rgba(242, 106, 27, 0.5) !important;
+}
+
+.domain-modal .modal-core {
+  color: var(--xy-navy) !important;
+  background: var(--xy-cream) !important;
+  border: 3px solid var(--xy-orange) !important;
+  box-shadow: 0 0 0 8px rgba(242, 106, 27, 0.18), 0 0 30px rgba(242, 106, 27, 0.3) !important;
+}
+
+.domain-modal .modal-core span,
+.domain-modal .modal-core small {
+  color: var(--xy-deep) !important;
+}
+
+.domain-modal .modal-core strong {
+  color: var(--xy-navy) !important;
+}
+
+.domain-modal .modal-visual-label {
+  color: var(--xy-cream) !important;
+  border-top-color: rgba(243, 234, 208, 0.35) !important;
+}
+
+/* right info panel */
+.domain-modal .domain-modal-info {
+  max-height: calc(100dvh - 52px) !important;
+  overflow-y: auto !important;
+  padding: 64px 56px 30px !important;
+  color: var(--xy-cream);
+}
+
+.domain-modal .domain-modal-info .domain-modal-track {
+  color: var(--xy-orange) !important;
+}
+
+.domain-modal .domain-modal-info h2 {
+  color: var(--xy-cream) !important;
+  text-shadow: 0 3px 0 rgba(7, 29, 61, 0.5) !important;
+}
+
+.domain-modal .modal-divider {
+  background: rgba(243, 234, 208, 0.3) !important;
+}
+
+.domain-modal .modal-description > span,
+.domain-modal .modal-tech > span {
+  color: var(--xy-lime) !important;
+}
+
+.domain-modal .domain-modal-info .modal-description p {
+  color: var(--xy-cream) !important;
+}
+
+.domain-modal .modal-focus {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 4px solid var(--xy-orange) !important;
+  padding: 16px 18px !important;
+  background: rgba(242, 106, 27, 0.14) !important;
+}
+
+.domain-modal .modal-focus span {
+  color: var(--xy-cream-soft) !important;
+}
+
+.domain-modal .domain-modal-info .modal-focus strong {
+  color: var(--xy-cream) !important;
+}
+
+.domain-modal .modal-tech > div span {
+  color: var(--xy-cream) !important;
+  background: rgba(182, 229, 44, 0.1) !important;
+  border: 1px solid rgba(182, 229, 44, 0.6) !important;
+}
+
+.domain-modal .modal-footer {
+  color: var(--xy-cream-soft) !important;
+  border-top-color: rgba(243, 234, 208, 0.28) !important;
+}
+
+/* close button */
+.domain-modal .domain-modal-close {
+  background: rgba(7, 29, 61, 0.45) !important;
+  border: 1px solid rgba(243, 234, 208, 0.6) !important;
+}
+
+.domain-modal .domain-modal-close span {
+  background: var(--xy-cream) !important;
+}
+
+.domain-modal .domain-modal-close:hover {
+  background: var(--xy-orange) !important;
+  border-color: var(--xy-orange) !important;
+}
+
+.domain-modal .domain-modal-close:hover span {
+  background: var(--xy-navy) !important;
+}
+
+/* mobile */
+@media (max-width: 700px) {
+  .domain-modal .domain-modal-card {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .domain-modal .domain-modal-visual {
+    min-height: 220px;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(243, 234, 208, 0.3) !important;
+  }
+
+  .domain-modal .domain-modal-info {
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 32px 22px 24px !important;
+  }
+}
+
+/* FIX: close button back to corner, so grid is 2 columns again */
+.domain-modal .domain-modal-card > .domain-modal-close {
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  left: auto !important;
+  z-index: 30 !important;
+}
+
+/* make sure the 2-column layout is enforced */
+.domain-modal .domain-modal-card {
+  display: grid !important;
+  grid-template-columns: 44% 56% !important;
+  grid-template-rows: 1fr !important;
+}
+
+.domain-modal .domain-modal-card > .domain-modal-visual,
+.domain-modal .domain-modal-card > .domain-modal-info {
+  position: relative !important;
+  grid-row: 1 !important;
+}
+
+.domain-modal .domain-modal-card > .domain-modal-visual {
+  grid-column: 1 !important;
+}
+
+.domain-modal .domain-modal-card > .domain-modal-info {
+  grid-column: 2 !important;
+}
+
+@media (max-width: 700px) {
+  .domain-modal .domain-modal-card {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .domain-modal .domain-modal-card > .domain-modal-visual,
+  .domain-modal .domain-modal-card > .domain-modal-info {
+    grid-column: 1 !important;
+  }
+
+  .domain-modal .domain-modal-card > .domain-modal-visual {
+    grid-row: 1 !important;
+  }
+
+  .domain-modal .domain-modal-card > .domain-modal-info {
+    grid-row: 2 !important;
+  }
+}
+
+
+/* =====================================================================
+   XYNTRA — RETRO 80s/90s STAT PANELS  (replaces the round 24 / 06 / 01 dials)
+   Paste at the VERY END of About.css, after the denim patch.
+
+   Fonts: ALSO put this ONE line at the very TOP of About.css
+   (an @import only works at the top of a file), or use a <link> in index.html:
+
+   @import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap");
+   ===================================================================== */
+
+:root {
+  --xy-pixel: "Press Start 2P", "Courier New", monospace;
+  --xy-lcd: "VT323", "Courier New", monospace;
+  --xy-sky: #6fb4f0;
+}
+
+/* ---------------------------------------------------------------------
+   0. GREY HEADING FIX
+   text-shadow on gradient-clipped text paints OVER the fill and turns it
+   grey. Use drop-shadow filter instead, and force a solid fill.
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-title,
+.about-v6 .v6-hero-title > span,
+.about-v6 .v6-section-head h2,
+.about-v6 .v6-section-head h2 em,
+.domain-modal .domain-modal-info h2 {
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+
+.about-v6 .v6-hero-title > span {
+  -webkit-text-fill-color: var(--xy-cream) !important;
+  color: var(--xy-cream) !important;
+}
+
+.about-v6 .v6-hero-title > .v6-outline {
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-stroke: 2px var(--xy-cream) !important;
+}
+
+.about-v6 .v6-hero-title > span:last-child {
+  -webkit-text-fill-color: var(--xy-orange) !important;
+  color: var(--xy-orange) !important;
+}
+
+.about-v6 .v6-hero-title {
+  filter: drop-shadow(4px 4px 0 rgba(7, 29, 61, 0.55));
+}
+
+.about-v6 .v6-section-head h2 {
+  -webkit-text-fill-color: var(--xy-cream) !important;
+  filter: drop-shadow(3px 3px 0 rgba(7, 29, 61, 0.55));
+}
+
+.about-v6 .v6-section-head h2 em {
+  -webkit-text-fill-color: var(--xy-orange) !important;
+  color: var(--xy-orange) !important;
+}
+
+.domain-modal .domain-modal-info h2 {
+  -webkit-text-fill-color: var(--xy-cream) !important;
+  filter: drop-shadow(3px 3px 0 rgba(7, 29, 61, 0.55));
+}
+
+/* ---------------------------------------------------------------------
+   1. THE "OS WINDOW" THAT HOLDS THE THREE PANELS
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-stats {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  gap: 16px !important;
+  width: 100% !important;
+  max-width: 640px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* title bar */
+.about-v6 .v6-hero-stats::before {
+  content: "■ XYNTRA_OS.EXE  //  EVENT.STATUS";
+  grid-column: 1 / -1;
+  padding: 9px 12px;
+  border: 2px solid var(--xy-navy);
+  border-radius: 6px 6px 0 0;
+  background: var(--xy-orange);
+  color: var(--xy-navy);
+  font-family: var(--xy-pixel);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  box-shadow: 6px 6px 0 var(--xy-navy);
+}
+
+/* command-line status bar */
+.about-v6 .v6-hero-stats::after {
+  content: "C:\\XYNTRA> SYSTEM READY ▮";
+  grid-column: 1 / -1;
+  padding: 10px 12px;
+  border: 2px solid var(--xy-cream);
+  border-radius: 0 0 6px 6px;
+  background: var(--xy-navy);
+  color: var(--xy-lime);
+  font-family: var(--xy-pixel);
+  font-size: 9px;
+  line-height: 1.4;
+  text-shadow: 0 0 8px rgba(182, 229, 44, 0.7);
+  box-shadow: 6px 6px 0 rgba(7, 29, 61, 0.6);
+}
+
+/* ---------------------------------------------------------------------
+   2. EACH PANEL = A BEIGE 80s HARDWARE UNIT WITH AN LCD SCREEN
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-stats .v6-hero-stat {
+  position: relative;
+  width: 100% !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
+  min-height: 0 !important;
+  padding: 12px 10px 28px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  overflow: hidden !important;
+  border: 2px solid var(--xy-navy) !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, #f8f0d8 0%, #e3d6b2 100%) !important;
+  box-shadow:
+    6px 6px 0 var(--xy-navy),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.4) !important;
+  transform: none !important;
+  animation: none !important;
+  transition: transform 0.15s steps(3), box-shadow 0.15s steps(3) !important;
+}
+
+/* rainbow stripe along the bottom edge */
+.about-v6 .v6-hero-stats .v6-hero-stat::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: auto 0 0 0 !important;
+  z-index: 0;
+  width: auto !important;
+  height: 12px !important;
+  border: 0 !important;
+  border-top: 2px solid var(--xy-navy) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(
+    90deg,
+    var(--xy-orange) 0 33.3%,
+    var(--xy-lime) 33.3% 66.6%,
+    var(--xy-sky) 66.6% 100%
+  ) !important;
+  box-shadow: none !important;
+}
+
+/* power LED */
+.about-v6 .v6-hero-stats .v6-hero-stat::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  left: auto !important;
+  width: 9px !important;
+  height: 9px !important;
+  border: 1px solid var(--xy-navy) !important;
+  border-radius: 50% !important;
+  background: var(--xy-lime) !important;
+  box-shadow: 0 0 8px var(--xy-lime) !important;
+  transform: none !important;
+  opacity: 1 !important;
+  animation: xyLedBlink 1.6s steps(2, jump-none) infinite !important;
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat:nth-child(1)::after {
+  background: #ff3b30 !important;
+  box-shadow: 0 0 8px #ff3b30 !important;
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat:nth-child(2)::after {
+  animation-delay: 0.5s !important;
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat:nth-child(3)::after {
+  animation-delay: 1s !important;
+}
+
+@keyframes xyLedBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* press-the-button hover */
+.about-v6 .v6-hero-stats .v6-hero-stat:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow:
+    9px 9px 0 var(--xy-orange),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* channel tag */
+.about-v6 .v6-hero-stats .v6-hero-stat > span {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  display: inline-block !important;
+  padding: 4px 6px;
+  background: var(--xy-navy);
+  color: var(--xy-lime) !important;
+  font-family: var(--xy-pixel) !important;
+  font-size: 8px !important;
+  letter-spacing: 0.06em !important;
+  line-height: 1;
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat > span::before {
+  content: "CH." !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  color: var(--xy-cream);
+  font-size: inherit !important;
+}
+
+/* LCD screen = the number */
+.about-v6 .v6-hero-stats .v6-hero-stat > strong {
+  position: relative;
+  z-index: 1;
+  display: block !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 6px 0 2px !important;
+  border: 3px solid #a89a74;
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.28) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(circle at 50% 40%, #0f3f7a 0%, #071d3d 85%) !important;
+  box-shadow:
+    inset 0 0 0 2px var(--xy-navy),
+    inset 0 0 18px rgba(0, 0, 0, 0.7);
+  color: var(--xy-lime) !important;
+  -webkit-text-fill-color: var(--xy-lime) !important;
+  font-family: var(--xy-lcd) !important;
+  font-size: clamp(54px, 6vw, 84px) !important;
+  font-weight: 400 !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0.02em !important;
+  text-align: center;
+  text-shadow:
+    0 0 6px rgba(182, 229, 44, 0.9),
+    0 0 18px rgba(182, 229, 44, 0.45) !important;
+}
+
+/* label sticker */
+.about-v6 .v6-hero-stats .v6-hero-stat > small {
+  position: relative;
+  z-index: 1;
+  display: block !important;
+  padding: 6px 4px !important;
+  border: 2px solid var(--xy-navy) !important;
+  background: var(--xy-orange);
+  color: var(--xy-navy) !important;
+  font-family: var(--xy-pixel) !important;
+  font-size: 8px !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat:nth-child(2) > small {
+  background: var(--xy-lime);
+}
+
+.about-v6 .v6-hero-stats .v6-hero-stat:nth-child(3) > small {
+  background: var(--xy-sky);
+}
+
+/* ---------------------------------------------------------------------
+   3. MOBILE + REDUCED MOTION
+   --------------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .about-v6 .v6-hero-stats {
+    gap: 8px !important;
+  }
+
+  .about-v6 .v6-hero-stats::before,
+  .about-v6 .v6-hero-stats::after {
+    font-size: 7px;
+    padding: 8px;
+  }
+
+  .about-v6 .v6-hero-stats .v6-hero-stat {
+    padding: 9px 6px 26px !important;
+    gap: 7px !important;
+  }
+
+  .about-v6 .v6-hero-stats .v6-hero-stat > strong {
+    font-size: clamp(38px, 12vw, 56px) !important;
+  }
+
+  .about-v6 .v6-hero-stats .v6-hero-stat > small,
+  .about-v6 .v6-hero-stats .v6-hero-stat > span {
+    font-size: 6px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-v6 .v6-hero-stats .v6-hero-stat::after {
+    animation: none !important;
+  }
+}
+
+/* =====================================================================
+   XYNTRA — COLOUR-SPLIT BACKGROUND + PIXEL HEADING + SCRAMBLED TEXT
+   Paste at the VERY END of About.css (after the denim + retro patches).
+   Palette: denim #0e4a8c · blue #1c6bc4 · green #12705c · white/cream #f3ead0
+   ===================================================================== */
+
+:root {
+  --xy-blue: #1c6bc4;
+  --xy-green: #12705c;
+}
+
+/* ---------------------------------------------------------------------
+   1. PIXEL HEADING PLACEMENT
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-left .pixel-title {
+  align-self: flex-start;
+}
+
+.about-v6 .v6-section-head .pixel-title {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+/* ---------------------------------------------------------------------
+   2. SCRAMBLED TEXT INSIDE CARDS + MODAL
+   React Bits ships .text-block with its own margin / font-size / colour.
+   Reset those so the text keeps the card's typography.
+   --------------------------------------------------------------------- */
+
+.text-block.xy-scr {
+  margin: 0 !important;
+  max-width: none !important;
+  font: inherit !important;
+  color: inherit !important;
+  letter-spacing: inherit;
+}
+
+.text-block.xy-scr p {
+  margin: 0 !important;
+}
+
+.text-block.xy-scr--desc {
+  margin-top: 18px !important;
+}
+
+/* tags and track labels stay inline inside their pills */
+.text-block.xy-scr--inline,
+.text-block.xy-scr--inline p {
+  display: inline !important;
+}
+
+.xy-scr .char {
+  display: inline-block;
+}
+
+/* ---------------------------------------------------------------------
+   3. COLOUR-BLOCK BACKGROUND (continues into the Timeline section)
+   Colour fields are tied to the hero and domain sections, so text always
+   lands on a known colour. Same pattern as the Timeline: blue fields,
+   white split lines, halftone dots fading out from the edges.
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero,
+.about-v6 .v6-problems {
+  position: relative;
+}
+
+.about-v6 .v6-hero::before,
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* HERO: denim | white line | blue | green */
+.about-v6 .v6-hero::before {
+  top: 0;
+  bottom: -72px;
+  border-bottom: 4px solid var(--xy-cream);
+  background: linear-gradient(
+    104deg,
+    transparent 0 60%,
+    var(--xy-cream) 60% 60.7%,
+    var(--xy-blue) 60.7% 78%,
+    var(--xy-green) 78% 100%
+  );
+}
+
+.about-v6 .v6-hero::after {
+  top: 0;
+  bottom: -72px;
+  background-image: radial-gradient(circle, rgba(243, 234, 208, 0.55) 1.6px, transparent 2.1px);
+  background-size: 9px 9px;
+  -webkit-mask-image: linear-gradient(
+    104deg,
+    transparent 0 50%,
+    #000 60%,
+    transparent 70%,
+    transparent 74%,
+    #000 78%,
+    transparent 90%
+  );
+  mask-image: linear-gradient(
+    104deg,
+    transparent 0 50%,
+    #000 60%,
+    transparent 70%,
+    transparent 74%,
+    #000 78%,
+    transparent 90%
+  );
+}
+
+/* DOMAINS: denim (heading) | white line | blue | white line | green | denim + white wedge */
+.about-v6 .v6-problems::before {
+  top: -72px;
+  bottom: -120px;
+  background:
+    linear-gradient(to top right, var(--xy-cream) 0 12%, transparent 12%),
+    linear-gradient(
+      172deg,
+      transparent 0 22%,
+      var(--xy-cream) 22% 23.2%,
+      var(--xy-blue) 23.2% 58%,
+      var(--xy-cream) 58% 58.8%,
+      var(--xy-green) 58.8% 86%,
+      transparent 86% 100%
+    );
+}
+
+.about-v6 .v6-problems::after {
+  top: -72px;
+  bottom: -120px;
+  background-image: radial-gradient(circle, rgba(243, 234, 208, 0.5) 1.6px, transparent 2.1px);
+  background-size: 9px 9px;
+  -webkit-mask-image: linear-gradient(
+    172deg,
+    transparent 0 12%,
+    #000 21%,
+    transparent 30%,
+    transparent 48%,
+    #000 57%,
+    transparent 66%,
+    transparent 80%,
+    #000 86%,
+    transparent 94%
+  );
+  mask-image: linear-gradient(
+    172deg,
+    transparent 0 12%,
+    #000 21%,
+    transparent 30%,
+    transparent 48%,
+    #000 57%,
+    transparent 66%,
+    transparent 80%,
+    #000 86%,
+    transparent 94%
+  );
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-problems::before,
+  .about-v6 .v6-problems::after {
+    bottom: -80px;
+  }
+}
+
+
+/* =====================================================================
+   XYNTRA — FIXES (paste at the VERY END of About.css, after the
+   about-split-theme patch)
+   1. "TIMELINE" word was hidden by the white wedge
+   2. Domain card text = cream, card headings = orange
+   ===================================================================== */
+
+/* 1 — the colour field now stops exactly where the Timeline starts,
+       so the Timeline title is never covered */
+.about-v6 .v6-problems {
+  padding-bottom: 70px;
+}
+
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  bottom: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-problems::before,
+  .about-v6 .v6-problems::after {
+    bottom: 0 !important;
+  }
+}
+
+/* 2 — card text in solid cream */
+.about-v6 .domain-card .domain-number,
+.about-v6 .domain-card .domain-status,
+.about-v6 .domain-card .domain-card-content p,
+.about-v6 .domain-card .domain-card-content .text-block,
+.about-v6 .domain-card .domain-tags span {
+  color: var(--xy-cream) !important;
+  text-shadow: none !important;
+}
+
+/* 2 — card headings in orange */
+.about-v6 .domain-card .domain-card-content h3 {
+  color: var(--xy-orange) !important;
+  -webkit-text-fill-color: var(--xy-orange) !important;
+  background: none !important;
+  text-shadow: none !important;
+}
