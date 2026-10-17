@@ -25,8 +25,8 @@ body {
 }
 
 /* Base display style */
-h1:not(.xyntra-pixel-title),
-h2:not(.xyntra-right-headline),
+h1:not(.xyntra-pixel-title):not(.prizes-headline),
+h2:not(.xyntra-right-headline):not(.pz-card-title),
 h3,
 .speltale {
   font-family: var(--font-speltale);
@@ -39,8 +39,8 @@ h3,
 }
 
 /* Lit gradient fill (not for buttons) */
-h1:not(.xyntra-pixel-title),
-h2:not(.xyntra-right-headline),
+h1:not(.xyntra-pixel-title):not(.prizes-headline),
+h2:not(.xyntra-right-headline):not(.pz-card-title),
 h3,
 .speltale:not(.btn) {
   color: transparent;
@@ -61,9 +61,9 @@ h3 { font-size: 1.5rem; }
 
 /* Keep display headings consistent where section styles don't manage their own. */
 /* Exclude new animated sections (sp-section, rl-section, ft-footer) which set their own type. */
-.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.rl-headline):not(.xyntra-pixel-title),
-.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.rl-headline):not(.xyntra-right-headline),
-.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.rl-headline) {
+.app-root-wrapper .main-content-view h1:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline):not(.xyntra-pixel-title),
+.app-root-wrapper .main-content-view h2:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline):not(.xyntra-right-headline),
+.app-root-wrapper .main-content-view h3:not(.prizes-headline):not(.pz-title):not(.pz-backed-heading):not(.pz-card-title):not(.rl-headline) {
   font-family: 'Playfair Display', Georgia, serif !important;
   font-style: italic !important;
   font-weight: 500 !important;
