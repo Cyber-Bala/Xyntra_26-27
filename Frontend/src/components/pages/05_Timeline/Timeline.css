@@ -148,7 +148,6 @@
   height: 100%;
   pointer-events: none;
   z-index: 5;
-  filter: drop-shadow(0 14px 8px rgba(2, 27, 68, 0.5));
 }
 
 /* ── SCROLL FLOW SEQUENCE (Strictly on top of tape canvas & background) ── */
@@ -175,8 +174,9 @@
 }
 
 .outro.tl-outro {
-  min-height: clamp(320px, 42vh, 400px);
-  padding-top: 40px;
+  min-height: clamp(380px, 48vh, 460px);
+  padding-top: 30px;
+  padding-bottom: 50px;
 }
 
 /* Cassettes */
@@ -188,41 +188,56 @@
   pointer-events: none;
 }
 
+.cassette.start {
+  left: 4vw;
+  top: 3vh;
+  aspect-ratio: 1488 / 1234;
+}
+
+.cassette-vector-mount {
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+  display: block;
+}
+
+.cassette-vector-mount svg,
+.cassette-vector-mount img,
 .cassette img {
   display: block;
   width: 100%;
   height: auto;
   user-select: none;
-  filter: drop-shadow(0 12px 24px rgba(2, 27, 68, 0.45));
-}
-
-.cassette.start {
-  left: 4vw;
-  top: 3vh;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
 }
 
 .cassette.end {
-  width: calc(368px * var(--k, 0.8));
+  width: calc(342px * var(--k, 0.8));
+  aspect-ratio: 1488 / 1234;
   right: 4vw;
-  top: 4vh;
-}
-
-.cassette.end.live img {
-  filter: drop-shadow(0 0 16px rgba(185, 242, 60, 0.45));
-  transition: filter 0.5s ease;
+  top: -2vh;
+  transform: rotate(-14deg);
+  transform-origin: center center;
 }
 
 /* Animated Hub Spools */
-.hub {
+.hub-socket {
   position: absolute;
-  width: 9.9%;
-  height: auto;
+  width: 9.2%;
   aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hub-socket .hub {
+  display: block;
+  width: 100%;
+  height: 100%;
   transform-origin: 50% 50%;
   will-change: transform;
 }
 
-.cassette.end .hub {
+.cassette.end .hub-socket {
   width: 9.2%;
 }
 
@@ -243,11 +258,9 @@
   width: min(440px, 42vw);
   box-sizing: border-box;
   padding: 1.15rem 1.35rem;
-  background: rgba(2, 27, 58, 0.88);
-  border: 1px solid rgba(232, 226, 196, 0.25);
+  background: rgba(2, 25, 52, 0.95);
+  border: 1px solid rgba(232, 226, 196, 0.28);
   border-radius: 6px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
   z-index: 15;
 }
@@ -280,11 +293,9 @@
   top: 50%;
   width: min(34vw, 360px);
   padding: 1.15rem 1.35rem;
-  background: rgba(2, 27, 58, 0.88);
+  background: rgba(2, 25, 52, 0.95);
   border: 1px solid rgba(232, 226, 196, 0.28);
   border-radius: 6px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transform: translate3d(0, -50%, 0);
   opacity: 0;
   will-change: transform, opacity;
@@ -335,11 +346,9 @@
   max-width: min(460px, 42vw);
   box-sizing: border-box;
   padding: 1.15rem 1.35rem;
-  background: rgba(2, 27, 58, 0.88);
-  border: 1px solid rgba(232, 226, 196, 0.25);
+  background: rgba(2, 25, 52, 0.95);
+  border: 1px solid rgba(232, 226, 196, 0.28);
   border-radius: 6px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
   z-index: 15;
 }
@@ -364,13 +373,15 @@
     top: 4vh;
   }
   .outro.tl-outro {
-    min-height: clamp(420px, 56vh, 500px);
-    padding-top: 20px;
-    padding-bottom: 30px;
+    min-height: clamp(440px, 58vh, 520px);
+    padding-top: 15px;
+    padding-bottom: 45px;
   }
   .cassette.end {
     right: 3vw;
-    top: 12px;
+    top: -12px;
+    transform: rotate(-12deg);
+    transform-origin: center center;
   }
   .hero-copy {
     left: 27vw;
@@ -415,13 +426,15 @@
 
 @media (max-width: 480px) {
   .outro.tl-outro {
-    min-height: 460px;
+    min-height: 480px;
     padding-top: 15px;
-    padding-bottom: 25px;
+    padding-bottom: 45px;
   }
   .cassette.end {
     right: 2vw;
-    top: 10px;
+    top: -12px;
+    transform: rotate(-12deg);
+    transform-origin: center center;
   }
   .end-copy {
     left: 4vw;

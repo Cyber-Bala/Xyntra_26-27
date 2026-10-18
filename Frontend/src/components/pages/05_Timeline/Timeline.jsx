@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import cassetteStartImg from '@/assets/images/cassette-start.webp'
-import cassetteEndImg from '@/assets/images/cassette-end.webp'
+import cassetteVectorSvg from '@/assets/images/cassette-vector.svg'
 import PixelHeading from './PixelHeading.jsx'
 import AudioVisualizer from './AudioVisualizer.jsx'
 import './Timeline.css'
@@ -44,24 +43,25 @@ const TIMELINE_STEPS = [
 // 8-tooth cassette reel hub SVG matching the physical cutouts
 function CassetteHub({ style, hubRef, className = '' }) {
   return (
-    <svg
-      className={`hub ${className}`}
-      ref={hubRef}
-      style={style}
-      viewBox="-17 -17 34 34"
-      aria-hidden="true"
-    >
-      <circle r="17" fill="#06151f" />
-      <circle r="7.5" fill="#081a28" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(0)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(45)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(90)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(135)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(180)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(225)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(270)" />
-      <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(315)" />
-    </svg>
+    <div className="hub-socket" style={style}>
+      <svg
+        className={`hub ${className}`}
+        ref={hubRef}
+        viewBox="-17 -17 34 34"
+        aria-hidden="true"
+      >
+        <circle r="17" fill="#06151f" />
+        <circle r="7.5" fill="#081a28" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(0)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(45)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(90)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(135)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(180)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(225)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(270)" />
+        <rect x="-2.2" y="-14.5" width="4.4" height="6.5" rx="1" fill="#e8eef0" transform="rotate(315)" />
+      </svg>
+    </div>
   )
 }
 
@@ -132,9 +132,9 @@ export default function Timeline() {
       }
     }
 
-    let vw = 0, vh = 0, dpr = 1, k = 1, k1 = 1, secHeight = 0, endTop = 0
+    let vw = 0, vh = 0, dpr = 1, k = 1, k1 = 1, secHeight = 0, secTop = 0, endTop = 0, lastSy = 0
     let pts = [], info = []
-    let exitPt = { x: 0, y: 0 }, entryPt = { x: 0, y: 0 }
+    let entryPt = { x: 0, y: 0 }
     let sExit = 0, sEnter = 0, sEnd = 0
     const palLen = 420
     let dirty = true
@@ -150,13 +150,25 @@ export default function Timeline() {
       return bs
     }
 
+    let lastW = 0
+    let lastH = 0
+
     function layout() {
+      if (!section || !canvas || !start || !end) return
       vw = window.innerWidth
       vh = window.innerHeight
-      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      dpr = 1
 
       const secRect = section.getBoundingClientRect()
+      secTop = secRect.top + (window.pageYOffset || 0)
       secHeight = Math.max(section.offsetHeight, Math.round(secRect.height))
+
+      if (vw === lastW && Math.abs(secHeight - lastH) < 2 && pts.length > 0) {
+        dirty = true
+        return
+      }
+      lastW = vw
+      lastH = secHeight
 
       canvas.width = Math.round(vw * dpr)
       canvas.height = Math.round(secHeight * dpr)
@@ -170,7 +182,6 @@ export default function Timeline() {
       const r1 = start.getBoundingClientRect()
       const r2 = end.getBoundingClientRect()
       k1 = r1.width / 342
-      const k2 = r2.width / 368
 
       // Local positions relative to section top-left (zero scroll/parent dependency)
       const startLocal = {
@@ -187,35 +198,31 @@ export default function Timeline() {
       }
       endTop = endLocal.top
 
-      // Precise reel centres based on actual hub SVG percentages
-      const L1 = {
-        x: startLocal.left + startLocal.width * 0.3010,
-        y: startLocal.top + startLocal.height * 0.3220,
-      }
-      const R1 = {
-        x: startLocal.left + startLocal.width * 0.6460,
-        y: startLocal.top + startLocal.height * 0.3760,
-      }
-      const p1 = startLocal.width * 0.0965
-
       // Tape exits cassette 1 below the right spool on the right rim
       const X1 = {
         x: startLocal.left + startLocal.width * 0.95,
         y: startLocal.top + startLocal.height * 0.58,
       }
 
-      // Cassette 2 (end): left hub = 24.60%, 55.90%; right hub = 55.80%, 43.70%
+      const endCenterX = endLocal.left + endLocal.width * 0.5
+      const endCenterY = endLocal.top + endLocal.height * 0.5
+
+      // Both cassettes now use width 342 and aspect-ratio 1488 / 1234
+      const endW = 342 * k
+      const endH = endW * (1234 / 1488)
+      const k2 = endW / 342
+      const theta = (mobile ? -12 : -14) * Math.PI / 180
+      const cosT = Math.cos(theta), sinT = Math.sin(theta)
+
+      // Precise rotated reel centre for Cassette 2 left rim
+      const dxL2 = (0.3212 - 0.5) * endW
+      const dyL2 = (0.3520 - 0.5) * endH
       const L2 = {
-        x: endLocal.left + endLocal.width * 0.2460,
-        y: endLocal.top + endLocal.height * 0.5590,
+        x: endCenterX + (dxL2 * cosT - dyL2 * sinT),
+        y: endCenterY + (dxL2 * sinT + dyL2 * cosT),
       }
-      const R2 = {
-        x: endLocal.left + endLocal.width * 0.5580,
-        y: endLocal.top + endLocal.height * 0.4370,
-      }
-      const p2 = endLocal.width * 0.090
-      const q = 0.7071
-      exitPt = X1
+
+      const p2 = endW * 0.088
 
       const cx = mobile ? vw * 0.13 : vw * 0.5
       const amp = mobile ? vw * 0.045 : vw * 0.075
@@ -242,16 +249,8 @@ export default function Timeline() {
       })
 
       const P = []
-      // 1) Starts above section top (-60px), connects straight down into cassette 1 left spool
-      P.push({ x: L1.x - p1, y: -60 })
-      P.push({ x: L1.x - p1, y: 0 })
-      P.push({ x: L1.x - p1, y: L1.y - p1 * 1.5 })
-      P.push({ x: L1.x - p1, y: L1.y })
-      P.push({ x: L1.x - q * p1, y: L1.y + q * p1 })
-      P.push({ x: L1.x, y: L1.y + p1 })
-      P.push({ x: (L1.x + R1.x) / 2, y: (L1.y + R1.y) / 2 + p1 + 1 })
-      P.push({ x: R1.x, y: R1.y + p1 + 2 })
-      P.push({ x: (R1.x + X1.x) / 2, y: (R1.y + X1.y) / 2 + p1 * 0.5 + 1 })
+      // 1) Starts directly at exit rim X1 of Cassette 1 (no internal spline slicing through spools)
+      P.push({ x: X1.x - 2 * k1, y: X1.y - 4 * k1 })
       P.push({ x: X1.x, y: X1.y })
 
       // 2) Out into the page, through all checkpoint stations
@@ -273,22 +272,28 @@ export default function Timeline() {
       })
       const last = info[info.length - 1] || { x: cx, y: L2.y - 140, side: 1 }
 
-      // 3) Drops onto cassette 2, wraps left spool, runs along bottom and ends on right spool
-      const enter = { x: L2.x - p2, y: L2.y - (mobile ? 40 * k2 : 70 * k2) }
-      entryPt = enter
+      // 3) Tape sweeps from the left side with a curve coming from behind the cassette, then joins without crossing spools
+      const leftBoundX = endCenterX - endW * 0.50 * Math.abs(cosT)
+      const leftSweepX = Math.min(cx + last.side * amp, leftBoundX - (mobile ? 18 : 36) * k2)
+
       P.push({
-        x: lerp(cx + last.side * amp, enter.x, mobile ? 0.5 : 0.55),
-        y: lerp(last.y, enter.y, 0.5),
+        x: leftSweepX,
+        y: lerp(last.y, L2.y, 0.40),
       })
+      P.push({
+        x: leftSweepX - (mobile ? 8 : 18) * k2,
+        y: lerp(last.y, L2.y, 0.70),
+      })
+
+      // Enters behind the cassette's left edge toward left rim (stops without crossing spools)
+      const enter = {
+        x: L2.x - p2 * 1.5 * cosT - 8 * k2,
+        y: L2.y - p2 * 1.5 * sinT - 16 * k2,
+      }
+      entryPt = enter
+
       P.push(enter)
-      P.push({ x: L2.x - p2, y: L2.y - 20 * k2 })
-      P.push({ x: L2.x - p2, y: L2.y })
-      P.push({ x: L2.x - q * p2, y: L2.y + q * p2 })
-      P.push({ x: L2.x, y: L2.y + p2 })
-      P.push({ x: (L2.x + R2.x) / 2, y: (L2.y + R2.y) / 2 + p2 + 1 })
-      P.push({ x: R2.x, y: R2.y + p2 })
-      P.push({ x: R2.x + q * p2, y: R2.y + q * p2 })
-      P.push({ x: R2.x + p2, y: R2.y })
+      P.push({ x: L2.x - p2 * 0.7 * cosT, y: L2.y - p2 * 0.7 * sinT })
 
       const raw = []
       for (let i = 0; i < P.length - 1; i++) {
@@ -298,8 +303,8 @@ export default function Timeline() {
       }
       raw.push(P[P.length - 1])
 
-      // Resample to uniform 5px step for exact arc-length calculation
-      const STEP = 5
+      // Resample to uniform 7px step for exact arc-length calculation
+      const STEP = 7
       let acc = 0
       pts = [{ x: raw[0].x, y: raw[0].y, s: 0 }]
       let carry = 0
@@ -318,13 +323,26 @@ export default function Timeline() {
       for (let qIdx = 0; qIdx < pts.length; qIdx++) {
         const a = pts[Math.max(0, qIdx - 1)], b = pts[Math.min(pts.length - 1, qIdx + 1)]
         const tx = b.x - a.x, ty = b.y - a.y, tl = Math.hypot(tx, ty) || 1
-        pts[qIdx].nx = -ty / tl
-        pts[qIdx].ny = tx / tl
+        const p = pts[qIdx]
+        p.nx = -ty / tl
+        p.ny = tx / tl
+        const s = p.s
+        p.sinTerm = 0.7 * Math.sin(s / 360)
+        p.sstep40 = sstep((s - 40) / 260)
+        p.streak = 0.12 * Math.sin(s * 0.31 + Math.sin(s * 0.05) * 4) + 0.08 * Math.sin(s * 1.7)
+        p.base = lift(pal(s / palLen))
       }
 
       sEnd = pts[pts.length - 1].s
-      sExit = nearestS(exitPt, 0, Math.floor(pts.length * 0.3))
+      sExit = 0
       sEnter = nearestS(entryPt, Math.floor(pts.length * 0.5), pts.length - 1)
+
+      for (let qIdx = 0; qIdx < pts.length; qIdx++) {
+        const p = pts[qIdx]
+        const s = p.s
+        p.sstepEnter = sstep((s - (sEnter - 100)) / 180)
+        p.thin = 0.5 + 0.5 * sstep(s / 120) - 0.5 * sstep((s - (sEnter - 180)) / 200)
+      }
 
       info.forEach((s) => {
         let best = 1e18, bestIdx = 0
@@ -340,14 +358,12 @@ export default function Timeline() {
 
     function state(i, sy) {
       const p = pts[i]
-      const s = p.s
-      const phi = (s - 0.8 * sy) / 160 + 0.7 * Math.sin(s / 360)
-      let ce = lerp(1, Math.cos(phi), sstep((s - sExit - 40) / 260))
-      ce = lerp(ce, 1, sstep((s - (sEnter - 100)) / 180))
-      const thin = 0.5 + 0.5 * sstep((s - sExit) / 120) - 0.5 * sstep((s - (sEnter - 180)) / 200)
-      const hw = 15 * k1 * thin * (0.5 + 0.5 * Math.pow(Math.abs(ce), 0.6))
-      const base = lift(pal((s + sExit) / palLen))
-      const streak = 0.12 * Math.sin(s * 0.31 + Math.sin(s * 0.05) * 4) + 0.08 * Math.sin(s * 1.7)
+      const phi = (p.s - 0.8 * sy) / 160 + p.sinTerm
+      let ce = lerp(1, Math.cos(phi), p.sstep40)
+      ce = lerp(ce, 1, p.sstepEnter)
+      const hw = 15 * k1 * p.thin * (0.5 + 0.5 * Math.pow(Math.abs(ce), 0.6))
+      const base = p.base
+      const streak = p.streak
       let c
       const ae = Math.abs(ce)
       if (ce >= 0) {
@@ -376,57 +392,35 @@ export default function Timeline() {
       if (!pts.length) return
 
       const sy = window.pageYOffset || 0
-      const secRect = section.getBoundingClientRect()
+      const secTopRel = secTop - sy
+      const speed = Math.abs(sy - lastSy)
+      lastSy = sy
+      const stride = speed > 50 ? 5 : speed > 25 ? 3 : speed > 10 ? 2 : 1
 
       // Skip draw if off screen
-      if (secRect.bottom < -120 || secRect.top > vh + 120) {
+      if (secTopRel + secHeight < -120 || secTopRel > vh + 120) {
         return
       }
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       ctx.clearRect(0, 0, vw, secHeight)
 
-      // Complete 100% tape unreeling as Cassette 2 enters viewport focus
+      // Synchronized tape unreeling directly anchored to Cassette 2 physical position
       const mobile = vw < 760
-      const scrollableDist = mobile
-        ? Math.max(1, endTop - vh * 0.42)
-        : Math.max(1, secHeight - vh * 0.85)
-      const scrolled = Math.max(0, -secRect.top)
+      const scrollableDist = Math.max(1, endTop - vh * (mobile ? 0.42 : 0.38))
+      const scrolled = Math.max(0, -secTopRel)
       const progress = reduce ? 1 : clamp(scrolled / scrollableDist, 0, 1)
 
-      const tipS = reduce ? sEnd : (sExit + progress * (sEnd - sExit))
-      const tipIdx = clamp(Math.round(tipS / 5), 2, pts.length - 1)
+      const tipS = reduce ? sEnd : (progress * sEnd)
+      const tipIdx = clamp(Math.round(tipS / 7), 2, pts.length - 1)
 
-      // ── 1. GUIDE TRACK: Subtle translucent groove along full tape curve (always visible ahead) ──
-      ctx.beginPath()
-      ctx.moveTo(pts[0].x, pts[0].y)
-      for (let g = 1; g < pts.length; g++) {
-        ctx.lineTo(pts[g].x, pts[g].y)
-      }
-      ctx.strokeStyle = 'rgba(232, 226, 196, 0.12)'
-      ctx.lineWidth = 14 * k1
-      ctx.lineCap = 'round'
-      ctx.lineJoin = 'round'
-      ctx.stroke()
-
-      ctx.beginPath()
-      ctx.moveTo(pts[0].x, pts[0].y)
-      for (let g = 1; g < pts.length; g++) {
-        ctx.lineTo(pts[g].x, pts[g].y)
-      }
-      ctx.strokeStyle = 'rgba(185, 242, 60, 0.22)'
-      ctx.lineWidth = 1.2
-      ctx.setLineDash([5, 5])
-      ctx.stroke()
-      ctx.setLineDash([])
-
-      // ── 2. ACTIVE COPPER TAPE: Drawn from top connection (0) to tipIdx ──
+      // ── ACTIVE COPPER TAPE: Drawn from exit connection (0) to tipIdx ──
       let prev = state(0, sy)
       const edgeL = [[prev.lx, prev.ly]]
       const edgeR = [[prev.rx, prev.ry]]
       const hi = []
 
-      for (let i = 1; i <= tipIdx; i++) {
+      for (let i = stride; i <= tipIdx; i += stride) {
         const cur = state(i, sy)
         ctx.beginPath()
         ctx.moveTo(prev.lx, prev.ly)
@@ -435,13 +429,26 @@ export default function Timeline() {
         ctx.lineTo(prev.rx, prev.ry)
         ctx.closePath()
         ctx.fillStyle = cur.col
-        ctx.strokeStyle = cur.col
-        ctx.lineWidth = 0.9
         ctx.fill()
-        ctx.stroke()
         edgeL.push([cur.lx, cur.ly])
         edgeR.push([cur.rx, cur.ry])
         if (cur.ce > 0.25) hi.push([prev.lx, prev.ly, cur.lx, cur.ly])
+        prev = cur
+      }
+
+      // Connect exact tip if tipIdx is not a multiple of stride
+      if (tipIdx % stride !== 0) {
+        const cur = state(tipIdx, sy)
+        ctx.beginPath()
+        ctx.moveTo(prev.lx, prev.ly)
+        ctx.lineTo(cur.lx, cur.ly)
+        ctx.lineTo(cur.rx, cur.ry)
+        ctx.lineTo(prev.rx, prev.ry)
+        ctx.closePath()
+        ctx.fillStyle = cur.col
+        ctx.fill()
+        edgeL.push([cur.lx, cur.ly])
+        edgeR.push([cur.rx, cur.ry])
         prev = cur
       }
 
@@ -460,13 +467,15 @@ export default function Timeline() {
       hi.forEach((h) => { ctx.moveTo(h[0], h[1]); ctx.lineTo(h[2], h[3]) })
       ctx.stroke()
 
-      // Bright cut edge at the tip
-      ctx.strokeStyle = 'rgba(255,226,196,.95)'
-      ctx.lineWidth = 2.2
-      ctx.beginPath()
-      ctx.moveTo(prev.lx, prev.ly)
-      ctx.lineTo(prev.rx, prev.ry)
-      ctx.stroke()
+      // Bright cut edge at the tip while unreeling; hidden once tape attaches
+      if (tipIdx < pts.length - 2) {
+        ctx.strokeStyle = 'rgba(255,226,196,.95)'
+        ctx.lineWidth = 2.2
+        ctx.beginPath()
+        ctx.moveTo(prev.lx, prev.ly)
+        ctx.lineTo(prev.rx, prev.ry)
+        ctx.stroke()
+      }
 
       // ── 3. PINS, CONNECTING STEMS & CARD PULL ANIMATIONS ──
       info.forEach((s) => {
@@ -484,14 +493,17 @@ export default function Timeline() {
           ctx.stroke()
 
           const r = 10 * k1 + 2
-          ctx.save()
-          ctx.shadowColor = 'rgba(185,242,60,.8)'
-          ctx.shadowBlur = 14
+          // Hardware-accelerated neon glow halo (zero slow Gaussian blur pass)
+          ctx.fillStyle = 'rgba(185, 242, 60, 0.28)'
+          ctx.beginPath()
+          ctx.arc(pin.x, pin.y, r * 1.55, 0, 6.2832)
+          ctx.fill()
+
           ctx.fillStyle = PIN
           ctx.beginPath()
           ctx.arc(pin.x, pin.y, r, 0, 6.2832)
           ctx.fill()
-          ctx.restore()
+
           ctx.fillStyle = '#0a2b3d'
           ctx.beginPath()
           ctx.arc(pin.x, pin.y, r * 0.38, 0, 6.2832)
@@ -513,14 +525,17 @@ export default function Timeline() {
         if (h) h.style.transform = `rotate(${ang.toFixed(1)}deg)`
       })
 
-      if (end) {
-        end.classList.toggle('live', tipIdx >= pts.length - 8)
-      }
     }
 
-    function mark() { dirty = true }
+    function mark() {
+      dirty = true
+    }
+
     function frame() {
-      if (dirty) draw()
+      if (dirty) {
+        dirty = false
+        draw()
+      }
       animId = requestAnimationFrame(frame)
     }
 
@@ -530,12 +545,18 @@ export default function Timeline() {
     window.addEventListener('load', layout)
     ScrollTrigger.addEventListener('refresh', layout)
 
-    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {
-      layout()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === section) {
+          const cr = entry.contentRect
+          if (Math.abs(cr.height - lastH) > 4 || Math.abs(cr.width - lastW) > 4) {
+            layout()
+          }
+        }
+      }
     }) : null
     if (ro) {
       ro.observe(section)
-      ro.observe(end)
     }
 
     if (window.lenisInstance) {
@@ -571,13 +592,25 @@ export default function Timeline() {
         {/* Cassette Start & Hero Header */}
         <header className="hero tl-hero">
           <div className="cassette start" ref={startCassetteRef}>
-            <img src={cassetteStartImg} alt="XYNTRA Cassette Tape" width="342" height="275" draggable={false} />
+            <div
+              className="cassette-vector-mount"
+              role="img"
+              aria-label="XYNTRA Translucent Denim-Blue Glass Cassette Tape Vector"
+            >
+              <img
+                src={cassetteVectorSvg}
+                alt="XYNTRA Translucent Glass Cassette Tape"
+                width="342"
+                height="284"
+                draggable={false}
+              />
+            </div>
             <CassetteHub
-              style={{ left: '30.10%', top: '32.20%' }}
+              style={{ left: '32.12%', top: '35.20%' }}
               hubRef={(el) => (hubsRef.current[0] = el)}
             />
             <CassetteHub
-              style={{ left: '64.60%', top: '37.60%' }}
+              style={{ left: '76.00%', top: '45.80%' }}
               hubRef={(el) => (hubsRef.current[1] = el)}
             />
           </div>
@@ -623,13 +656,25 @@ export default function Timeline() {
           </div>
 
           <div className="cassette end" ref={endCassetteRef}>
-            <img src={cassetteEndImg} alt="XYNTRA Cassette Tape" width="368" height="246" draggable={false} />
+            <div
+              className="cassette-vector-mount"
+              role="img"
+              aria-label="XYNTRA Translucent Glass Cassette Tape Vector (Rewind)"
+            >
+              <img
+                src={cassetteVectorSvg}
+                alt="XYNTRA Translucent Glass Cassette Tape"
+                width="342"
+                height="284"
+                draggable={false}
+              />
+            </div>
             <CassetteHub
-              style={{ left: '24.60%', top: '55.90%' }}
+              style={{ left: '32.12%', top: '35.20%' }}
               hubRef={(el) => (hubsRef.current[2] = el)}
             />
             <CassetteHub
-              style={{ left: '55.80%', top: '43.70%' }}
+              style={{ left: '76.00%', top: '45.80%' }}
               hubRef={(el) => (hubsRef.current[3] = el)}
             />
           </div>

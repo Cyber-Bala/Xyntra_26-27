@@ -123,18 +123,28 @@ export default function Prizes() {
       animId = requestAnimationFrame(step)
     }
 
+    let secTop = section.offsetTop
+    let secHeight = section.offsetHeight
+
+    const updateGeometry = () => {
+      secTop = section.offsetTop
+      secHeight = section.offsetHeight
+    }
+
     const checkPosition = () => {
       if (!cs[0] || !cs[1] || !cs[2]) {
         cs = [1, 2, 3].map((i) => document.getElementById(`p${i}cas`))
       }
 
-      const rect = section.getBoundingClientRect()
+      const sy = window.pageYOffset || 0
+      const rTop = secTop - sy
+      const rBottom = rTop + secHeight
       const vh = window.innerHeight
 
       // User has "fully reached the section":
-      // Top of prize section is scrolled nicely into view (rect.top <= vh * 0.22)
-      // and section is still active on screen (rect.bottom >= vh * 0.35)
-      const fullyReached = rect.top <= vh * 0.22 && rect.bottom >= vh * 0.35
+      // Top of prize section is scrolled nicely into view (rTop <= vh * 0.22)
+      // and section is still active on screen (rBottom >= vh * 0.35)
+      const fullyReached = rTop <= vh * 0.22 && rBottom >= vh * 0.35
 
       if (fullyReached && !isRaised && !isRaising && !raiseTimer) {
         // Clear delay between section reveal and cassette raise (500ms delay)
@@ -142,7 +152,7 @@ export default function Prizes() {
           raiseTimer = null
           animateRaise()
         }, 500)
-      } else if (!fullyReached && (rect.top > vh * 0.85 || rect.bottom < 0)) {
+      } else if (!fullyReached && (rTop > vh * 0.85 || rBottom < 0)) {
         // Reset if user scrolls completely away above or below
         if (raiseTimer) {
           clearTimeout(raiseTimer)
@@ -155,22 +165,40 @@ export default function Prizes() {
       }
     }
 
-    window.addEventListener('scroll', checkPosition, { passive: true })
-    window.addEventListener('resize', checkPosition)
-
-    if (window.lenisInstance) {
-      window.lenisInstance.on('scroll', checkPosition)
+    let scrollRafId = null
+    const onScrollThrottled = () => {
+      if (scrollRafId) return
+      scrollRafId = requestAnimationFrame(() => {
+        scrollRafId = null
+        checkPosition()
+      })
     }
 
+    const onResize = () => {
+      updateGeometry()
+      onScrollThrottled()
+    }
+
+    window.addEventListener('scroll', onScrollThrottled, { passive: true })
+    window.addEventListener('resize', onResize)
+    window.addEventListener('load', onResize)
+
+    if (window.lenisInstance) {
+      window.lenisInstance.on('scroll', onScrollThrottled)
+    }
+
+    updateGeometry()
     checkPosition()
 
     return () => {
       if (raiseTimer) clearTimeout(raiseTimer)
       if (animId) cancelAnimationFrame(animId)
-      window.removeEventListener('scroll', checkPosition)
-      window.removeEventListener('resize', checkPosition)
+      if (scrollRafId) cancelAnimationFrame(scrollRafId)
+      window.removeEventListener('scroll', onScrollThrottled)
+      window.removeEventListener('resize', onResize)
+      window.removeEventListener('load', onResize)
       if (window.lenisInstance) {
-        window.lenisInstance.off('scroll', checkPosition)
+        window.lenisInstance.off('scroll', onScrollThrottled)
       }
     }
   }, [])

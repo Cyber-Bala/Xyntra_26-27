@@ -3,15 +3,24 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+ 
+let refreshTimeout = null
+function queueScrollTriggerRefresh() {
+  if (refreshTimeout) clearTimeout(refreshTimeout)
+  refreshTimeout = setTimeout(() => {
+    ScrollTrigger.refresh()
+    refreshTimeout = null
+  }, 250)
+}
 
 export default function Reveal({
   children,
   stagger = false,
   direction = 'up',
-  distance = 45,
-  duration = 0.85,
-  threshold = '85%',
-  once = false,
+  distance = 24,
+  duration = 0.7,
+  threshold = '88%',
+  once = true,
   className = '',
 }) {
   const revealRef = useRef(null)
@@ -52,7 +61,7 @@ export default function Reveal({
       gsap.fromTo(targets, revealFrom, {
         ...revealTo,
         duration,
-        ease: 'power3.out',
+        ease: 'power2.out',
         stagger: stagger ? 0.08 : 0,
         overwrite: 'auto',
         scrollTrigger: {
@@ -65,12 +74,9 @@ export default function Reveal({
       })
     }, element)
 
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh()
-    }, 200)
+    queueScrollTriggerRefresh()
 
     return () => {
-      clearTimeout(timer)
       context.revert()
     }
   }, [direction, distance, duration, once, stagger, threshold])

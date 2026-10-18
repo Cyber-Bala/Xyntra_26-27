@@ -28,6 +28,20 @@ body,
 /* =============================================================================
    1. HERO FILLS THE WHOLE FIRST SCREEN (100vh, min-height: 640px, width: 100%)
    ============================================================================= */
+@keyframes heroEntrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 52px, 0);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 .xyntra-hero-fullscreen {
   position: relative;
   width: 100%;
@@ -38,6 +52,10 @@ body,
   color: #E8E4C9;
   overflow: hidden;
   box-sizing: border-box;
+  animation: heroEntrance 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Background textures */

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import './App.css'
-import Reveal from './components/animations/Reveal.jsx'
 import Navbar from './components/navbar/Navbar.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
 import About from './components/pages/02_About/About.jsx'
@@ -35,28 +34,41 @@ export default function App() {
   const isProgrammaticScroll = useRef(false)
   const programmaticScrollTimer = useRef(null)
 
-  const smoothScrollTo = useCallback((target, offset = -70) => {
+  const smoothScrollTo = useCallback((target, offset = 0, onDone) => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       if (typeof target === 'number') window.scrollTo(0, target)
       else target?.scrollIntoView()
+      onDone?.()
       return
     }
+
+    const currentY = window.pageYOffset || 0
+    let targetY = currentY
+    if (typeof target === 'number') {
+      targetY = target
+    } else if (target) {
+      targetY = (target.getBoundingClientRect?.().top ?? 0) + currentY + offset
+    }
+    const dist = Math.abs(targetY - currentY)
+    // Scale duration proportionally so longer travel distances remain smooth, controlled, and never violent
+    const duration = dist > 3500 ? 1.9 : dist > 1800 ? 1.6 : 1.25
 
     if (window.lenisInstance) {
       window.lenisInstance.scrollTo(target, {
         offset,
-        duration: 1.45,
-        easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+        duration,
+        easing: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
         force: true,
         lock: false,
+        onComplete: onDone,
       })
     } else {
       if (typeof target === 'number') {
         window.scrollTo({ top: target, behavior: 'smooth' })
       } else {
-        const top = (target?.getBoundingClientRect().top ?? 0) + window.scrollY + offset
-        window.scrollTo({ top, behavior: 'smooth' })
+        window.scrollTo({ top: targetY, behavior: 'smooth' })
       }
+      if (onDone) setTimeout(onDone, Math.round(duration * 1000) + 50)
     }
   }, [])
 
@@ -120,14 +132,21 @@ export default function App() {
     setActivePage(page.id)
     isProgrammaticScroll.current = true
     if (programmaticScrollTimer.current) clearTimeout(programmaticScrollTimer.current)
-    programmaticScrollTimer.current = setTimeout(() => {
+
+    const resetProgrammatic = () => {
       isProgrammaticScroll.current = false
-    }, 1200)
+      if (programmaticScrollTimer.current) {
+        clearTimeout(programmaticScrollTimer.current)
+        programmaticScrollTimer.current = null
+      }
+    }
+    programmaticScrollTimer.current = setTimeout(resetProgrammatic, 2100)
 
     const section = document.getElementById(targetId || page.section)
     const isHome = page.id === 1
     const destination = isHome ? 0 : section
-    smoothScrollTo(destination, isHome ? 0 : -70)
+    const offset = (isHome || page.id === 6 || page.id === 3) ? 0 : -20
+    smoothScrollTo(destination, offset, resetProgrammatic)
   }, [smoothScrollTo])
 
   const [pixelTransitionActive, setPixelTransitionActive] = useState(false)
@@ -197,19 +216,38 @@ export default function App() {
   useEffect(() => {
     if (isRegistrationPage) return undefined
 
-    const sections = PAGES.filter((page) => page.section)
-      .map((page) => ({ ...page, element: document.getElementById(page.section) }))
-      .filter((page) => page.element)
+    const pageTargets = PAGES.filter((page) => page.section)
 
+    let offsets = []
+    const cacheOffsets = () => {
+      offsets = pageTargets
+        .map((p) => {
+          const el = document.getElementById(p.section)
+          return el ? { id: p.id, top: el.offsetTop } : null
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.top - b.top)
+    }
+
+    cacheOffsets()
+    window.addEventListener('resize', cacheOffsets)
+    window.addEventListener('load', cacheOffsets)
+
+    let lastActive = 1
     const updateActiveSection = () => {
       scrollFrame.current = 0
       if (isProgrammaticScroll.current) return
-      const marker = window.innerHeight * 0.34
-      const current = sections
-        .filter((page) => page.element.getBoundingClientRect().top <= marker)
-        .at(-1)
-      const nextPage = current?.id ?? 1
-      setActivePage((currentPage) => currentPage === nextPage ? currentPage : nextPage)
+      const sy = (window.pageYOffset || 0) + window.innerHeight * 0.34
+      let next = 1
+      for (let i = 0; i < offsets.length; i++) {
+        if (sy >= offsets[i].top) {
+          next = offsets[i].id
+        }
+      }
+      if (next !== lastActive) {
+        lastActive = next
+        setActivePage(next)
+      }
     }
 
     const scheduleActiveSectionUpdate = () => {
@@ -221,6 +259,8 @@ export default function App() {
     updateActiveSection()
     return () => {
       window.removeEventListener('scroll', scheduleActiveSectionUpdate)
+      window.removeEventListener('resize', cacheOffsets)
+      window.removeEventListener('load', cacheOffsets)
       if (scrollFrame.current) window.cancelAnimationFrame(scrollFrame.current)
     }
   }, [isRegistrationPage])
@@ -249,22 +289,12 @@ export default function App() {
             <Register onNavigate={handleNavigate} />
           ) : (
             <>
-              <Reveal className="landing-section-reveal">
-                <Hero onNavigate={handleNavigate} />
-              </Reveal>
+              <Hero onNavigate={handleNavigate} />
               <About />
-              <Reveal className="landing-section-reveal about-timeline-reveal">
-                <Timeline />
-              </Reveal>
-              <Reveal className="landing-section-reveal">
-                <Prizes onNavigate={handleNavigate} />
-              </Reveal>
-              <Reveal className="landing-section-reveal">
-                <Rules onNavigate={handleNavigate} />
-              </Reveal>
-              <Reveal className="landing-section-reveal">
-                <Footer onNavigate={handleNavigate} />
-              </Reveal>
+              <Timeline />
+              <Prizes onNavigate={handleNavigate} />
+              <Rules onNavigate={handleNavigate} />
+              <Footer onNavigate={handleNavigate} />
             </>
           )}
         </main>

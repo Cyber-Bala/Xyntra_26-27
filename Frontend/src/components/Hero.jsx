@@ -79,39 +79,6 @@ export default function Hero({ onNavigate }) {
     return () => clearInterval(timer)
   }, [])
 
-  // Auto-measure for precision layout calibration
-  useEffect(() => {
-    const measure = () => {
-      const title = document.querySelector('.xyntra-pixel-title');
-      const laptop = document.querySelector('.xyntra-laptop-img');
-      const hackathon = document.querySelector('.xyntra-hackathon-bar');
-      const rightBlock = document.querySelector('.xyntra-bottom-right-corner');
-      if (title && laptop) {
-        const tRect = title.getBoundingClientRect();
-        const lRect = laptop.getBoundingClientRect();
-        const hRect = hackathon ? hackathon.getBoundingClientRect() : null;
-        const rRect = rightBlock ? rightBlock.getBoundingClientRect() : null;
-        const vw = window.innerWidth / 100;
-        const data = {
-          viewportWidth: window.innerWidth,
-          viewportHeight: window.innerHeight,
-          title: { widthPx: Math.round(tRect.width * 10) / 10, widthVw: Math.round((tRect.width / vw) * 10) / 10 },
-          laptop: { widthPx: Math.round(lRect.width * 10) / 10, widthVw: Math.round((lRect.width / vw) * 10) / 10 },
-          hackathon: { widthPx: hRect ? Math.round(hRect.width * 10) / 10 : 0, widthVw: hRect ? Math.round((hRect.width / vw) * 10) / 10 : 0 },
-          overlap: Boolean(rRect && lRect.right > rRect.left),
-        };
-        window.__HERO_DATA__ = data;
-      }
-    };
-    const t1 = setTimeout(measure, 300);
-    const t2 = setTimeout(measure, 1200);
-    window.addEventListener('resize', measure);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      window.removeEventListener('resize', measure);
-    };
-  }, [])
 
   const handleNavClick = useCallback(
     (pageId, sectionId) => {
@@ -122,9 +89,9 @@ export default function Hero({ onNavigate }) {
         if (target) {
           if (window.lenisInstance) {
             window.lenisInstance.scrollTo(target, {
-              offset: -70,
-              duration: 1.45,
-              easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+              offset: 0,
+              duration: 1.85,
+              easing: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
               force: true,
             })
           } else {
