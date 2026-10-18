@@ -1,6 +1,27 @@
 import { useState, useEffect, useCallback } from 'react'
 import './Hero.css'
-import laptopImg from '../assets/hero/laptop.png'
+import laptopImg from '../assets/hero/laptop.webp'
+import CrtTerminalScreen from './terminal/CrtTerminalScreen.jsx'
+
+const WAVE_BARS = [
+  { x: 8, y1: 23, y2: 29, color: '#8DE8FF', width: 2.4, dur: 0.95, delay: 0.05 },
+  { x: 16, y1: 19, y2: 33, color: '#8DE8FF', width: 2.4, dur: 1.15, delay: 0.28 },
+  { x: 24, y1: 15, y2: 37, color: '#A8ECF9', width: 2.4, dur: 0.85, delay: 0.12 },
+  { x: 32, y1: 10, y2: 42, color: '#CAF0F8', width: 2.4, dur: 1.25, delay: 0.45 },
+  { x: 40, y1: 5, y2: 47, color: '#FFFFFF', width: 2.8, dur: 0.75, delay: 0.20 },
+  { x: 48, y1: 11, y2: 41, color: '#CAF0F8', width: 2.4, dur: 1.10, delay: 0.55 },
+  { x: 56, y1: 3, y2: 49, color: '#FFFFFF', width: 2.8, dur: 0.95, delay: 0.15 },
+  { x: 64, y1: 2, y2: 50, color: '#FFFFFF', width: 2.8, dur: 1.30, delay: 0.35 },
+  { x: 72, y1: 6, y2: 46, color: '#FFFFFF', width: 2.8, dur: 0.80, delay: 0.60 },
+  { x: 80, y1: 2, y2: 50, color: '#FFFFFF', width: 2.8, dur: 1.20, delay: 0.10 },
+  { x: 88, y1: 9, y2: 43, color: '#CAF0F8', width: 2.8, dur: 0.90, delay: 0.40 },
+  { x: 96, y1: 4, y2: 48, color: '#FFFFFF', width: 2.8, dur: 1.35, delay: 0.25 },
+  { x: 104, y1: 12, y2: 40, color: '#CAF0F8', width: 2.4, dur: 0.70, delay: 0.50 },
+  { x: 112, y1: 16, y2: 36, color: '#8DE8FF', width: 2.4, dur: 1.15, delay: 0.18 },
+  { x: 120, y1: 19, y2: 33, color: '#8DE8FF', width: 2.4, dur: 0.85, delay: 0.32 },
+  { x: 128, y1: 21, y2: 31, color: '#8DE8FF', width: 2.4, dur: 1.05, delay: 0.62 },
+  { x: 136, y1: 23, y2: 29, color: '#8DE8FF', width: 2.4, dur: 1.20, delay: 0.08 },
+]
 
 // Configurable target date constant: 24h 06m 01s live countdown
 // Matches the "24 06 01" from the design screenshot and ticks live second by second
@@ -15,14 +36,14 @@ function getInitialTargetDate() {
         return parsed
       }
     }
-  } catch (e) {
+  } catch {
     // ignore storage errors
   }
   // Target: 24 hours, 6 minutes, 1 second from initial load
   const deadline = Date.now() + (24 * 3600 + 6 * 60 + 1) * 1000
   try {
     localStorage.setItem(COUNTDOWN_STORAGE_KEY, String(deadline))
-  } catch (e) {
+  } catch {
     // ignore storage errors
   }
   return deadline
@@ -99,7 +120,16 @@ export default function Hero({ onNavigate }) {
       } else {
         const target = document.getElementById(sectionId)
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth' })
+          if (window.lenisInstance) {
+            window.lenisInstance.scrollTo(target, {
+              offset: -70,
+              duration: 1.45,
+              easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+              force: true,
+            })
+          } else {
+            target.scrollIntoView({ behavior: 'smooth' })
+          }
         }
       }
     },
@@ -150,7 +180,7 @@ export default function Hero({ onNavigate }) {
           <button
             type="button"
             className="xyntra-nav-link"
-            onClick={() => handleNavClick(5, 'sponsors')}
+            onClick={() => handleNavClick(6, 'prizes')}
           >
             PRIZES &amp; PARTNERS
           </button>
@@ -215,7 +245,9 @@ export default function Hero({ onNavigate }) {
             className="xyntra-laptop-img"
             loading="eager"
           />
-          {/* Subtle CRT Screen Glow */}
+          {/* Active Cybernetic CRT Terminal Screen with Live Typewriter */}
+          <CrtTerminalScreen />
+          {/* Subtle CRT Screen Ambient Glow */}
           <div className="xyntra-crt-screen-glow" aria-hidden="true" />
         </div>
         {/* Surface Ground Shadow */}
@@ -265,7 +297,7 @@ export default function Hero({ onNavigate }) {
           <span>WHAT&apos;S NEXT.</span>
         </div>
 
-        {/* Audio Waveform */}
+        {/* Audio Waveform in Dynamic Motion */}
         <div className="xyntra-waveform-box" aria-hidden="true">
           <svg
             className="xyntra-waveform-svg"
@@ -274,29 +306,30 @@ export default function Hero({ onNavigate }) {
             xmlns="http://www.w3.org/2000/svg"
           >
             {/* Horizontal baseline dotted frequency line */}
-            <line x1="0" y1="26" x2="160" y2="26" stroke="#8DE8FF" strokeOpacity="0.35" strokeDasharray="2 3" />
-            {/* Vertical spectrum bars */}
-            <line x1="8" y1="23" x2="8" y2="29" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="16" y1="19" x2="16" y2="33" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="24" y1="15" x2="24" y2="37" stroke="#A8ECF9" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="32" y1="10" x2="32" y2="42" stroke="#CAF0F8" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="40" y1="5" x2="40" y2="47" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="48" y1="11" x2="48" y2="41" stroke="#CAF0F8" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="56" y1="3" x2="56" y2="49" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="64" y1="2" x2="64" y2="50" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="72" y1="6" x2="72" y2="46" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="80" y1="2" x2="80" y2="50" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="88" y1="9" x2="88" y2="43" stroke="#CAF0F8" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="96" y1="4" x2="96" y2="48" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="104" y1="12" x2="104" y2="40" stroke="#CAF0F8" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="112" y1="16" x2="112" y2="36" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="120" y1="19" x2="120" y2="33" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="128" y1="21" x2="128" y2="31" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
-            <line x1="136" y1="23" x2="136" y2="29" stroke="#8DE8FF" strokeWidth="2.4" strokeLinecap="round" />
+            <line x1="0" y1="26" x2="160" y2="26" stroke="#8DE8FF" strokeOpacity="0.45" strokeDasharray="2 3" />
+            {/* Dynamic Spectrum Wave Bars */}
+            {WAVE_BARS.map((bar) => (
+              <line
+                key={bar.x}
+                x1={bar.x}
+                y1={bar.y1}
+                x2={bar.x}
+                y2={bar.y2}
+                stroke={bar.color}
+                strokeWidth={bar.width}
+                strokeLinecap="round"
+                className="xyntra-wave-bar"
+                style={{
+                  animationDuration: `${bar.dur}s`,
+                  animationDelay: `${bar.delay}s`,
+                  transformOrigin: `${bar.x}px 26px`,
+                }}
+              />
+            ))}
           </svg>
         </div>
 
-        {/* Small 5-bar Equalizer Icon */}
+        {/* Small 5-bar Equalizer Icon Dancing in Motion */}
         <div className="xyntra-eq-icon" aria-hidden="true">
           <span className="xyntra-eq-bar bar-1" />
           <span className="xyntra-eq-bar bar-2" />

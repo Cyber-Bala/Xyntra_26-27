@@ -103,7 +103,7 @@ def payment_details(request, payment_token):
 @csrf_exempt
 @require_POST
 @ratelimit(key='ip', rate='5/m', method='POST', block=True)
-def create_order(request):
+def create_order(request, payment_token=None):
     """
     Form 2 checkout: creates a Razorpay payment order for selected & verified teams.
 
@@ -119,7 +119,8 @@ def create_order(request):
     except (json.JSONDecodeError, UnicodeDecodeError):
         data = request.POST
 
-    payment_token = data.get('payment_token', '')
+    if not payment_token:
+        payment_token = data.get('payment_token', '')
     if isinstance(payment_token, str):
         payment_token = payment_token.strip()
     if not payment_token:

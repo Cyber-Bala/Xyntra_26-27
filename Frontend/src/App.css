@@ -53,8 +53,12 @@
 }
 
 .landing-section-reveal > section,
-.reveal-section-wrap > section {
-  scroll-margin-top: 96px;
+.reveal-section-wrap > section,
+.about-v6,
+.pz-section,
+.retro-rules-fieldguide-section,
+.retro-terminal-footer {
+  scroll-margin-top: 70px;
 }
 
 .registration-view {

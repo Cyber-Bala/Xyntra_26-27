@@ -87,23 +87,22 @@ export default function PixelHeading({
   const [visible, setVisible] = useState(false)
 
   const { lines, total } = useMemo(() => {
-    let s = 7
-    const rnd = () => {
-      s = (s * 16807) % 2147483647
-      return s / 2147483647
-    }
     let c = 0
     const built = text.split('\n').map((line) =>
       line
         .split(' ')
         .filter(Boolean)
         .map((word) => {
-          const chars = word.split('').map((ch) => ({
-            ch,
-            c: c++,
-            ox: Math.floor(rnd() * 8),
-            oy: Math.floor(rnd() * 8),
-          }))
+          const chars = word.split('').map((ch) => {
+            const charIdx = c++
+            const seed = (charIdx * 16807 + 7) % 2147483647
+            return {
+              ch,
+              c: charIdx,
+              ox: Math.floor((seed / 2147483647) * 8),
+              oy: Math.floor((((seed * 48271) % 2147483647) / 2147483647) * 8),
+            }
+          })
           c++ // the space after the word
           return chars
         }),

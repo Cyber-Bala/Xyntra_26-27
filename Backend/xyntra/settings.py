@@ -177,27 +177,36 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS — pin to explicit FRONTEND_URL only
 # ---------------------------------------------------------------------------
 
-FRONTEND_URL = os.environ.get('FRONTEND_URL', '').strip()
+_raw_frontend = os.environ.get('FRONTEND_URL', '').strip()
 
-if not FRONTEND_URL and not DEBUG:
+if not _raw_frontend and not DEBUG:
     raise ImproperlyConfigured("FRONTEND_URL is required in production.")
 
-if not FRONTEND_URL:
-    FRONTEND_URL = 'http://localhost:5173'
+if not _raw_frontend:
+    _frontend_list = ['http://localhost:5173']
+else:
+    _frontend_list = [u.strip() for u in _raw_frontend.split(',') if u.strip()]
 
-_parsed_frontend = urlparse(FRONTEND_URL)
-if _parsed_frontend.scheme != 'https' and not DEBUG:
-    raise ImproperlyConfigured("Production FRONTEND_URL must use HTTPS.")
+for u in _frontend_list:
+    _parsed = urlparse(u)
+    if _parsed.scheme != 'https' and not DEBUG:
+        raise ImproperlyConfigured(f"Production FRONTEND_URL ({u}) must use HTTPS.")
+
+FRONTEND_URL = _frontend_list[0]
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+CORS_ALLOWED_ORIGINS = list(_frontend_list)
 if DEBUG:
     CORS_ALLOWED_ORIGINS += [
         'http://localhost:3000',
         'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:5175',
         'http://127.0.0.1:3000',
         'http://127.0.0.1:5173',
+        'http://127.0.0.1:5174',
+        'http://127.0.0.1:5175',
     ]
     # Deduplicate.
     CORS_ALLOWED_ORIGINS = list(dict.fromkeys(CORS_ALLOWED_ORIGINS))

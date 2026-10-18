@@ -33,8 +33,7 @@
   overflow: hidden;
   box-sizing: border-box;
   background:
-    radial-gradient(ellipse 65% 55% at 20% 35%, #084358 0%, #032330 45%, #01121b 100%),
-    linear-gradient(135deg, #01121b 0%, #02202c 50%, #011118 100%);
+    radial-gradient(ellipse at 70% 40%, #166085 0%, #10566A 45%, #0A3646 100%);
   min-height: clamp(420px, 35vw, 540px);
   display: flex;
   flex-direction: column;
@@ -68,15 +67,81 @@
   z-index: 1;
 }
 
-.ft-smooth-orange-glow {
+/* ── 1c. BOTTOM-RIGHT SCRAPED CREAM CORNER WITH GRAIN TEXTURE ── */
+
+.ft-scraped-cream-corner {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: clamp(320px, 40vw, 580px);
-  height: clamp(320px, 40vw, 580px);
-  background: radial-gradient(circle at 100% 100%, rgba(240, 96, 48, 0.35) 0%, rgba(240, 96, 48, 0.12) 40%, transparent 72%);
+  width: clamp(260px, 32vw, 540px);
+  height: clamp(240px, 28vw, 480px);
   pointer-events: none;
   z-index: 1;
+  background-color: #f4e7c3;
+  background-image:
+    radial-gradient(ellipse at 95% 95%, rgba(247, 241, 225, 0.96) 0%, rgba(235, 222, 195, 0.88) 45%, rgba(212, 195, 160, 0.72) 100%),
+    url('../../assets/images/footer_grain_texture.png');
+  background-repeat: repeat;
+  background-size: auto, 180px 180px;
+  /* Authentic analog scraped / distressed deckled diagonal edge */
+  clip-path: polygon(
+    100% 0%,
+    100% 100%,
+    0% 100%,
+    3% 96%,
+    7% 93%,
+    12% 94%,
+    16% 89%,
+    21% 90%,
+    26% 84%,
+    32% 85%,
+    38% 78%,
+    43% 79%,
+    49% 72%,
+    54% 73%,
+    60% 65%,
+    66% 66%,
+    71% 57%,
+    76% 59%,
+    82% 47%,
+    87% 49%,
+    92% 35%,
+    95% 37%,
+    98% 20%,
+    99% 8%
+  );
+  filter: drop-shadow(-6px -6px 14px rgba(0, 48, 64, 0.55));
+}
+
+.ft-scraped-cream-corner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(16, 86, 106, 0.08) 0px,
+      rgba(16, 86, 106, 0.08) 1.5px,
+      transparent 1.5px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.15) 0px,
+      rgba(255, 255, 255, 0.15) 2px,
+      transparent 2px,
+      transparent 12px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+}
+
+.ft-scraped-cream-corner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 75%, transparent 35%, rgba(10, 54, 70, 0.25) 90%);
+  pointer-events: none;
 }
 
 /* ── 2. FLOWING REAL PCB CIRCUIT CANVAS ──────────────────────── */
@@ -579,22 +644,105 @@
 
 @media (max-width: 640px) {
   .retro-cyber-footer {
-    min-height: auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    min-height: auto !important;
+  }
+
+  /* Prevent cream polygon from turning footer text invisible on mobile */
+  .ft-scraped-cream-corner {
+    display: none !important;
   }
 
   .footer-overlay-grid {
-    padding: 20px 16px 8px;
-    gap: 24px;
+    padding: 24px 16px 12px !important;
+    gap: 24px !important;
+  }
+
+  .footer-massive-heading {
+    font-size: clamp(38px, 12vw, 56px) !important;
   }
 
   .cyber-terminal-card {
-    width: 100%;
+    width: 100% !important;
+  }
+
+  .footer-zone-right {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 18px !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+
+  .footer-nav-stack {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px 16px !important;
+    width: 100% !important;
+    max-width: 320px !important;
+  }
+
+  .footer-nav-link-item {
+    font-size: 13px !important;
+    padding: 4px 6px !important;
+  }
+
+  .footer-vertical-rule {
+    display: none !important;
+  }
+
+  .footer-brand-identity-stack {
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  .footer-social-row {
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  .footer-brand-title-row {
+    justify-content: center !important;
+  }
+
+  .footer-slogan-block {
+    text-align: center !important;
+    font-size: 13px !important;
+  }
+
+  .footer-slogan-rule {
+    margin: 4px auto 0 !important;
   }
 
   .footer-bottom-meta-bar {
-    flex-direction: column;
-    gap: 6px;
-    padding: 0 16px 10px;
-    text-align: center;
+    flex-direction: column !important;
+    gap: 6px !important;
+    padding: 12px 16px max(24px, env(safe-area-inset-bottom, 24px)) !important;
+    text-align: center !important;
+    border-top: 1px solid rgba(240, 96, 48, 0.25) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .footer-copyright-text {
+    font-size: 11px !important;
+    color: rgba(244, 231, 195, 0.75) !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .footer-dreamers-text {
+    font-size: 11.5px !important;
+    color: #f4e7c3 !important;
+    letter-spacing: 0.1em !important;
   }
 }

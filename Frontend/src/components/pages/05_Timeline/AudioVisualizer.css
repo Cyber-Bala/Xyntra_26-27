@@ -1,0 +1,154 @@
+/* ============================================================
+   XYNTRA TIMELINE AUDIO VISUALIZER (Step 1 Right Space)
+   ============================================================ */
+
+.tl-audio-visualizer {
+  position: absolute;
+  top: 50%;
+  right: 4vw;
+  transform: translateY(-50%);
+  width: min(38vw, 400px);
+  box-sizing: border-box;
+  padding: 10px 14px;
+  background: rgba(2, 27, 58, 0.78);
+  border: 1px solid rgba(109, 240, 255, 0.22);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.45),
+    inset 0 0 16px rgba(11, 54, 162, 0.25);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.tl-audio-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(109, 240, 255, 0.12);
+}
+
+.tl-audio-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tl-audio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b9f23c;
+  box-shadow: 0 0 8px #b9f23c;
+  animation: audioPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes audioPulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.tl-audio-label {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #b9f23c;
+  text-transform: uppercase;
+}
+
+.tl-audio-freq {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(109, 240, 255, 0.7);
+}
+
+.tl-audio-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tl-audio-radar-svg {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(109, 240, 255, 0.3));
+}
+
+.tl-radar-sweep {
+  transform-origin: 70px 70px;
+  animation: radarSpin 4s linear infinite;
+}
+
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tl-audio-wave-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tl-audio-wave-svg {
+  width: 100%;
+  height: 48px;
+  overflow: visible;
+}
+
+.tl-audio-signal-bar {
+  stroke: #6df0ff;
+  stroke-width: 2.4px;
+  stroke-linecap: round;
+  animation: audioSignalBounce 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes audioSignalBounce {
+  0% {
+    transform: scaleY(0.25);
+    stroke: #4deeea;
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1.15);
+    stroke: #b9f23c;
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #b9f23c);
+  }
+  100% {
+    transform: scaleY(0.45);
+    stroke: #6df0ff;
+    opacity: 0.8;
+  }
+}
+
+.tl-audio-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: rgba(109, 240, 255, 0.45);
+}
+
+/* Responsive */
+@media (max-width: 759px) {
+  .tl-audio-visualizer {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-radar-sweep,
+  .tl-audio-dot,
+  .tl-audio-signal-bar {
+    animation: none !important;
+  }
+}

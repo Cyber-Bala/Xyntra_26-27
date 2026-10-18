@@ -7,7 +7,7 @@ from ..models import Team
 
 
 @require_GET
-def registration_status(request):
+def registration_status(request, status_token=None):
     """
     Returns team registration state using an opaque status token.
 
@@ -16,7 +16,10 @@ def registration_status(request):
     - Omitted member PII (emails, colleges, IEEE cards) from response.
     - Uniform 404 message to prevent account enumeration.
     """
-    raw_token = request.GET.get('status_token', '').strip()
+    if status_token is not None:
+        raw_token = str(status_token).strip()
+    else:
+        raw_token = request.GET.get('status_token', '').strip()
 
     try:
         token = uuid_mod.UUID(raw_token)

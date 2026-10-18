@@ -306,16 +306,10 @@ function IntegratedControlDeck({
   );
 }
 
-// ── RIGHT INFORMATIONAL COLUMN (Title + Points + FAQ) ──
-function RegistrationRightColumn({ onNavigate }) {
-  const [openFaq, setOpenFaq] = useState(0);
-
-  const toggleFaq = (idx) => {
-    setOpenFaq((cur) => (cur === idx ? null : idx));
-  };
-
+// ── REGISTRATION HEADER (Home Button, Round Badge, Massive Title) ──
+function RegistrationHeader({ onNavigate }) {
   return (
-    <div className="reg-right-info-column">
+    <div className="reg-header-wrapper">
       {/* Top Breadcrumb & Home Link */}
       <div className="reg-info-top-bar">
         <RegistrationHomeButton onNavigate={onNavigate} />
@@ -337,6 +331,24 @@ function RegistrationRightColumn({ onNavigate }) {
         <p className="reg-subtitle">
           ASSEMBLE YOUR SQUAD &bull; TRANSMIT YOUR VISION &bull; BUILD WHAT&apos;S NEXT
         </p>
+      </div>
+    </div>
+  );
+}
+
+// ── RIGHT INFORMATIONAL COLUMN (Title + Points + FAQ) ──
+function RegistrationRightColumn({ onNavigate }) {
+  const [openFaq, setOpenFaq] = useState(0);
+
+  const toggleFaq = (idx) => {
+    setOpenFaq((cur) => (cur === idx ? null : idx));
+  };
+
+  return (
+    <div className="reg-right-info-column">
+      {/* Desktop-only header (hidden on mobile / tablet) */}
+      <div className="reg-desktop-header">
+        <RegistrationHeader onNavigate={onNavigate} />
       </div>
 
       {/* Key Points Below Title */}
@@ -403,6 +415,7 @@ export default function Register({ onNavigate }) {
   const [status, setStatus] = useState({ type: "", message: "" });
   const [payment, setPayment] = useState({ loading: false, details: null, error: "", message: "", busy: false });
   const [registrationStatus, setRegistrationStatus] = useState({ loading: false, details: null, error: "" });
+  const [verification, setVerification] = useState({ loading: false, success: false, message: "", error: "" });
 
   // Audio / Visualizer Deck interactive states
   const [volume, setVolume] = useState(65);
@@ -439,9 +452,36 @@ export default function Register({ onNavigate }) {
   }, []);
 
   useEffect(() => {
+    if (!linkTokens.verification) return;
+    setVerification({ loading: true, success: false, message: "", error: "" });
+    fetch(`${API_ROOT}/verify-email/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: linkTokens.verification }),
+    })
+      .then(readResponse)
+      .then((data) => {
+        setVerification({
+          loading: false,
+          success: true,
+          message: data.message || "Email verified successfully! Your team application is now confirmed.",
+          error: "",
+        });
+      })
+      .catch((err) => {
+        setVerification({
+          loading: false,
+          success: false,
+          message: "",
+          error: err.message || "Email verification failed or link has expired.",
+        });
+      });
+  }, [linkTokens.verification]);
+
+  useEffect(() => {
     if (!linkTokens.payment) return;
     setPayment((cur) => ({ ...cur, loading: true, error: "" }));
-    fetch(`${API_ROOT}/public/payment-details/${linkTokens.payment}/`)
+    fetch(`${API_ROOT}/payment-details/${linkTokens.payment}/`)
       .then(readResponse)
       .then((data) => setPayment((cur) => ({ ...cur, loading: false, details: data })))
       .catch((err) => setPayment((cur) => ({ ...cur, loading: false, error: err.message })));
@@ -450,7 +490,7 @@ export default function Register({ onNavigate }) {
   useEffect(() => {
     if (!linkTokens.status) return;
     setRegistrationStatus({ loading: true, details: null, error: "" });
-    fetch(`${API_ROOT}/public/registration-status/${linkTokens.status}/`)
+    fetch(`${API_ROOT}/registration-status/${linkTokens.status}/`)
       .then(readResponse)
       .then((data) => setRegistrationStatus({ loading: false, details: data, error: "" }))
       .catch((err) => setRegistrationStatus({ loading: false, details: null, error: err.message }));
@@ -497,7 +537,7 @@ export default function Register({ onNavigate }) {
         }
       });
 
-      const response = await fetch(`${API_ROOT}/public/register/`, { method: "POST", body: formData });
+      const response = await fetch(`${API_ROOT}/register/`, { method: "POST", body: formData });
       const data = await readResponse(response);
 
       setStatus({
@@ -520,7 +560,11 @@ export default function Register({ onNavigate }) {
       setPayment((cur) => ({ ...cur, busy: true, error: "" }));
       await loadRazorpay();
 
-      const orderData = await fetch(`${API_ROOT}/public/create-order/${linkTokens.payment}/`, { method: "POST" }).then(readResponse);
+      const orderData = await fetch(`${API_ROOT}/create-order/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ payment_token: linkTokens.payment }),
+      }).then(readResponse);
 
       const rzp = new window.Razorpay({
         key: orderData.key_id,
@@ -533,7 +577,7 @@ export default function Register({ onNavigate }) {
         theme: { color: "#f37a39" },
         handler: async (response) => {
           try {
-            await fetch(`${API_ROOT}/public/verify-payment/`, {
+            await fetch(`${API_ROOT}/verify-payment/`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -565,12 +609,105 @@ export default function Register({ onNavigate }) {
     }
   };
 
+  // ── VIEW 0: Email Verification View ──
+  if (linkTokens.verification) {
+    return (
+      <section className="register-section pod-page-view" id="register" aria-live="polite">
+        <div className="register-page-split-layout">
+          {/* Mobile Header (Rendered on mobile / tablet above the pod) */}
+          <div className="reg-mobile-header">
+            <RegistrationHeader onNavigate={onNavigate} />
+          </div>
+
+          <div className="reg-left-pod-column">
+            <div className="pocket-pod-device-chassis left-aligned-pod">
+              <header className="pod-device-header">
+                <div className="pod-brand-left">
+                  <span className="pod-brand-squares">
+                    <i className="sq-orange" /><i className="sq-peach" /><i className="sq-amber" /><i className="sq-burnt" />
+                  </span>
+                  <div className="pod-brand-text">
+                    <span className="pod-title">XYNTRA</span>
+                    <span className="pod-model">POCKET POD / MODEL 01</span>
+                  </div>
+                </div>
+                <div className="pod-status-right">
+                  <span className="pod-led-dot active" />
+                  <span className="pod-status-label">EMAIL VERIFICATION</span>
+                  <span className="pod-screw" />
+                </div>
+              </header>
+
+              <div className="pod-cassette-well">
+                <div className="pod-cream-screen stage-screen">
+                  <div className="screen-now-playing-row">
+                    <PixelAlbumArt />
+                    <div className="now-playing-details">
+                      <span className="np-label">SECURITY HANDSHAKE</span>
+                      <h2 className="np-title">EMAIL VERIFICATION</h2>
+                      <span className="np-track">XYNTRA 26—27</span>
+                    </div>
+                    <EqualizerBars isPlaying={isPlaying} isHold={isHold} volume={volume} modeFactor={currentMode.factor} />
+                  </div>
+
+                  <div className="screen-progress-track">
+                    <div className="screen-progress-bar" style={{ width: `${volume}%` }}>
+                      <span className="progress-knob" />
+                    </div>
+                  </div>
+
+                  <div className="pod-stage-content">
+                    {verification.loading && <p className="stage-loading-text">Verifying security token with server…</p>}
+                    {verification.error && <div className="pod-alert error">{verification.error}</div>}
+                    {verification.success && (
+                      <div className="pod-alert success" style={{ background: "rgba(185, 242, 60, 0.15)", borderColor: "rgba(185, 242, 60, 0.4)", color: "#e8eef0" }}>
+                        <strong>{verification.message}</strong>
+                        <p style={{ marginTop: "8px", fontSize: "0.85rem", opacity: 0.85 }}>Your team submission is verified. Results and updates will be transmitted to your inbox.</p>
+                      </div>
+                    )}
+                    <div className="stage-actions">
+                      <button className="pod-burnt-orange-btn" type="button" onClick={() => onNavigate?.(1)}>
+                        <span>RETURN TO MAIN SITE ↗</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <IntegratedControlDeck
+                volume={volume}
+                currentMode={currentMode}
+                isHold={isHold}
+                isPlaying={isPlaying}
+                deckActiveBtn={deckActiveBtn}
+                onDeckButton={triggerDeckButton}
+              />
+
+              <footer className="pod-device-footer">
+                <span className="footer-audio-out">■ AUDIO OUT</span>
+                <span className="footer-builders">DESIGNED FOR BUILDERS</span>
+                <span className="footer-version">01 ■</span>
+              </footer>
+            </div>
+          </div>
+
+          <RegistrationRightColumn onNavigate={onNavigate} />
+        </div>
+      </section>
+    );
+  }
+
   // ── VIEW 1: Application Status View ──
   if (linkTokens.status) {
     const details = registrationStatus.details;
     return (
       <section className="register-section pod-page-view" id="register" aria-live="polite">
         <div className="register-page-split-layout">
+          {/* Mobile Header (Rendered on mobile / tablet above the pod) */}
+          <div className="reg-mobile-header">
+            <RegistrationHeader onNavigate={onNavigate} />
+          </div>
+
           {/* ── LEFT PART: POD DEVICE (LEFT-ALIGNED) ── */}
           <div className="reg-left-pod-column">
             <div className="pocket-pod-device-chassis left-aligned-pod">
@@ -671,6 +808,11 @@ export default function Register({ onNavigate }) {
     return (
       <section className="register-section pod-page-view" id="register" aria-live="polite">
         <div className="register-page-split-layout">
+          {/* Mobile Header (Rendered on mobile / tablet above the pod) */}
+          <div className="reg-mobile-header">
+            <RegistrationHeader onNavigate={onNavigate} />
+          </div>
+
           {/* ── LEFT PART: POD DEVICE (LEFT-ALIGNED) ── */}
           <div className="reg-left-pod-column">
             <div className="pocket-pod-device-chassis left-aligned-pod">
@@ -786,6 +928,10 @@ export default function Register({ onNavigate }) {
   return (
     <section className="register-section pod-page-view" id="register">
       <div className="register-page-split-layout">
+        {/* Mobile Header (Rendered on mobile / tablet above the pod) */}
+        <div className="reg-mobile-header">
+          <RegistrationHeader onNavigate={onNavigate} />
+        </div>
 
         {/* ── LEFT PART: POD DEVICE CHASSIS (LEFT-ALIGNED) ── */}
         <div className="reg-left-pod-column">

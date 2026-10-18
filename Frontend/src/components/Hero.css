@@ -372,13 +372,40 @@ body,
   display: flex;
   align-items: center;
   width: 15vw;
-  filter: drop-shadow(0 0 0.6vw rgba(144, 224, 239, 0.45));
+  filter: drop-shadow(0 0 0.8vw rgba(141, 232, 255, 0.65));
 }
 
 .xyntra-waveform-svg {
   width: 100%;
   height: auto;
   display: block;
+  overflow: visible;
+}
+
+/* Audio spectrum frequency bars in dynamic wave motion */
+.xyntra-wave-bar {
+  transform-box: fill-box;
+  animation-name: xyntraWavePulse;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes xyntraWavePulse {
+  0% {
+    transform: scaleY(0.25);
+    opacity: 0.50;
+  }
+  50% {
+    transform: scaleY(1.35);
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(160, 245, 255, 0.95));
+  }
+  100% {
+    transform: scaleY(0.65);
+    opacity: 0.80;
+  }
 }
 
 .xyntra-eq-icon {
@@ -390,16 +417,38 @@ body,
 
 .xyntra-eq-bar {
   width: 0.35vw;
-  background-color: #E8E4C9;
+  background-color: #8DE8FF;
   border-radius: 0.15vw;
   display: inline-block;
+  transform-origin: bottom center;
+  animation: xyntraEqDance 0.85s ease-in-out infinite alternate;
+  will-change: height, background-color;
 }
 
-.xyntra-eq-bar.bar-1 { height: 35%; }
-.xyntra-eq-bar.bar-2 { height: 65%; }
-.xyntra-eq-bar.bar-3 { height: 100%; }
-.xyntra-eq-bar.bar-4 { height: 60%; }
-.xyntra-eq-bar.bar-5 { height: 40%; }
+@keyframes xyntraEqDance {
+  0% {
+    height: 18%;
+    background-color: #5ed6f5;
+    opacity: 0.55;
+  }
+  50% {
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(160, 245, 255, 0.95);
+    opacity: 1;
+  }
+  100% {
+    height: 44%;
+    background-color: #8DE8FF;
+    opacity: 0.80;
+  }
+}
+
+.xyntra-eq-bar.bar-1 { animation-duration: 0.72s; animation-delay: 0.05s; }
+.xyntra-eq-bar.bar-2 { animation-duration: 0.98s; animation-delay: 0.28s; }
+.xyntra-eq-bar.bar-3 { animation-duration: 0.64s; animation-delay: 0.42s; }
+.xyntra-eq-bar.bar-4 { animation-duration: 1.12s; animation-delay: 0.14s; }
+.xyntra-eq-bar.bar-5 { animation-duration: 0.82s; animation-delay: 0.36s; }
 
 /* =============================================================================
    5. BOTTOM-RIGHT CORNER (width ~17vw, right: 3vw, bottom: 4vh)
@@ -507,4 +556,390 @@ body,
   letter-spacing: 0.12em;
   color: #6C84A3;
   text-transform: uppercase;
+}
+
+/* =============================================================================
+   TABLET RESPONSIVE RULES (769px to 1080px)
+   ============================================================================= */
+@media (min-width: 769px) and (max-width: 1080px) {
+  .xyntra-nav-tab {
+    width: 62vw;
+    height: 7.5vh;
+  }
+
+  .xyntra-nav-link {
+    font-size: 0.95vw;
+  }
+
+  .xyntra-hero-title-group {
+    width: 44vw;
+  }
+
+  .xyntra-pixel-title {
+    font-size: 13vw !important;
+  }
+
+  .xyntra-hackathon-bar {
+    width: 44vw;
+    font-size: 3.5vw;
+  }
+
+  .xyntra-laptop-anchor {
+    left: 36vw;
+    width: 48vw;
+  }
+
+  .xyntra-bottom-right-corner {
+    width: 22vw;
+  }
+
+  .xyntra-right-headline {
+    font-size: 2.8vw !important;
+  }
+
+  .xyntra-lime-register-btn {
+    font-size: 1.6vw;
+  }
+
+  .xyntra-countdown-num {
+    font-size: 3.6vw;
+  }
+}
+
+/* =============================================================================
+   MOBILE RESPONSIVE HERO VIEW (<= 768px)
+   - Eliminates desktop vw/vh shrinkage on mobile viewports
+   - Centered vertical stack matching 16px page margins across all sections
+   - Full-width mobile navigation bar with touch-friendly links
+   - Centered, bold XYNTRA title
+   - Hero centerpiece laptop: bold, prominent (width: min(88vw, 380px)), centered
+   - Full-width Countdown Timer with large legible digits (26px) & labels
+   - Full-width Lime Register Now CTA button (48px touch target)
+   - Centered manifesto ticker & dynamic waveform
+   ============================================================================= */
+@media (max-width: 768px) {
+  .xyntra-hero-fullscreen {
+    height: auto !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 56px 16px 14px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    background: radial-gradient(circle at 50% 32%, #265DE2 0%, #1F4FD8 45%, #143BAE 85%, #0E2986 100%) !important;
+  }
+
+  /* 1. TOP NAVBAR ON MOBILE */
+  .xyntra-nav-tab {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 52px !important;
+    padding: 8px 14px !important;
+    border-radius: 0 0 14px 14px !important;
+    box-shadow: 0 4px 18px rgba(6, 17, 56, 0.35) !important;
+    z-index: 100 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .xyntra-nav-logo {
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .xyntra-nav-arrow {
+    font-size: 15px !important;
+  }
+
+  .xyntra-nav-brand {
+    font-size: 15.5px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .xyntra-nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 2px !important;
+  }
+
+  .xyntra-nav-links::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .xyntra-nav-link {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    padding: 5px 8px !important;
+    white-space: nowrap !important;
+    border-radius: 6px !important;
+  }
+
+  /* Hide tagline on mobile navbar to prevent collisions */
+  .xyntra-top-tagline {
+    display: none !important;
+  }
+
+  /* 2. TITLE GROUP (Centered on mobile) */
+  .xyntra-hero-title-group {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin: 8px auto 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    z-index: 30 !important;
+  }
+
+  .xyntra-pixel-title-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .xyntra-pixel-title {
+    font-size: clamp(44px, 13vw, 68px) !important;
+    line-height: 0.88 !important;
+    letter-spacing: 0.02em !important;
+    text-align: center !important;
+  }
+
+  .xyntra-tm-badge {
+    font-size: 9px !important;
+    top: 2px !important;
+    right: -16px !important;
+  }
+
+  .xyntra-hackathon-bar {
+    width: 90% !important;
+    max-width: 320px !important;
+    margin: 4px auto 0 !important;
+    font-size: clamp(14px, 4vw, 19px) !important;
+    letter-spacing: 0.12em !important;
+    justify-content: space-between !important;
+  }
+
+  .xyntra-frequency-route {
+    width: auto !important;
+    font-size: 11px !important;
+    letter-spacing: 0.22em !important;
+    margin: 6px auto 0 !important;
+    text-align: center !important;
+  }
+
+  /* 3. HERO CENTERPIECE LAPTOP (Big, Bold & Centered) */
+  .xyntra-laptop-anchor {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: min(88vw, 380px) !important;
+    max-height: none !important;
+    margin: 12px auto 8px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 25 !important;
+  }
+
+  .xyntra-laptop-inner {
+    width: 100% !important;
+  }
+
+  .xyntra-laptop-img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 38vh !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+  }
+
+  .xyntra-signal-rings-wrapper {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 130vw !important;
+    height: 130vw !important;
+  }
+
+  .xyntra-laptop-ground-shadow {
+    width: 85% !important;
+    height: 14px !important;
+    bottom: -4px !important;
+    left: 7.5% !important;
+  }
+
+  /* 4. COUNTDOWN TIMER & REGISTER GROUP (Centered, readable & comfortable) */
+  .xyntra-bottom-right-corner {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 10px auto 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    z-index: 40 !important;
+  }
+
+  .xyntra-right-headline {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+    letter-spacing: 0.05em !important;
+    color: #E8E4C9 !important;
+  }
+
+  .xyntra-right-headline br {
+    display: none !important;
+  }
+
+  .xyntra-right-headline::after {
+    content: " ";
+  }
+
+  .xyntra-lime-register-btn {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 18px rgba(200, 240, 60, 0.4) !important;
+  }
+
+  .xyntra-lime-btn-arrow {
+    font-size: 16px !important;
+  }
+
+  .xyntra-navy-countdown-box {
+    width: 100% !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    gap: 6px !important;
+    box-shadow: 0 4px 18px rgba(4, 11, 32, 0.5) !important;
+  }
+
+  .xyntra-countdown-unit {
+    gap: 2px !important;
+  }
+
+  .xyntra-countdown-num {
+    font-size: 26px !important;
+    line-height: 1 !important;
+  }
+
+  .xyntra-countdown-lbl {
+    font-size: 9px !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  /* 5. BOTTOM MANIFESTO & WAVEFORM (Clean ticker) */
+  .xyntra-bottom-left-corner {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 8px auto 4px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important;
+    z-index: 35 !important;
+  }
+
+  .xyntra-manifesto-list {
+    flex-direction: row !important;
+    gap: 6px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    color: #C8E5FF !important;
+  }
+
+  .xyntra-waveform-box {
+    width: 95px !important;
+  }
+
+  .xyntra-eq-icon {
+    height: 14px !important;
+    gap: 2px !important;
+  }
+
+  .xyntra-eq-bar {
+    width: 2px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .xyntra-hero-fullscreen {
+    padding: 52px 12px 10px !important;
+  }
+
+  .xyntra-nav-tab {
+    padding: 6px 10px !important;
+    min-height: 48px !important;
+  }
+
+  .xyntra-nav-logo .xyntra-nav-brand {
+    font-size: 14px !important;
+  }
+
+  .xyntra-nav-link {
+    font-size: 10px !important;
+    padding: 4px 5px !important;
+  }
+
+  .xyntra-pixel-title {
+    font-size: clamp(36px, 12vw, 50px) !important;
+  }
+
+  .xyntra-hackathon-bar {
+    max-width: 280px !important;
+    font-size: clamp(12.5px, 3.8vw, 16px) !important;
+  }
+
+  .xyntra-laptop-anchor {
+    width: min(92vw, 340px) !important;
+  }
+
+  .xyntra-countdown-num {
+    font-size: 22px !important;
+  }
+
+  .xyntra-countdown-lbl {
+    font-size: 8px !important;
+  }
+
+  .xyntra-lime-register-btn {
+    height: 44px !important;
+    font-size: 13px !important;
+  }
 }

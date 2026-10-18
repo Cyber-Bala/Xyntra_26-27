@@ -83,14 +83,73 @@
   );
 }
 
-/* Fine grain overlay */
+/* ── GRAINY TEXTURE CONTINUATION (WITH RESPECT TO TIMELINE) ── */
+
+/* Tactile analog film grain matching Timeline */
+.pz-grain-film {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+  opacity: 0.75;
+  z-index: 2;
+}
+
+/* Soft risograph mottling */
+.pz-grain-mottle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 60% 40%, rgba(3, 70, 116, 0.45) 0%, transparent 65%),
+    radial-gradient(circle at 25% 75%, rgba(255, 107, 44, 0.28) 0%, transparent 55%),
+    radial-gradient(circle at 85% 15%, rgba(235, 92, 32, 0.22) 0%, transparent 50%);
+  mix-blend-mode: soft-light;
+  opacity: 0.75;
+  z-index: 2;
+}
+
+/* Authentic micro-speckles matching Timeline feTurbulence */
+.pz-grain-speckles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.52;
+  mix-blend-mode: color-dodge;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pzNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  38 0 0 0 -28'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pzNoise)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  z-index: 2;
+}
+
+/* Dark grain speckles for physical paper texture */
 .pz-bg-grain {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pzNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pzNoise)'/%3E%3C/svg%3E");
-  background-size: 150px 150px;
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pzDarkNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  35 0 0 0 -24'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pzDarkNoise)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  z-index: 2;
+}
+
+/* Seamless transition seam from Timeline bottom edge */
+.pz-grain-timeline-seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(80px, 12vh, 160px);
+  background: linear-gradient(
+    180deg,
+    rgba(242, 106, 27, 0.85) 0%,
+    rgba(242, 106, 27, 0.4) 35%,
+    rgba(31, 79, 216, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
 }
 
 /* ── 3. FOREGROUND CONTENT LAYER (z-index: 1) ── */
@@ -205,8 +264,8 @@ h1.prizes-headline {
 .pz-stage-wrap {
   position: absolute;
   right: 2vw;
-  top: 3vh;
-  width: min(60vw, 118vh);
+  top: 2.5vh;
+  width: min(58vw, 102vh);
   height: auto;
   display: flex;
   flex-direction: column;
@@ -214,11 +273,149 @@ h1.prizes-headline {
   z-index: 4;
 }
 
-/* Podium image fills wrapper width */
-.pz-podium-img {
+/* Vector Podiums SVG stage from Podiums.html */
+.pz-podium-svg-wrap {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+}
+
+.pz-podium-svg-wrap svg {
   width: 100%;
   height: auto;
   display: block;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.4));
+  overflow: visible;
+}
+
+/* ── PODIUM CASSETTE ANIMATIONS (from Podiums.html) ── */
+#p1cas,
+#p2cas,
+#p3cas {
+  will-change: transform;
+}
+
+.tri {
+  animation: bob 2.4s steps(4) infinite, pulse 2s ease-in-out infinite;
+}
+@keyframes bob {
+  50% { transform: translateY(-5px); }
+}
+@keyframes pulse {
+  50% { opacity: .76; }
+}
+
+.tri-o {
+  animation: flk 3.2s linear infinite;
+}
+@keyframes flk {
+  0%, 88%, 100% { opacity: 1; }
+  90% { opacity: .35; }
+  92% { opacity: 1; }
+  94% { opacity: 0.5; }
+  96% { opacity: 1; }
+}
+
+.tri-i {
+  animation: ib 1.2s steps(3) infinite alternate;
+}
+@keyframes ib {
+  to { transform: translateY(6px); }
+}
+
+.tri-e {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bl 3.6s infinite;
+}
+@keyframes bl {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(.1); }
+}
+
+.tri-s {
+  animation: sm 1.6s steps(1) infinite;
+}
+@keyframes sm {
+  50% { transform: translateY(3px); }
+}
+
+.sweep {
+  animation: sw 2.8s linear infinite;
+}
+@keyframes sw {
+  from { transform: translateY(-30px); }
+  to { transform: translateY(215px); }
+}
+
+.sunpulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sunp 2.6s ease-in-out infinite;
+}
+@keyframes sunp {
+  50% { transform: translateY(-4px) scale(1.03); }
+}
+
+.sunst {
+  animation: sst 1.4s linear infinite;
+}
+@keyframes sst {
+  to { transform: translateY(14px); }
+}
+
+.hz {
+  animation: hzz 1.8s steps(2) infinite;
+}
+@keyframes hzz {
+  50% { opacity: .4; }
+}
+
+.spst {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow 2.4s steps(6) infinite alternate;
+}
+@keyframes grow {
+  from { transform: scaleY(.6); }
+  to { transform: scaleY(1); }
+}
+
+.spl,
+.spr {
+  animation: lf 2.4s steps(6) infinite alternate;
+}
+@keyframes lf {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+
+.spk {
+  animation: tw 1.2s steps(2) infinite;
+}
+@keyframes tw {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tri,
+  .tri-o,
+  .tri-i,
+  .tri-e,
+  .tri-s,
+  .sweep,
+  .sunpulse,
+  .sunst,
+  .hz,
+  .spst,
+  .spl,
+  .spr,
+  .spk {
+    animation: none;
+  }
 }
 
 /* ── 3c. 3. CARDS: bigger text, nothing cut, under podium (1vh space) ── */
@@ -271,11 +468,11 @@ h1.prizes-headline {
 }
 
 .pz-strip-first {
-  background-color: #6B7894; /* steel */
+  background-color: #1F4FD8; /* exact prize blue */
 }
 
 .pz-strip-second {
-  background-color: #FF6B2C; /* orange */
+  background-color: #FF6B2C; /* exact prize orange */
 }
 
 .pz-strip-third {

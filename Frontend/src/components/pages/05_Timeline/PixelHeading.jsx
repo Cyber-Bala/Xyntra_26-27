@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import './pixel-heading.css'
 
 const shardCount = 18
@@ -67,12 +67,18 @@ export function PixelHeading({ as = 'h2', id, className = '', children }) {
 
   const text = typeof children === 'string' ? children : String(children || '')
   const total = text.length * LETTER_STEP
-  let cursor = 0
-  const words = text.split(' ').map((word) => {
-    const start = cursor
-    cursor += word.length + 1
-    return { word, start }
-  })
+
+  const words = useMemo(() => {
+    const raw = text.split(' ')
+    const items = []
+    let offset = 0
+    for (let i = 0; i < raw.length; i++) {
+      const word = raw[i]
+      items.push({ word, start: offset })
+      offset += word.length + 1
+    }
+    return items
+  }, [text])
 
   return (
     <Tag ref={ref} id={id} className={`pixel-title ${className}`} data-reveal>

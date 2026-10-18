@@ -10,10 +10,12 @@ export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const lenis = new Lenis({
-      duration: reducedMotion ? 0.01 : 0.8,
+      duration: reducedMotion ? 0.01 : 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: !reducedMotion,
       smoothTouch: false,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
     })
 
     const handleScroll = () => ScrollTrigger.update()

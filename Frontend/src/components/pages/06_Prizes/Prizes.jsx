@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import './Prizes.css'
-import prizesPodium from '../../../assets/prizes/prizes-podium.png'
+import podiumsSvg from './podiums.svg?raw'
+import grainTexture from '@/assets/images/footer_grain_texture.png'
 
 const TICKER_R1 = ['Microsoft', 'Google Cloud', 'AWS', 'Intel', 'Dell Technologies', 'GitHub']
 const TICKER_R2 = [
@@ -50,14 +52,141 @@ const PRIZE_CARDS = [
 ]
 
 export default function Prizes() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    let cs = [1, 2, 3].map((i) => document.getElementById(`p${i}cas`))
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const REST = 26
+    const LOWERED = REST + 560
+
+    const setCassettePos = (c, y) => {
+      if (!c) return
+      c.setAttribute(
+        'transform',
+        `translate(-31 ${y.toFixed(1)}) translate(292 560) scale(.88) translate(-292 -560)`
+      )
+    }
+
+    if (reduce) {
+      cs.forEach((c) => setCassettePos(c, REST))
+      return
+    }
+
+    // Initially start with cassettes lowered inside slots
+    cs.forEach((c) => setCassettePos(c, LOWERED))
+
+    let isRaised = false
+    let isRaising = false
+    let raiseTimer = null
+    let animId = null
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+    const animateRaise = () => {
+      isRaising = true
+      const startTime = performance.now()
+      const duration = 1050
+      // Stagger: runner up (#2), grand champion (#1), second runner up (#3)
+      const staggers = [120, 0, 240]
+
+      const step = (now) => {
+        const elapsed = now - startTime
+        let allDone = true
+
+        cs.forEach((c, idx) => {
+          if (!c) return
+          const stagger = staggers[idx] || 0
+          if (elapsed < stagger) {
+            allDone = false
+            setCassettePos(c, LOWERED)
+            return
+          }
+          const progress = Math.min(1, Math.max(0, (elapsed - stagger) / duration))
+          if (progress < 1) allDone = false
+          const e = easeOutCubic(progress)
+          const curY = LOWERED - e * (LOWERED - REST)
+          setCassettePos(c, curY)
+        })
+
+        if (!allDone) {
+          animId = requestAnimationFrame(step)
+        } else {
+          isRaising = false
+          isRaised = true
+        }
+      }
+
+      animId = requestAnimationFrame(step)
+    }
+
+    const checkPosition = () => {
+      if (!cs[0] || !cs[1] || !cs[2]) {
+        cs = [1, 2, 3].map((i) => document.getElementById(`p${i}cas`))
+      }
+
+      const rect = section.getBoundingClientRect()
+      const vh = window.innerHeight
+
+      // User has "fully reached the section":
+      // Top of prize section is scrolled nicely into view (rect.top <= vh * 0.22)
+      // and section is still active on screen (rect.bottom >= vh * 0.35)
+      const fullyReached = rect.top <= vh * 0.22 && rect.bottom >= vh * 0.35
+
+      if (fullyReached && !isRaised && !isRaising && !raiseTimer) {
+        // Clear delay between section reveal and cassette raise (500ms delay)
+        raiseTimer = setTimeout(() => {
+          raiseTimer = null
+          animateRaise()
+        }, 500)
+      } else if (!fullyReached && (rect.top > vh * 0.85 || rect.bottom < 0)) {
+        // Reset if user scrolls completely away above or below
+        if (raiseTimer) {
+          clearTimeout(raiseTimer)
+          raiseTimer = null
+        }
+        if (animId) cancelAnimationFrame(animId)
+        isRaised = false
+        isRaising = false
+        cs.forEach((c) => setCassettePos(c, LOWERED))
+      }
+    }
+
+    window.addEventListener('scroll', checkPosition, { passive: true })
+    window.addEventListener('resize', checkPosition)
+
+    if (window.lenisInstance) {
+      window.lenisInstance.on('scroll', checkPosition)
+    }
+
+    checkPosition()
+
+    return () => {
+      if (raiseTimer) clearTimeout(raiseTimer)
+      if (animId) cancelAnimationFrame(animId)
+      window.removeEventListener('scroll', checkPosition)
+      window.removeEventListener('resize', checkPosition)
+      if (window.lenisInstance) {
+        window.lenisInstance.off('scroll', checkPosition)
+      }
+    }
+  }, [])
+
   return (
-    <section className="pz-section" id="prizes">
-      {/* ── Decorative Code-Drawn Background Layer (z-index: 0) ── */}
+    <section className="pz-section" id="prizes" ref={sectionRef}>
+      {/* ── Decorative Code-Drawn Background Layer with Seamless Timeline Grain (z-index: 0) ── */}
       <div className="pz-bg-layer" aria-hidden="true">
         <div className="pz-bg-blue-base" />
         <div className="pz-shape-orange-top" />
         <div className="pz-shape-orange-bottom" />
+        <div className="pz-grain-film" style={{ backgroundImage: `url(${grainTexture})` }} />
+        <div className="pz-grain-mottle" />
+        <div className="pz-grain-speckles" />
         <div className="pz-bg-grain" />
+        <div className="pz-grain-timeline-seam" />
       </div>
 
       {/* ── Foreground Content Layer (z-index: 1) ── */}
@@ -85,10 +214,12 @@ export default function Prizes() {
 
         {/* 2. PODIUM + CARDS WRAPPER (right side) */}
         <div className="pz-stage-wrap">
-          <img
-            src={prizesPodium}
-            alt="Prizes podiums with First, Second, and Third cartridges"
-            className="pz-podium-img"
+          {/* Animated Vector Podiums Stage with rising cassettes */}
+          <div
+            className="pz-podium-svg-wrap"
+            dangerouslySetInnerHTML={{ __html: podiumsSvg }}
+            aria-label="Three podiums: First, Second and Third, each with a cassette rising from a slot in the stone"
+            role="img"
           />
 
           <div className="pz-cards-row">

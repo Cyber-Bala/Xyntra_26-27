@@ -1,0 +1,134 @@
+/* =============================================================================
+   XYNTRA CYBERNETIC CRT TERMINAL SCREEN
+   Authentic 1980s DEC VT220 / Field Terminal Screen Overlay
+   ============================================================================= */
+
+.xyntra-terminal-screen {
+  position: absolute;
+  left: 45.4%;
+  top: 12.5%;
+  width: 40.5%;
+  height: 30.5%;
+  transform: rotate(-2.8deg) skewX(-11.5deg);
+  transform-origin: top left;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0.8% 1.2%;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 10;
+  font-family: 'VT323', 'Space Grotesk', monospace;
+  color: #78EBFF;
+  line-height: 1.25;
+  user-select: none;
+}
+
+/* Header bar inside CRT */
+.crt-terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: clamp(8px, 0.72vw, 13px);
+  color: rgba(120, 235, 255, 0.65);
+  letter-spacing: 0.08em;
+  padding-bottom: 0.3vh;
+  margin-bottom: 0.4vh;
+  border-bottom: 1px solid rgba(120, 235, 255, 0.22);
+}
+
+.crt-terminal-prefix {
+  font-family: 'Space Grotesk', monospace;
+  font-weight: 700;
+  font-size: clamp(7px, 0.65vw, 12px);
+  text-transform: uppercase;
+}
+
+.crt-terminal-status {
+  display: flex;
+  align-items: center;
+  gap: 0.25vw;
+  font-family: 'Space Grotesk', monospace;
+  font-weight: 700;
+  font-size: clamp(7px, 0.6vw, 11px);
+  color: #8DE8FF;
+}
+
+.crt-status-dot {
+  width: clamp(3px, 0.35vw, 6px);
+  height: clamp(3px, 0.35vw, 6px);
+  border-radius: 50%;
+  background-color: #5ef5ff;
+  box-shadow: 0 0 6px rgba(94, 245, 255, 0.95);
+  animation: crtDotPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes crtDotPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Lines container */
+.crt-terminal-lines {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1px, 0.25vh, 4px);
+  flex: 1;
+}
+
+.xyntra-terminal-line {
+  font-size: clamp(9px, 1.15vw, 21px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #78EBFF;
+  text-shadow:
+    0 0 4px rgba(120, 235, 255, 0.95),
+    0 0 10px rgba(0, 195, 255, 0.55),
+    0 0 18px rgba(0, 160, 255, 0.35);
+  margin: 0;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.xyntra-terminal-cursor {
+  display: inline-block;
+  color: #FFFFFF;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.95), 0 0 12px rgba(120, 235, 255, 0.8);
+  animation: crtCursorBlink 0.85s steps(2, start) infinite;
+  margin-left: 2px;
+}
+
+@keyframes crtCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* CRT scanline raster overlay */
+.xyntra-terminal-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.28) 0px,
+    rgba(0, 0, 0, 0.28) 1.5px,
+    transparent 1.5px,
+    transparent 3px
+  );
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  z-index: 2;
+}
+
+/* Subtle CRT phosphor ambient glow */
+.xyntra-terminal-bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, rgba(120, 235, 255, 0.16) 0%, transparent 72%);
+  mix-blend-mode: screen;
+  z-index: 3;
+}

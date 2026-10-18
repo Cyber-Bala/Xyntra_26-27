@@ -58,6 +58,7 @@ export default function Reveal({
         scrollTrigger: {
           trigger: element,
           start: `top ${threshold}`,
+          end: 'bottom top',
           toggleActions: once ? 'play none none none' : 'play none none reverse',
           invalidateOnRefresh: true,
         },

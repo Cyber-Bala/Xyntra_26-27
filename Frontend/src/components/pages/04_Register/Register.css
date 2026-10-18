@@ -107,6 +107,17 @@ body:has(.pod-page-view),
 
 /* ──── RIGHT COLUMN: TITLE, KEY POINTS & FAQ ───────────────── */
 
+.reg-mobile-header {
+  display: none;
+}
+
+.reg-desktop-header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.2vw, 48px);
+  width: 100%;
+}
+
 .reg-right-info-column,
 .reg-left-column {
   display: flex;
@@ -1254,24 +1265,44 @@ body:has(.pod-page-view),
 
 @media (max-width: 1024px) {
   .register-page-split-layout {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    gap: 32px;
+    padding: 24px 18px 48px;
+    align-items: center;
   }
 
-  .reg-right-info-column {
+  /* Mobile Header at top */
+  .reg-mobile-header {
+    display: block;
     order: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
   }
 
+  .reg-desktop-header {
+    display: none;
+  }
+
+  /* Registration Form (Pocket Pod) at Top */
   .reg-left-pod-column {
     order: 2;
-  }
-
-  .reg-left-pod-column,
-  .reg-right-pod-column {
     justify-self: center;
     max-width: 760px;
     margin: 0 auto;
+    width: 100%;
+  }
+
+  /* Guidelines and Questions followed by */
+  .reg-right-info-column {
+    order: 3;
+    justify-self: center;
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 32px;
   }
 
   .pocket-pod-device-chassis.left-aligned-pod,
@@ -1281,19 +1312,44 @@ body:has(.pod-page-view),
 }
 
 @media (max-width: 640px) {
-  .pod-form-grid {
-    grid-template-columns: 1fr;
+  .register-page-split-layout {
+    padding: 20px 14px 40px;
+    gap: 22px;
   }
 
-  .deck-main-row {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .transport-block {
-    order: 3;
+  .reg-info-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .registration-home-button {
+    padding: 6px 14px;
+    font-size: 10.5px;
+  }
+
+  .reg-round-badge {
+    padding: 5px 12px;
+    font-size: 11.5px;
+  }
+
+  .reg-header-block {
+    margin-top: 6px;
+    gap: 6px;
+  }
+
+  .reg-massive-title {
+    font-size: clamp(34px, 10vw, 52px) !important;
+    line-height: 0.9 !important;
+  }
+
+  .reg-subtitle {
+    font-size: 12.5px !important;
+    letter-spacing: 0.05em;
   }
 
   .pocket-pod-device-chassis.left-aligned-pod,
@@ -1302,10 +1358,209 @@ body:has(.pod-page-view),
     border-radius: 14px;
   }
 
-  .reg-info-top-bar,
-  .reg-left-top-bar {
+  .pod-device-header {
+    padding: 0 4px 10px 4px;
+  }
+
+  .pod-title {
+    font-size: 12.5px;
+  }
+
+  .pod-model {
+    font-size: 7.5px;
+  }
+
+  .pod-status-label {
+    font-size: 8px;
+  }
+
+  .pod-cassette-well {
+    padding: 6px 6px 4px 6px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .pod-cream-screen {
+    padding: 12px 10px;
+    border-radius: 8px;
+  }
+
+  .pod-form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .pod-block-label {
+    font-size: 12.5px !important;
+    margin-bottom: 10px;
+  }
+
+  .pod-field-title {
+    font-size: 11.5px !important;
+  }
+
+  .pod-input {
+    min-height: 42px !important;
+    padding: 8px 12px !important;
+    font-size: 13.5px !important;
+  }
+
+  .pod-member-card {
+    padding: 12px 10px 10px;
+  }
+
+  .member-card-legend {
+    font-size: 12px !important;
+  }
+
+  .pod-roster-controls {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .pod-sub-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 14px !important;
+  }
+
+  .pod-agreement-row {
+    margin: 12px 0 14px;
+  }
+
+  .pod-agree-label {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .pod-integrated-deck {
+    padding: 10px 8px;
+  }
+
+  .deck-main-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .vol-block {
+    flex: 1;
+  }
+
+  .readout-block {
+    flex: 1;
+    align-items: flex-end;
+  }
+
+  .transport-block {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .deck-pill-btn {
+    padding: 5px 8px;
+    font-size: 8.5px;
+  }
+
+  .pod-device-footer {
+    padding: 8px 4px 0;
+    font-size: 7px;
+  }
+
+  /* Guidelines and FAQ cards on phone */
+  .reg-section-label {
+    font-size: 14px !important;
+    margin-bottom: 10px;
+  }
+
+  .reg-key-points-grid {
+    gap: 12px;
+  }
+
+  .reg-point-card {
+    padding: 14px 14px;
+    gap: 12px;
+  }
+
+  .reg-point-num {
+    font-size: 15px;
+    padding: 3px 8px;
+  }
+
+  .reg-point-title {
+    font-size: 14px;
+  }
+
+  .reg-point-desc {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .reg-faq-container {
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  .reg-faq-accordion {
+    gap: 10px;
+  }
+
+  .reg-faq-question-btn {
+    padding: 12px 14px;
+  }
+
+  .reg-faq-q-text {
+    font-size: 13px;
+  }
+
+  .reg-faq-answer {
+    padding: 0 14px 14px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-page-split-layout {
+    padding: 16px 10px 32px;
+    gap: 18px;
+  }
+
+  .reg-massive-title {
+    font-size: clamp(28px, 9vw, 38px) !important;
+  }
+
+  .screen-now-playing-row {
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  .pixel-album-art svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .np-title {
+    font-size: 13px !important;
+  }
+
+  .np-label,
+  .np-track {
+    font-size: 8px;
+  }
+
+  .screen-eq-cluster {
+    gap: 1.5px;
+    height: 28px;
+  }
+
+  .eq-bar-stick {
+    width: 2px;
+  }
+
+  .pick-text {
+    max-width: 120px;
+    font-size: 11.5px;
   }
 }
 

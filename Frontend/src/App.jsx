@@ -5,11 +5,13 @@ import Navbar from './components/navbar/Navbar.jsx'
 import Hero from './components/pages/01_Hero/Hero.jsx'
 import About from './components/pages/02_About/About.jsx'
 import Prizes from './components/pages/06_Prizes/Prizes.jsx'
-import TitleRelay from './components/fx/TitleRelay.jsx'
-import { CrtOverlay, Embers } from './components/fx/Atmosphere.jsx'
+import { CrtOverlay } from './components/fx/Atmosphere.jsx'
 import Rules from './components/pages/03_Rules/Rules.jsx'
 import Register from './components/pages/04_Register/Register.jsx'
 import Footer from './components/footer/Footer.jsx'
+import Timeline from './components/pages/05_Timeline/Timeline.jsx'
+import PixelTransition from './components/fx/PixelTransition.jsx'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const PAGES = [
   { id: 1, label: 'Home', section: 'hero' },
@@ -26,61 +28,165 @@ function isRegistrationRoute(pathname) {
 
 export default function App() {
   const scrollFrame = useRef(0)
+  const [currentRoute, setCurrentRoute] = useState(() => window.location.pathname)
   const [activePage, setActivePage] = useState(() => isRegistrationRoute(window.location.pathname) ? 4 : 1)
-  const isRegistrationPage = isRegistrationRoute(window.location.pathname)
+  const isRegistrationPage = isRegistrationRoute(currentRoute)
+
+  const isProgrammaticScroll = useRef(false)
+  const programmaticScrollTimer = useRef(null)
+
+  const smoothScrollTo = useCallback((target, offset = -70) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (typeof target === 'number') window.scrollTo(0, target)
+      else target?.scrollIntoView()
+      return
+    }
+
+    if (window.lenisInstance) {
+      window.lenisInstance.scrollTo(target, {
+        offset,
+        duration: 1.45,
+        easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+        force: true,
+        lock: false,
+      })
+    } else {
+      if (typeof target === 'number') {
+        window.scrollTo({ top: target, behavior: 'smooth' })
+      } else {
+        const top = (target?.getBoundingClientRect().top ?? 0) + window.scrollY + offset
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
+    }
+  }, [])
 
   const navigateImmediately = useCallback((pageId, targetId) => {
     const page = PAGES.find((item) => item.id === pageId)
+    const currentlyOnRegister = isRegistrationRoute(window.location.pathname)
+
     if (!page) {
       if (targetId) {
         const section = document.getElementById(targetId)
         if (section) {
-          if (window.lenisInstance) window.lenisInstance.scrollTo(section, { offset: -96 })
-          else section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          smoothScrollTo(section, -70)
         }
       }
       return
     }
 
-    if (page.path) {
-      if (isRegistrationRoute(window.location.pathname)) {
-        setActivePage(page.id)
-        if (window.lenisInstance) window.lenisInstance.scrollTo(0)
-        else window.scrollTo({ top: 0, behavior: 'smooth' })
-        return
+    // Navigating to Register
+    if (page.path === '/register') {
+      window.history.pushState({}, '', '/register')
+      setCurrentRoute('/register')
+      setActivePage(4)
+      window.scrollTo(0, 0)
+      if (window.lenisInstance) {
+        window.lenisInstance.scrollTo(0, { immediate: true })
       }
-      if (window.location.pathname !== page.path) window.history.pushState({}, '', page.path)
-      setActivePage(page.id)
-      if (window.lenisInstance) window.lenisInstance.scrollTo(0)
-      else window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
 
-    if (isRegistrationRoute(window.location.pathname)) window.history.pushState({}, '', '/')
-    setActivePage(page.id)
-    requestAnimationFrame(() => {
-      const section = document.getElementById(targetId || page.section)
-      const destination = page.id === 1 ? 0 : section
+    // Navigating back to Home/landing from Register
+    if (currentlyOnRegister) {
+      window.history.pushState({}, '', '/')
+      setCurrentRoute('/')
+      setActivePage(page.id)
+
+      // Snap scroll immediately to top with ZERO animation while under the transition
+      window.scrollTo(0, 0)
       if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(destination, { offset: page.id === 1 ? 0 : -96 })
+        window.lenisInstance.scrollTo(0, { immediate: true })
       }
-      else if (page.id === 1) window.scrollTo({ top: 0, behavior: 'smooth' })
-      else section?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  }, [])
+
+      // If a non-hero target was requested (e.g., #about, #prizes), scroll to it after landing mounts
+      if (targetId && targetId !== 'hero') {
+        setTimeout(() => {
+          const sec = document.getElementById(targetId)
+          if (sec) smoothScrollTo(sec, -70)
+        }, 100)
+      }
+
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0)
+        if (window.lenisInstance) {
+          window.lenisInstance.scrollTo(0, { immediate: true })
+        }
+        ScrollTrigger.refresh()
+      })
+      return
+    }
+
+    // Standard in-page smooth navigation on the landing page
+    setActivePage(page.id)
+    isProgrammaticScroll.current = true
+    if (programmaticScrollTimer.current) clearTimeout(programmaticScrollTimer.current)
+    programmaticScrollTimer.current = setTimeout(() => {
+      isProgrammaticScroll.current = false
+    }, 1200)
+
+    const section = document.getElementById(targetId || page.section)
+    const isHome = page.id === 1
+    const destination = isHome ? 0 : section
+    smoothScrollTo(destination, isHome ? 0 : -70)
+  }, [smoothScrollTo])
+
+  const [pixelTransitionActive, setPixelTransitionActive] = useState(false)
+  const pendingNavigationAction = useRef(null)
 
   const handleNavigate = useCallback((pageId, targetId) => {
+    if (pixelTransitionActive) return
+
+    const page = PAGES.find((item) => item.id === pageId)
+    const currentlyOnRegister = isRegistrationRoute(window.location.pathname)
+
+    const isTargetRegister =
+      page?.path === '/register' ||
+      targetId === 'register' ||
+      targetId === '/register' ||
+      pageId === 4
+
+    const isMovingToRegister = isTargetRegister && !currentlyOnRegister
+    const isMovingBackToHome = currentlyOnRegister && (pageId === 1 || page?.section || targetId === 'hero')
+
+    // Apply the single pixel transition when moving to Register OR when clicking back to Home from Register
+    if (isMovingToRegister || isMovingBackToHome) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        navigateImmediately(pageId, targetId)
+        return
+      }
+      pendingNavigationAction.current = () => navigateImmediately(pageId, targetId)
+      setPixelTransitionActive(true)
+      return
+    }
+
     navigateImmediately(pageId, targetId)
-  }, [navigateImmediately])
+  }, [navigateImmediately, pixelTransitionActive])
+
+  const handleTransitionMidpoint = useCallback(() => {
+    if (pendingNavigationAction.current) {
+      pendingNavigationAction.current()
+      pendingNavigationAction.current = null
+    }
+  }, [])
+
+  const handleTransitionComplete = useCallback(() => {
+    setPixelTransitionActive(false)
+    pendingNavigationAction.current = null
+  }, [])
 
   // Keep the URL and rendered view in sync with browser back/forward navigation.
   useEffect(() => {
     const handlePopState = () => {
-      const onRegistrationPage = isRegistrationRoute(window.location.pathname)
+      const path = window.location.pathname
+      const onRegistrationPage = isRegistrationRoute(path)
+      setCurrentRoute(path)
       setActivePage(onRegistrationPage ? 4 : 1)
       if (!onRegistrationPage) {
-        if (window.lenisInstance) window.lenisInstance.scrollTo(0)
-        else window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.scrollTo(0, 0)
+        if (window.lenisInstance) {
+          window.lenisInstance.scrollTo(0, { immediate: true })
+        }
+        ScrollTrigger.refresh()
       }
     }
     window.addEventListener('popstate', handlePopState)
@@ -97,6 +203,7 @@ export default function App() {
 
     const updateActiveSection = () => {
       scrollFrame.current = 0
+      if (isProgrammaticScroll.current) return
       const marker = window.innerHeight * 0.34
       const current = sections
         .filter((page) => page.element.getBoundingClientRect().top <= marker)
@@ -120,6 +227,11 @@ export default function App() {
 
   return (
     <>
+      <PixelTransition
+        isActive={pixelTransitionActive}
+        onMidpoint={handleTransitionMidpoint}
+        onComplete={handleTransitionComplete}
+      />
       {isRegistrationPage && (
         <CrtOverlay />
       )}
@@ -141,6 +253,9 @@ export default function App() {
                 <Hero onNavigate={handleNavigate} />
               </Reveal>
               <About />
+              <Reveal className="landing-section-reveal about-timeline-reveal">
+                <Timeline />
+              </Reveal>
               <Reveal className="landing-section-reveal">
                 <Prizes onNavigate={handleNavigate} />
               </Reveal>

@@ -1,512 +1,450 @@
 /* ============================================================
-   XYNTRA TIMELINE — CODED ARTWORK WITH VECTOR TAPE & ROTATING GLOBE
-   - Pure coded background with real halftone threshold SVG filters
-   - Organic SVG turbulence grain overlays
-   - Vector copper magnetic tape with metallic highlight and depth shadow
-   - Clean transparent cutout cassettes from cassettes.webp
-   - 3D rotating globe (anchored at authentic bottom-left corner)
-   - Real-time animated audio waveform equalizer in top-center
-   - Pixel typography title "TIMELINE" placed in the white area
-   - Authentic glowing neon checkpoint markers along the copper tape
+   XYNTRA SCROLL TAPE TIMELINE
+   - Interactive copper magnetic tape engine unreeling from Cassette 1
+   - Unified deep midnight blue atmospheric backdrop with fine film grain
+   - Compact scroll distance for fluid, rapid, responsive navigation
+   - Precise spool alignment and seamless top entrance
+   - Absolute full-height canvas (#tape) guaranteeing zero cutoff
+   - Sliding & illuminating checkpoint cards
+   - Seamless wrap into Cassette 2
    ============================================================ */
 
-/* ── FULL SCREEN SECTION (100vw, Zero Unwanted Space, Screen-Fitting) ── */
-
 .timeline-cassette-section {
-  width: 100vw;
-  max-width: 100vw;
+  --k: 0.8;
+  --cream: #e8e2c4;
+  --ink: #04202f;
+  --lime: #b9f23c;
+  --orange: #f26a1b;
+
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 0 !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
   background-color: #034674;
   background-image:
+    /* Layer 1: Analog magnetic tape precise micro-scratches */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tlScratches'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.032 0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.13 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tlScratches)'/%3E%3C/svg%3E"),
+    /* Layer 2: Tactile organic analog film & paper grain */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tlGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tlGrain)'/%3E%3C/svg%3E"),
+    /* Layer 3: Solid cream top base */
+    linear-gradient(
+      to bottom,
+      #f4e7c3 0%,
+      rgba(244, 231, 195, 0.95) 40px,
+      transparent 90px
+    ),
+    /* Layer 4: Solid orange bottom base (#f26a1b) */
+    linear-gradient(
+      to top,
+      #f26a1b 0%,
+      rgba(242, 106, 27, 0.95) 40px,
+      transparent 90px
+    ),
+    /* Layer 5: Top-right deep blue radial glow from XYNTRA background.html */
     radial-gradient(ellipse at 100% 0%, #0b36a2 0%, rgba(10, 63, 148, 0.7) 25%, transparent 55%),
+    /* Layer 6: Center radial glow from XYNTRA background.html */
     radial-gradient(ellipse at 48% 50%, rgba(10, 92, 142, 0.9), transparent 65%),
+    /* Layer 7: Bottom-left deep blue radial glow from XYNTRA background.html */
     radial-gradient(ellipse at 41% 82%, rgba(2, 47, 94, 0.85), transparent 40%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: clamp(500px, 82vh, 640px);
-  min-height: clamp(500px, 82vh, 640px);
-  max-height: min(85vh, 640px);
-  overflow: hidden;
-  box-sizing: border-box;
+  background-repeat:
+    repeat,
+    repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+  background-size:
+    240px 240px,
+    180px 180px,
+    100% 90px,
+    100% 90px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-position:
+    0 0,
+    0 0,
+    top center,
+    bottom center,
+    center center,
+    center center,
+    center center;
+  color: var(--cream);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-/* Ambient Halftone Lighting Edge Extensions for ultrawide screens */
+/* ── COLOR MERGE HALFTONE DITHER (Seamless 45° halftone print transition, strictly below #tape at z-index: 1) ── */
+
+/* Top Color Merge: Cream-to-Blue halftone screen seamlessly feathering into center blue */
 .timeline-cassette-section::before {
   content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 92% 70%, rgba(252, 104, 49, 0.22), transparent 45%),
-    radial-gradient(ellipse at 8% 10%, rgba(232, 226, 196, 0.15), transparent 35%);
-  z-index: 0;
-}
-
-/* ── STAGE (Spans Full Screen Width and Height) ── */
-
-.tl-stage {
-  position: relative;
-  width: 100vw;
-  max-width: 100vw;
-  height: 100%;
-  overflow: hidden;
-  margin: 0 auto;
-  background: transparent;
-}
-
-/* ── HALFTONE SHAPES (Fluidly Spanning Full Screen Width) ── */
-
-.tl-shapes {
-  position: absolute;
-  inset: 0;
-  filter: url(#rough);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 420px;
   pointer-events: none;
   z-index: 1;
+  background-image: url('../../../assets/images/halftone_cream.svg');
+  background-repeat: repeat-x;
+  background-size: 600px 420px;
+  background-position: top center;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 78%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 78%,
+    transparent 100%
+  );
 }
 
-.tl-shapes > * {
+/* Bottom Color Merge: Orange-to-Blue halftone screen seamlessly feathering into center blue */
+.timeline-cassette-section::after {
+  content: "";
   position: absolute;
-}
-
-.tl-navy {
+  bottom: 0;
   left: 0;
-  top: 7.9%;
-  width: 21.2%;
-  min-width: 200px;
-  height: 10.4%;
-  background: #003a6d;
+  right: 0;
+  height: 420px;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url('../../../assets/images/halftone_orange.svg');
+  background-repeat: repeat-x;
+  background-size: 600px 420px;
+  background-position: bottom center;
+  -webkit-mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 78%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 78%,
+    transparent 100%
+  );
 }
 
-.tl-dots {
-  background-size: 100% 100%, 7px 7px;
-  background-blend-mode: screen;
-}
+/* ── ABSOLUTE FULL-COVERAGE DYNAMIC TAPE CANVAS (Always on top of background) ── */
 
-/* Top-Left Halftone White/Cream Wedge: sized to comfortably house the title */
-.tl-cream-top {
-  left: 0;
+#tape {
+  position: absolute;
   top: 0;
-  width: 55%;
-  height: clamp(86px, 19%, 130px);
-  clip-path: polygon(0 0, 100% 0, 48% 100%, 0 88%);
-  background-image: linear-gradient(90deg, #fff 20%, #aaa 55%, #000 95%), radial-gradient(circle, #fff, #000 60%);
-  filter: url(#ht-cream);
-}
-
-.tl-cream-bottom {
-  left: 35.55%;
-  top: 73.5%;
-  width: 46.25%;
-  height: 26.5%;
-  clip-path: polygon(0 100%, 0 72.6%, 71.9% 19%, 100% 0, 100% 100%);
-  background-image: linear-gradient(65deg, #fff 38%, #000 100%), radial-gradient(circle, #fff, #000 60%);
-  filter: url(#ht-cream);
-}
-
-.tl-orange {
-  left: 36.7%;
-  top: 17.35%;
-  width: 63.3%;
-  height: 82.65%;
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  background-image: linear-gradient(340deg, #fff 0, #fff 40%, #000 88%), radial-gradient(circle, #fff, #000 60%);
-  filter: url(#ht-orange);
-}
-
-/* ── ORGANIC SVG GRAIN LAYERS ── */
-
-.tl-grain {
-  position: absolute;
-  inset: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
-  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 22%, transparent 68%), linear-gradient(180deg, #000 0, transparent 48%);
-  mask-image: linear-gradient(90deg, #000 0, #000 22%, transparent 68%), linear-gradient(180deg, #000 0, transparent 48%);
+  z-index: 5;
+  filter: drop-shadow(0 14px 8px rgba(2, 27, 68, 0.5));
 }
 
-.tl-grain.tl-grain-fine {
-  mix-blend-mode: overlay;
-  opacity: 0.75;
+/* ── SCROLL FLOW SEQUENCE (Strictly on top of tape canvas & background) ── */
+
+.tl-scroll-flow {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }
 
-.tl-grain.tl-grain-mottle {
-  mix-blend-mode: soft-light;
-  opacity: 0.6;
+.hero.tl-hero,
+.step.tl-step,
+.outro.tl-outro {
+  position: relative;
 }
 
-.tl-grain.tl-grain-speck-w {
-  opacity: 0.4;
+/* Balanced section heights to ensure clear milestones without collisions */
+.hero.tl-hero {
+  min-height: clamp(300px, 38vh, 360px);
 }
 
-.tl-grain.tl-grain-speck-d {
-  opacity: 0.5;
+.step.tl-step {
+  min-height: clamp(300px, 40vh, 370px);
 }
 
-.tl-grain.tl-grain-merge {
-  -webkit-mask-image: linear-gradient(90deg, transparent 52%, #000 64%, #000 78%, transparent 90%), linear-gradient(180deg, transparent 60%, #000 76%);
-  mask-image: linear-gradient(90deg, transparent 52%, #000 64%, #000 78%, transparent 90%), linear-gradient(180deg, transparent 60%, #000 76%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  opacity: 0.85;
+.outro.tl-outro {
+  min-height: clamp(320px, 42vh, 400px);
+  padding-top: 40px;
 }
 
-/* ── CRISP TYPOGRAPHY OVERLAY: POSITIONED UP IN THE WHITE/CREAM AREA ── */
-
-.tl-overlay-title-wrapper {
+/* Cassettes */
+.cassette {
   position: absolute;
-  left: clamp(20px, 3.2vw, 54px);
-  top: clamp(6px, 1vw, 14px);
-  transform: none;
-  margin: 0;
-  padding: 0;
-  z-index: 25;
-  pointer-events: auto;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1px;
-  user-select: none;
+  z-index: 12;
+  width: calc(342px * var(--k, 0.8));
+  line-height: 0;
+  pointer-events: none;
 }
 
-.tl-eyebrow-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Jersey 10', 'Pixelify Sans', monospace;
-  font-size: clamp(12px, 1.2vw, 15px);
-  letter-spacing: 0.14em;
-  color: #eb5c20;
+.cassette img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  filter: drop-shadow(0 12px 24px rgba(2, 27, 68, 0.45));
+}
+
+.cassette.start {
+  left: 4vw;
+  top: 3vh;
+}
+
+.cassette.end {
+  width: calc(368px * var(--k, 0.8));
+  right: 4vw;
+  top: 4vh;
+}
+
+.cassette.end.live img {
+  filter: drop-shadow(0 0 16px rgba(185, 242, 60, 0.45));
+  transition: filter 0.5s ease;
+}
+
+/* Animated Hub Spools */
+.hub {
+  position: absolute;
+  width: 9.9%;
+  height: auto;
+  aspect-ratio: 1;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.cassette.end .hub {
+  width: 9.2%;
+}
+
+/* Typography & Hero Copy */
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
+  color: var(--lime);
+  margin: 0 0 0.6rem;
   font-weight: 700;
 }
 
-.tl-eyebrow-tag span:first-child {
-  color: #eb5c20;
-  font-weight: 800;
-}
-
-.tl-overlay-title-wrapper .pixel-title {
-  font-family: 'Jersey 10', 'Pixelify Sans', monospace !important;
-  font-size: clamp(26px, 3.4vw, 48px) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
-  line-height: 1 !important;
-  text-transform: uppercase !important;
-  color: #eb5c20 !important;
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.25),
-    0 0 10px rgba(235, 92, 32, 0.35) !important;
-}
-
-/* ── 3D ROTATING GLOBE (ANCHORED DIRECTLY AT CORNER LEFT) ── */
-
-.tl-globe-wrapper {
+.hero-copy {
   position: absolute;
-  left: -4%;
-  bottom: -6%;
-  width: clamp(230px, 24vw, 360px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  pointer-events: none;
+  right: 4vw;
+  top: 3vh;
+  width: min(440px, 42vw);
+  box-sizing: border-box;
+  padding: 1.15rem 1.35rem;
+  background: rgba(2, 27, 58, 0.88);
+  border: 1px solid rgba(232, 226, 196, 0.25);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
   z-index: 15;
 }
 
-.tl-globe-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+.tl-pixel-title {
+  margin: 0 0 0.75rem;
+  color: #fff;
+  line-height: 1.1;
 }
 
-.tl-globe-rim {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  box-shadow:
-    inset -5px 5px 22px rgba(220, 245, 255, 0.45),
-    0 0 18px rgba(180, 230, 255, 0.3);
+.hero-copy p {
+  margin: 0;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  color: rgba(232, 226, 196, 0.9);
+  line-height: 1.45;
 }
 
-/* ── INNER COMPOSITION CANVAS (Exact 1308 / 634 Proportions, Fits Screen Without Zooming) ── */
-
-.tl-canvas-inner {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 100%;
-  max-width: calc(clamp(500px, 82vh, 640px) * (1308 / 634));
-  aspect-ratio: 1308 / 634;
-  height: 100%;
-  max-height: clamp(500px, 82vh, 640px);
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* ── PURE VECTOR COPPER MAGNETIC TAPE ── */
-
-.tl-tape-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
-  z-index: 1;
-  overflow: visible;
-}
-
-/* ── CUTOUT CASSETTES (cassettes.webp) ── */
-
-.tl-cassettes-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
-  z-index: 2;
-  object-fit: fill;
-}
-
-/* ── AUDIO SIGNAL EQUALIZER WAVEFORM ── */
-
-.tl-signal-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.tl-signal-waveform-group {
-  pointer-events: none;
-}
-
-.tl-signal-bar {
-  stroke: #5ef5ff;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 3px rgba(80, 245, 255, 0.85));
-  animation: signalBarPulse 1.3s ease-in-out infinite alternate;
-  mix-blend-mode: screen;
-}
-
-@keyframes signalBarPulse {
-  0% {
-    transform: scaleY(0.40);
-    opacity: 0.55;
-    stroke: #38c8f5;
-  }
-  50% {
-    transform: scaleY(1.22);
-    opacity: 1;
-    stroke: #ffffff;
-    filter: drop-shadow(0 0 5px rgba(160, 255, 255, 0.95));
-  }
-  100% {
-    transform: scaleY(0.75);
-    opacity: 0.80;
-    stroke: #5ef5ff;
-  }
-}
-
-/* ── DECORATIVE STAR GLINTS ── */
-
-.tl-star {
-  position: absolute;
-  border-radius: 50%;
-  background: transparent;
-  z-index: 4;
-}
-
-.tl-star-1 {
-  width: 1.8%;
-  aspect-ratio: 1;
-  top: 42.5%;
-  left: 54.8%;
-  animation: starTwinkle 4s ease-in-out infinite;
-  animation-delay: 0s;
-}
-
-.tl-star-2 {
-  width: 1.2%;
-  aspect-ratio: 1;
-  top: 33%;
-  left: 47%;
-  animation: starTwinkle 5s ease-in-out infinite;
-  animation-delay: 1.5s;
-}
-
-.tl-star-3 {
-  width: 0.8%;
-  aspect-ratio: 1;
-  top: 18%;
-  left: 37%;
-  animation: starTwinkle 4.5s ease-in-out infinite;
-  animation-delay: 2.8s;
-}
-
-@keyframes starTwinkle {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    opacity: 0;
-  }
-  40%, 60% {
-    box-shadow:
-      0 0 4px 1px rgba(255, 255, 255, 0.22),
-      0 0 12px 4px rgba(255, 255, 255, 0.07);
-    opacity: 1;
-  }
-}
-
-/* ── CHECKPOINTS SVG MARKERS (STALKS, BASE ANCHORS & NEON TARGET RINGS) ── */
-
-.tl-checkpoints-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 15;
-  overflow: visible;
-}
-
-.tl-cp-marker {
-  cursor: pointer;
-  pointer-events: auto;
-  filter: drop-shadow(0 0 5px #d2f25f) drop-shadow(0 0 12px rgba(210, 242, 95, 0.75));
-  transition: filter 0.25s ease, transform 0.25s ease;
-}
-
-.tl-cp-marker:hover {
-  filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 20px #d2f25f);
-}
-
-/* ── REDUCED MOTION SUPPORT ── */
-
-.tl-no-motion .tl-signal-bar,
-.tl-no-motion .tl-star,
-.tl-no-motion .tl-cp-marker animate {
-  animation: none !important;
-}
-
-/* ── MILESTONES CONTAINER & INTERACTIVE LABELS ── */
-
-.tl-milestones-container {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20;
-}
-
-.tl-milestone-label {
-  position: absolute;
-  transform: translate(-50%, -100%);
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-.tl-label-text {
-  font-family: 'Jersey 10', 'Pixelify Sans', monospace;
-  font-size: clamp(12px, 1.2vw, 18px);
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #ffffff;
+.hint {
+  margin-top: 1.1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  background: rgba(3, 16, 36, 0.92);
-  padding: 2px 10px;
-  border-radius: 4px;
-  border: 1px solid rgba(210, 242, 95, 0.65);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.65),
-    0 0 12px rgba(210, 242, 95, 0.4);
-  backdrop-filter: blur(4px);
-  white-space: nowrap;
-  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  color: var(--orange);
+  font-weight: 700;
 }
 
-.tl-milestone-label:hover .tl-label-text {
-  transform: scale(1.1);
-  border-color: #d2f25f;
-  color: #d2f25f;
-  box-shadow: 0 0 18px rgba(210, 242, 95, 0.85);
+/* Checkpoint Cards */
+.card.tl-card {
+  position: absolute;
+  top: 50%;
+  width: min(34vw, 360px);
+  padding: 1.15rem 1.35rem;
+  background: rgba(2, 27, 58, 0.88);
+  border: 1px solid rgba(232, 226, 196, 0.28);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translate3d(0, -50%, 0);
+  opacity: 0;
+  will-change: transform, opacity;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+  z-index: 15;
 }
 
-/* ── RESPONSIVE BEHAVIOR ── */
+.step:nth-of-type(odd) .card.tl-card {
+  left: 4vw;
+  right: auto;
+}
 
-@media (max-width: 768px) {
-  .timeline-cassette-section {
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    padding: 0 !important;
+.step:nth-of-type(even) .card.tl-card {
+  right: 4vw;
+  left: auto;
+}
+
+.card.tl-card .no {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--lime);
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.card.tl-card h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e8e2c4;
+}
+
+.card.tl-card p {
+  margin: 0;
+  color: rgba(232, 226, 196, 0.9);
+  font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+  line-height: 1.45;
+}
+
+/* Outro Copy - Left-aligned at the upper position */
+.end-copy {
+  position: absolute;
+  left: 4vw;
+  top: 3vh;
+  text-align: left;
+  max-width: min(460px, 42vw);
+  box-sizing: border-box;
+  padding: 1.15rem 1.35rem;
+  background: rgba(2, 27, 58, 0.88);
+  border: 1px solid rgba(232, 226, 196, 0.25);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  z-index: 15;
+}
+
+.tl-pixel-outro-title {
+  margin: 0 0 0.6rem;
+  color: #e8e2c4;
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+}
+
+.end-copy p {
+  margin: 0;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  color: rgba(232, 226, 196, 0.88);
+  line-height: 1.45;
+}
+
+/* Mobile Responsive */
+@media (max-width: 759px) {
+  .cassette.start {
+    left: 3vw;
+    top: 4vh;
   }
-
-  .tl-stage {
-    height: auto !important;
-    aspect-ratio: 1308 / 634 !important;
-    width: 100vw !important;
+  .outro.tl-outro {
+    min-height: clamp(420px, 56vh, 500px);
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
-
-  .tl-canvas-inner {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    max-width: 100vw !important;
-    height: 100% !important;
-    max-height: none !important;
-    aspect-ratio: 1308 / 634 !important;
+  .cassette.end {
+    right: 3vw;
+    top: 12px;
   }
-
-  .tl-globe-wrapper {
-    left: -10% !important;
-    bottom: -8% !important;
-    width: clamp(140px, 32vw, 220px) !important;
+  .hero-copy {
+    left: 27vw;
+    right: 5vw;
+    top: auto;
+    bottom: 2vh;
+    width: auto;
+    max-width: none;
   }
-
-  .tl-overlay-title-wrapper {
-    left: 14px !important;
-    top: 6px !important;
+  .card.tl-card {
+    width: auto;
+    left: 27vw !important;
+    right: 5vw !important;
   }
-
-  .tl-overlay-title-wrapper .pixel-title {
-    font-size: clamp(18px, 4.5vw, 26px) !important;
+  .end-copy {
+    left: 4vw;
+    right: auto;
+    top: clamp(140px, 18vh, 180px);
+    bottom: auto;
+    width: auto;
+    max-width: min(88vw, 420px);
+    text-align: left;
+    padding: 0.95rem 1.15rem;
+    box-sizing: border-box;
+    z-index: 20;
   }
-
-  .tl-eyebrow-tag {
-    font-size: 10px !important;
-    gap: 4px !important;
+  .end-copy .eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
   }
-
-  .tl-label-text {
-    padding: 1px 5px !important;
-    font-size: 8px !important;
-    border-width: 0.5px !important;
+  .tl-pixel-outro-title {
+    font-size: clamp(1.15rem, 3.8vw, 1.45rem);
+    margin: 0 0 0.45rem;
+    line-height: 1.25;
   }
+  .end-copy p {
+    font-size: clamp(0.78rem, 2.6vw, 0.9rem);
+    line-height: 1.4;
+  }
+}
 
-  .tl-milestone-pin-beacon {
-    width: 5px !important;
-    height: 5px !important;
-    border-width: 1px !important;
+@media (max-width: 480px) {
+  .outro.tl-outro {
+    min-height: 460px;
+    padding-top: 15px;
+    padding-bottom: 25px;
+  }
+  .cassette.end {
+    right: 2vw;
+    top: 10px;
+  }
+  .end-copy {
+    left: 4vw;
+    right: auto;
+    top: clamp(130px, 16vh, 165px);
+    width: auto;
+    max-width: min(92vw, 380px);
+    padding: 0.85rem 1rem;
+  }
+  .tl-pixel-outro-title {
+    font-size: clamp(1.05rem, 3.6vw, 1.3rem);
+    margin: 0 0 0.35rem;
+  }
+  .end-copy p {
+    font-size: 0.8rem;
+    line-height: 1.38;
+  }
+}
+
+/* Reduced Motion Mode */
+@media (prefers-reduced-motion: reduce) {
+  .card.tl-card {
+    opacity: 1 !important;
+    transform: translate3d(0, -50%, 0) scale(1) !important;
   }
 }

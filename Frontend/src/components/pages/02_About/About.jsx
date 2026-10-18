@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import './About.css'
-import Timeline from '../05_Timeline/Timeline.jsx'
 import Reveal from '../../animations/Reveal.jsx'
 
 // Adjust these two paths to wherever you saved the files
 import PixelHeading from './PixelHeading.jsx'
-import ScrambledText from './ScrambledText'
+import ScrambledText from './ScrambledText.jsx'
 
 const problemStatements = [
   {
@@ -72,6 +71,68 @@ const problemStatements = [
   },
 ]
 
+const TERMINAL_COMMANDS = [
+  'SYSTEM READY',
+  'INITIALIZING 6 CHALLENGE DOMAINS...',
+  '24H ONSITE HACKATHON ARENA LOADED',
+  'AUDIO CARRIER WAVE LOCKED 44.1 kHz',
+  'READY FOR BUILDERS // TRANSMIT PITCH',
+]
+
+function TerminalCliTyping() {
+  const [cmdIndex, setCmdIndex] = useState(0)
+  const [displayText, setDisplayText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const currentCmd = TERMINAL_COMMANDS[cmdIndex]
+    let timer
+
+    if (!isDeleting) {
+      if (displayText.length < currentCmd.length) {
+        timer = setTimeout(() => {
+          setDisplayText(currentCmd.slice(0, displayText.length + 1))
+        }, 50 + Math.random() * 25)
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(true)
+        }, 2200)
+      }
+    } else {
+      if (displayText.length > 0) {
+        timer = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1))
+        }, 28)
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(false)
+          setCmdIndex((prev) => (prev + 1) % TERMINAL_COMMANDS.length)
+        }, 300)
+      }
+    }
+
+    return () => clearTimeout(timer)
+  }, [displayText, isDeleting, cmdIndex])
+
+  return (
+    <div className="v6-terminal-cli" role="status" aria-label="Terminal status">
+      <div className="v6-cli-left">
+        <span className="v6-cli-prompt">C:\XYNTRA&gt;</span>
+        <span className="v6-cli-typing-text">{displayText}</span>
+        <span className="v6-cli-cursor" aria-hidden="true" />
+      </div>
+
+      <div className="v6-cli-audio-eq" aria-label="Carrier audio wave active" title="Audio carrier wave">
+        <span className="v6-cli-eq-bar" />
+        <span className="v6-cli-eq-bar" />
+        <span className="v6-cli-eq-bar" />
+        <span className="v6-cli-eq-bar" />
+        <span className="v6-cli-eq-bar" />
+      </div>
+    </div>
+  )
+}
+
 export default function About() {
   const [selectedDomain, setSelectedDomain] = useState(null)
 
@@ -88,24 +149,12 @@ export default function About() {
 
   return (
     <section className="about-v6" id="about">
+      {/* Top Tactile Cream Grain Texture Strip */}
+      <div className="about-top-cream-grain" aria-hidden="true" />
+
       {/* BACKGROUND */}
       <div className="v6-grid-bg" />
 
-      <div className="v6-particle-field">
-        {Array.from({ length: 80 }).map((_, i) => (
-          <span
-            key={i}
-            className="v6-particle"
-            style={{
-              '--x': `${(i * 37.13) % 100}%`,
-              '--delay': `${-((i * 1.7) % 15)}s`,
-              '--duration': `${10 + ((i * 1.4) % 12)}s`,
-              '--size': `${2 + ((i * 2.7) % 4)}px`,
-              '--drift': `${((i * 17) % 100) - 50}px`,
-            }}
-          />
-        ))}
-      </div>
 
       <div className="v6-glow v6-glow-one" />
       <div className="v6-glow v6-glow-two" />
@@ -118,6 +167,12 @@ export default function About() {
               <div className="v6-hero-label">
                 <span>01</span>
                 <span>MISSION / 2026</span>
+                <span className="v6-live-eq" aria-label="Audio frequency broadcast in motion">
+                  <i className="v6-live-bar" />
+                  <i className="v6-live-bar" />
+                  <i className="v6-live-bar" />
+                  <i className="v6-live-bar" />
+                </span>
               </div>
 
               <PixelHeading level={1} size="xl" accentLine={2}>
@@ -152,6 +207,9 @@ export default function About() {
                   <strong>01</strong>
                   <small>ARENA</small>
                 </div>
+
+                {/* Animated Typing Terminal Screen with active audio wave carrier */}
+                <TerminalCliTyping />
               </div>
             </div>
           </section>
@@ -340,11 +398,6 @@ export default function About() {
         </section>
         </Reveal>
       </div>
-
-      {/* TIMELINE — FULL SCREEN */}
-      <Reveal className="about-timeline-reveal">
-        <Timeline />
-      </Reveal>
     </section>
   )
 }

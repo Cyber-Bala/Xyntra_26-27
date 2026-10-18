@@ -6,11 +6,14 @@ export default function Footer({ onNavigate }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const cardRef = useRef(null)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false
+  )
 
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mql.matches)
     const handler = (e) => setPrefersReducedMotion(e.matches)
     mql.addEventListener('change', handler)
     return () => mql.removeEventListener('change', handler)
@@ -26,10 +29,7 @@ export default function Footer({ onNavigate }) {
   ]
 
   const handleNavClick = (item) => {
-    if (item.sectionId === 'contact') {
-      const el = document.getElementById('contact')
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    } else if (item.path) {
+    if (item.path) {
       onNavigate?.(item.pageId, item.path)
     } else {
       onNavigate?.(item.pageId, item.sectionId)
@@ -72,14 +72,12 @@ export default function Footer({ onNavigate }) {
       // Accurately measure the center registration card's position
       let boxTop = h * 0.36
       let boxLeft = cx - 210
-      let boxRight = cx + 210
 
       if (cardRef.current && container) {
         const cRect = cardRef.current.getBoundingClientRect()
         const pRect = container.getBoundingClientRect()
         boxTop = Math.max(40, cRect.top - pRect.top)
         boxLeft = cRect.left - pRect.left
-        boxRight = cRect.right - pRect.left
       }
 
       const generated = []
@@ -474,7 +472,7 @@ export default function Footer({ onNavigate }) {
       {/* ── Background Film Grain Texture ── */}
       <div className="ft-grain-texture-layer" aria-hidden="true" />
       <div className="ft-smooth-cyan-glow" aria-hidden="true" />
-      <div className="ft-smooth-orange-glow" aria-hidden="true" />
+      <div className="ft-scraped-cream-corner" aria-hidden="true" />
 
       {/* ── FLOWING REAL PCB CIRCUIT CANVAS (Assembles Into Center Box) ── */}
       <canvas ref={canvasRef} className="footer-circuit-canvas" aria-hidden="true" />
