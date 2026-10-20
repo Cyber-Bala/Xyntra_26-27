@@ -7756,4 +7756,501 @@ span::before {
   .about-v6 .domains-float-field {
     margin-bottom: 28px !important;
   }
-}
+}
+
+
+
+/* =====================================================================
+   XYNTRA — ONE CONTINUOUS BACKGROUND WITH BLENDS
+     Hero (vivid blue)  ->  About hero  ->  Domains  ->  Timeline (cream)
+   The top of the image starts in the Hero's blue and dissolves into the
+   halftone denim; the bottom rises into the Timeline's cream, so there are
+   no hard horizontal lines between sections any more.
+
+   Paste at the VERY END of About.css (after all earlier background patches).
+   Needs  about-blend-bg.jpg  in the SAME folder as About.css.
+   ===================================================================== */
+
+:root {
+  --about-pad-top: 56px;           /* space above the first element; the image starts exactly here */
+  --about-blend-fallback-top: #2552d6;   /* colour at the bottom of the Hero above */
+  --about-blend-fallback-bottom: #f1e6c6; /* colour at the top of the Timeline below */
+}
+
+.about-v6 {
+  padding-top: var(--about-pad-top) !important;
+}
+
+/* the separate hero / domains backgrounds are replaced by the single image */
+.about-v6 .v6-hero::before,
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* room below the cards for the cream to rise into the Timeline */
+.about-v6 .v6-problems {
+  padding-bottom: 150px !important;
+}
+
+/* the continuous background */
+.about-v6-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: calc(-1 * var(--about-pad-top));
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./about-blend-bg.jpg") center top / 100% 100% no-repeat;
+}
+
+/* tablets + phones: the page is much taller, so use a plain gradient blend instead of stretching the image */
+@media (max-width: 1000px) {
+  .about-v6-container::before {
+    background: linear-gradient(
+      to bottom,
+      var(--about-blend-fallback-top) 0,
+      #0e4a8c 280px,
+      #0b3a74 55%,
+      #0e4a8c calc(100% - 260px),
+      var(--about-blend-fallback-bottom) 100%
+    );
+  }
+}
+
+/* ---------------------------------------------------------------------
+   BIGGER "BUILD WHAT'S NEXT."
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-left .pixel-title--xl {
+  font-size: clamp(36px, 8.6vw, 148px);
+}
+
+
+
+/* =====================================================================
+   XYNTRA — ONE CONTINUOUS BACKGROUND WITH BLENDS
+     Hero (vivid blue)  ->  About hero  ->  Domains  ->  Timeline (cream)
+   The top of the image starts in the Hero's blue and dissolves into the
+   halftone denim; the bottom rises into the Timeline's cream, so there are
+   no hard horizontal lines between sections any more.
+
+   Paste at the VERY END of About.css (after all earlier background patches).
+   Needs  about-blend-bg-v2.jpg  in the SAME folder as About.css.
+   ===================================================================== */
+
+:root {
+  --about-pad-top: 56px;           /* space above the first element; the image starts exactly here */
+  --about-blend-fallback-top: #2552d6;   /* colour at the bottom of the Hero above */
+  --about-blend-fallback-bottom: #f1e6c6; /* colour at the top of the Timeline below */
+}
+
+.about-v6 {
+  padding-top: var(--about-pad-top) !important;
+}
+
+/* the separate hero / domains backgrounds are replaced by the single image */
+.about-v6 .v6-hero::before,
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* room below the cards for the cream to rise into the Timeline */
+.about-v6 .v6-problems {
+  padding-bottom: 150px !important;
+}
+
+/* the continuous background */
+.about-v6-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: calc(-1 * var(--about-pad-top));
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./about-blend-bg-v2.jpg") center top / 100% 100% no-repeat;
+}
+
+/* tablets + phones: the page is much taller, so use a plain gradient blend instead of stretching the image */
+@media (max-width: 1000px) {
+  .about-v6-container::before {
+    background: linear-gradient(
+      to bottom,
+      var(--about-blend-fallback-top) 0,
+      #0e4a8c 280px,
+      #0b3a74 55%,
+      #0e4a8c calc(100% - 260px),
+      var(--about-blend-fallback-bottom) 100%
+    );
+  }
+}
+
+/* ---------------------------------------------------------------------
+   BIGGER "BUILD WHAT'S NEXT."
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-left .pixel-title--xl {
+  font-size: clamp(36px, 8.6vw, 148px);
+}
+
+/* ---------------------------------------------------------------------
+   "CHOOSE YOUR DOMAINS." — same big pixel style as BUILD WHAT'S NEXT.
+   (3 lines: CHOOSE / YOUR / DOMAINS.)
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-section-head .pixel-title--lg {
+  font-size: clamp(30px, 5.6vw, 104px);
+}
+
+
+/* =====================================================================
+   XYNTRA — ONE CONTINUOUS BACKGROUND WITH BLENDS
+     Hero (vivid blue)  ->  About hero  ->  Domains  ->  Timeline (cream)
+   The top of the image starts in the Hero's blue and dissolves into the
+   halftone denim; the bottom rises into the Timeline's cream, so there are
+   no hard horizontal lines between sections any more.
+
+   Paste at the VERY END of About.css (after all earlier background patches).
+   Needs  about-blend-bg-v3.jpg  in the SAME folder as About.css.
+   ===================================================================== */
+
+:root {
+  --about-pad-top: 56px;           /* space above the first element; the image starts exactly here */
+  --about-blend-fallback-top: #2552d6;   /* colour at the bottom of the Hero above */
+  --about-blend-fallback-bottom: #f1e6c6; /* colour at the top of the Timeline below */
+}
+
+.about-v6 {
+  padding-top: var(--about-pad-top) !important;
+}
+
+/* the separate hero / domains backgrounds are replaced by the single image */
+.about-v6 .v6-hero::before,
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* room below the cards for the cream to rise into the Timeline */
+.about-v6 .v6-problems {
+  padding-bottom: 150px !important;
+}
+
+/* the continuous background */
+.about-v6-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: calc(-1 * var(--about-pad-top));
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./about-blend-bg-v3.jpg") center top / 100% 100% no-repeat;
+}
+
+/* tablets + phones: the page is much taller, so use a plain gradient blend instead of stretching the image */
+@media (max-width: 1000px) {
+  .about-v6-container::before {
+    background: linear-gradient(
+      to bottom,
+      var(--about-blend-fallback-top) 0,
+      #2554d2 20%,
+      #1a5d86 38%,
+      #0e4e62 55%,
+      #0d4658 calc(100% - 260px),
+      var(--about-blend-fallback-bottom) 100%
+    );
+  }
+}
+
+/* ---------------------------------------------------------------------
+   BIGGER "BUILD WHAT'S NEXT."
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-left .pixel-title--xl {
+  font-size: clamp(36px, 8.6vw, 148px);
+}
+
+/* ---------------------------------------------------------------------
+   "CHOOSE YOUR DOMAINS." — same big pixel style as BUILD WHAT'S NEXT.
+   (3 lines: CHOOSE / YOUR / DOMAINS.)
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-section-head .pixel-title--lg {
+  font-size: clamp(30px, 5.6vw, 104px);
+}
+
+/* ---------------------------------------------------------------------
+   HERO BRIEF — filler content under BUILD WHAT'S NEXT.
+   (matching JSX: <div className="v6-hero-brief"> ... </div>)
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-brief {
+  max-width: 760px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.about-v6 .v6-hero-brief-text {
+  margin: 0;
+  max-width: 620px;
+  font-family: "Space Grotesk", "Outfit", sans-serif;
+  font-size: clamp(15px, 1.25vw, 19px);
+  line-height: 1.75;
+  color: var(--xy-cream);
+}
+
+.about-v6 .v6-hero-brief-text b {
+  color: var(--xy-lime);
+  font-weight: 700;
+}
+
+.about-v6 .v6-hero-pillars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.about-v6 .v6-hero-pillars li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 16px;
+  border: 2px solid var(--xy-cream);
+  border-radius: 4px;
+  background: rgba(7, 29, 61, 0.62);
+  box-shadow: 4px 4px 0 rgba(7, 29, 61, 0.7);
+  transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+}
+
+.about-v6 .v6-hero-pillars li:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--xy-orange);
+}
+
+.about-v6 .v6-hero-pillars span {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--xy-lime);
+}
+
+.about-v6 .v6-hero-pillars strong {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--xy-orange);
+}
+
+.about-v6 .v6-hero-pillars em {
+  font-style: normal;
+  font-family: "Space Grotesk", "Outfit", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--xy-cream);
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-hero-pillars {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+
+/* =====================================================================
+   XYNTRA — ONE CONTINUOUS BACKGROUND WITH BLENDS
+     Hero (vivid blue)  ->  About hero  ->  Domains  ->  Timeline (cream)
+   The top of the image starts in the Hero's blue and dissolves into the
+   halftone denim; the bottom rises into the Timeline's cream, so there are
+   no hard horizontal lines between sections any more.
+
+   Paste at the VERY END of About.css (after all earlier background patches).
+   Needs  about-blend-bg-v3.jpg  in the SAME folder as About.css.
+   ===================================================================== */
+
+:root {
+  --about-pad-top: 56px;           /* space above the first element; the image starts exactly here */
+  --about-blend-fallback-top: #2552d6;   /* colour at the bottom of the Hero above */
+  --about-blend-fallback-bottom: #f1e6c6; /* colour at the top of the Timeline below */
+}
+
+.about-v6 {
+  padding-top: var(--about-pad-top) !important;
+}
+
+/* Timeline now sits OUTSIDE this section, so no padding gap below the container:
+   the cream of the background must touch the Timeline directly */
+.about-v6 {
+  padding-bottom: 0 !important;
+}
+
+/* the separate hero / domains backgrounds are replaced by the single image */
+.about-v6 .v6-hero::before,
+.about-v6 .v6-hero::after,
+.about-v6 .v6-problems::before,
+.about-v6 .v6-problems::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* room below the cards for the cream to rise into the Timeline */
+.about-v6 .v6-problems {
+  padding-bottom: 150px !important;
+}
+
+/* the continuous background */
+.about-v6-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  top: calc(-1 * var(--about-pad-top));
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./about-blend-bg-v3.jpg") center top / 100% 100% no-repeat;
+}
+
+/* tablets + phones: the page is much taller, so use a plain gradient blend instead of stretching the image */
+@media (max-width: 1000px) {
+  .about-v6-container::before {
+    background: linear-gradient(
+      to bottom,
+      var(--about-blend-fallback-top) 0,
+      #2554d2 20%,
+      #1a5d86 38%,
+      #0e4e62 55%,
+      #0d4658 calc(100% - 260px),
+      var(--about-blend-fallback-bottom) 100%
+    );
+  }
+}
+
+/* ---------------------------------------------------------------------
+   BIGGER "BUILD WHAT'S NEXT."
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-left .pixel-title--xl {
+  font-size: clamp(36px, 8.6vw, 148px);
+}
+
+/* ---------------------------------------------------------------------
+   "CHOOSE YOUR DOMAINS." — same big pixel style as BUILD WHAT'S NEXT.
+   (3 lines: CHOOSE / YOUR / DOMAINS.)
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-section-head .pixel-title--lg {
+  font-size: clamp(30px, 5.6vw, 104px);
+}
+
+/* ---------------------------------------------------------------------
+   HERO BRIEF — filler content under BUILD WHAT'S NEXT.
+   (matching JSX: <div className="v6-hero-brief"> ... </div>)
+   --------------------------------------------------------------------- */
+
+.about-v6 .v6-hero-brief {
+  max-width: 760px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.about-v6 .v6-hero-brief-text {
+  margin: 0;
+  max-width: 620px;
+  font-family: "Space Grotesk", "Outfit", sans-serif;
+  font-size: clamp(15px, 1.25vw, 19px);
+  line-height: 1.75;
+  color: var(--xy-cream);
+}
+
+.about-v6 .v6-hero-brief-text b {
+  color: var(--xy-lime);
+  font-weight: 700;
+}
+
+.about-v6 .v6-hero-pillars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.about-v6 .v6-hero-pillars li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 16px;
+  border: 2px solid var(--xy-cream);
+  border-radius: 4px;
+  background: rgba(7, 29, 61, 0.62);
+  box-shadow: 4px 4px 0 rgba(7, 29, 61, 0.7);
+  transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+}
+
+.about-v6 .v6-hero-pillars li:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--xy-orange);
+}
+
+.about-v6 .v6-hero-pillars span {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--xy-lime);
+}
+
+.about-v6 .v6-hero-pillars strong {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--xy-orange);
+}
+
+.about-v6 .v6-hero-pillars em {
+  font-style: normal;
+  font-family: "Space Grotesk", "Outfit", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--xy-cream);
+}
+
+@media (max-width: 700px) {
+  .about-v6 .v6-hero-pillars {
+    grid-template-columns: 1fr;
+  }
+}
